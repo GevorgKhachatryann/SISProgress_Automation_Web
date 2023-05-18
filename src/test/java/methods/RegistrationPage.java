@@ -3,13 +3,17 @@ package methods;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 
 public class RegistrationPage {
 
     private WebDriver driver;
+    public static WebDriverWait wait;
+
     private By countryDropdown = By.className("RegisterOne_arrowBottom__86Gfn");
     private By gradeDropdown = By.cssSelector("[placeholder=\"Grade level\"]");
     private By dateField = By.className("MuiSvgIcon-root");
@@ -21,6 +25,7 @@ public class RegistrationPage {
     }
 
     public void enterDate(String year, String month, String day ){
+        wait.until(ExpectedConditions.visibilityOfElementLocated(dateField));
         driver.findElement(dateField).click();
         driver.findElement(dateArrow).click();
         driver.findElement(By.xpath("//*[text()='" + year + "']")).click();
