@@ -143,11 +143,7 @@ public class ForgetPasswordTest {
         long scrollHeight = (Long) js.executeScript("return document.documentElement.scrollHeight");
         long scrollTo = scrollHeight / 15;
         js.executeScript("window.scrollTo(0, arguments[0]);", scrollTo);
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        wait.until(ExpectedConditions.visibilityOfElementLocated(mailLocators.indexSection));
         general.clickElement(mailLocators.indexSection);
         general.clickElement(mailLocators.resetPassword);
         driver.findElement(logLoc.passwordField).clear();
