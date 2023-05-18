@@ -4,7 +4,6 @@ import DTO.UserDTO;
 import Locators.CalendarLocators;
 import Locators.HomePageLocators;
 import Locators.LoginLocators;
-import Locators.SettingsLocators;
 import methods.ApiRequests;
 import methods.General;
 import org.openqa.selenium.By;
@@ -405,8 +404,8 @@ public class TasksTest {
 
             if (websiteDate.isAfter(LocalDate.now()) || websiteDate.isEqual(LocalDate.now())) {
                 System.out.println("Can add a task for " + date + " on " + taskDay);
-                String columnId = date + "_____1";
-                WebElement columnElement = driver.findElement(By.id(columnId));
+                String columnId =String.format("//div[text()='+'][@id='%s_____1']", date);
+                WebElement columnElement = driver.findElement(By.xpath(columnId));
                 columnElement.click();
 
                 wait.until(ExpectedConditions.visibilityOfElementLocated(calLoc.modal));
@@ -420,7 +419,6 @@ public class TasksTest {
                 System.out.println("Cannot add a task for " + date + " on " + taskDay);
             }
 
-            System.out.println("yes");
         }
 
     }
