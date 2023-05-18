@@ -420,7 +420,7 @@ public class TasksTest {
                 System.out.println("Cannot add a task for " + date + " on " + taskDay);
             }
 
-
+            System.out.println("yes");
         }
 
     }
