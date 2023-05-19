@@ -389,7 +389,7 @@ public class TasksTest {
 
         for (WebElement dateElement : dateElements) {
             String dateText = dateElement.getText();
-            String[] parts = extractDateParts(dateText);
+            String[] parts = General.extractDateParts(dateText);
             // String dayText = parts[0];
             String date = parts[1];
 
@@ -423,14 +423,49 @@ public class TasksTest {
 
     }
 
+    @Test
+    public void addTaskFromDashboard(){
+        UserDTO dto = new UserDTO();
+        General general = new General(driver);
+        LoginLocators logLoc = new LoginLocators();
+        ApiRequests requests = new ApiRequests();
+        CalendarLocators calLoc = new CalendarLocators();
+        HomePageLocators homeLoc = new HomePageLocators();
+        String endpoint = "https://sisprogress.online/register/ForTest";
+        requests.postRequest(endpoint);
 
+        driver.get("https://sisprogress.com/login");
 
-    private static String[] extractDateParts(String dateText) {
+        driver.findElement(logLoc.loginField).clear();
+        driver.findElement(logLoc.loginField).sendKeys(dto.getValidEmail());
+        driver.findElement(logLoc.passwordField).clear();
+        driver.findElement(logLoc.passwordField).sendKeys(dto.getPassword());
+        driver.findElement(logLoc.loginButton).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(homeLoc.userName));
 
-        String[] parts = dateText.split("\\s+");
-        String dayText = parts[0];
-        String date = parts[1];
+        general.waitAndAssertUntilTextContains(homeLoc.userName, dto.getFullName(), 10);
+        String columnId =String.format("[id='%s_____n']", general.getFormattedDate());
+        WebElement columnElement = driver.findElement(By.cssSelector(columnId));
+        columnElement.click();
+        By checkboxLocator = calLoc.checkbox;
+        wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(checkboxLocator));
 
-        return new String[]{dayText, date};
+        List<WebElement> checkboxes = driver.findElements(calLoc.checkbox);
+        int randomIndex = new Random().nextInt(checkboxes.size()) + 1;
+        checkboxes.get(randomIndex - 1).click();
+
+        String task = "div:nth-child(" + randomIndex + ") div.Cal_left__L23rE > p";
+        String taskName = driver.findElement(By.cssSelector(task)).getText();
+
+        general.clickElement(calLoc.AddBtn);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(calLoc.firstTask));
+        general.clickElement(calLoc.firstTask);
+        general.assertThatElementContains(taskName, calLoc.TasksName);
+        WebElement body = driver.findElement(By.tagName("body"));
+        Actions actions = new Actions(driver);
+        actions.moveToElement(body).click().perform();
+        general.assertThatElementContains("Planned", calLoc.TaskStatus);
     }
+
+
 }
