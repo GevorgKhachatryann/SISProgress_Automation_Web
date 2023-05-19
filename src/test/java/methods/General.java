@@ -147,6 +147,15 @@ public class General {
         scrollTo = scrollHeight / 2;
         js.executeScript("window.scrollTo(0, arguments[0]);", scrollTo);
     }
+    public String getFormattedDate() {
+        LocalDate currentDate = LocalDate.now();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM");
+
+        String formattedDate = currentDate.format(formatter);
+        return formattedDate;
+
+    }
     public String getFormattedTomorrowDate() {
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMMM d");
         LocalDate tomorrowDate = LocalDate.now().plusDays(1);
@@ -178,7 +187,14 @@ public class General {
         return formattedMonthAndDate;
     }
 
+    public static String[] extractDateParts(String dateText) {
 
+        String[] parts = dateText.split("\\s+");
+        String dayText = parts[0];
+        String date = parts[1];
+
+        return new String[]{dayText, date};
+    }
     public boolean isElementDisplayed(By locator) {
         try {
             WebElement element = driver.findElement(locator);
