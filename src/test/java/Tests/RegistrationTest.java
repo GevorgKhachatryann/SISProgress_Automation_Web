@@ -45,6 +45,7 @@ public class RegistrationTest {
         TestData testData = new TestData();
 
         driver.get("https://internxt.com/temporary-email");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(mailLocators.uniqueMail));
         tempMailMeth.getMail(mailLocators.uniqueMail);
 
         System.out.println(dto.getEmail());
@@ -60,7 +61,6 @@ public class RegistrationTest {
         general.enterText(regLoc.confirmPasswordField, testData.password);
         general.selectFromDropdown(regLoc.countryNumDropdown, dto.getCountryNumValue());
         general.enterText(regLoc.mobileNumField, dto.getMobileNumber());
-        Thread.sleep(200);
         regPage.enterDate("2000", "03", "20");
         regPage.selectCountry(dto.getCountry());
         regPage.selectGrade(dto.getGrade());
