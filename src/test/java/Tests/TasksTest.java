@@ -59,11 +59,9 @@ public class TasksTest {
 
         driver.get("https://sisprogress.com/login");
 
-        driver.findElement(logLoc.loginField).clear();
-        driver.findElement(logLoc.loginField).sendKeys(dto.getValidEmail());
-        driver.findElement(logLoc.passwordField).clear();
-        driver.findElement(logLoc.passwordField).sendKeys(dto.getPassword());
-        driver.findElement(logLoc.loginButton).click();
+        general.enterText(logLoc.loginField,dto.getValidEmail());
+        general.enterText(logLoc.passwordField,dto.getPassword());
+        general.clickElement(logLoc.loginButton);
         wait.until(ExpectedConditions.visibilityOfElementLocated(homeLoc.userName));
         general.waitAndAssertUntilTextContains(homeLoc.userName, dto.getFullName(), 10);
         general.clickElement(calLoc.calendarIcon);
@@ -75,7 +73,6 @@ public class TasksTest {
         int randomIndex = new Random().nextInt(checkboxes.size()) + 1;
 
         checkboxes.get(randomIndex - 1).click();
-
 
         String task = "div:nth-child(" + randomIndex + ") div.Cal_left__L23rE > p";
         String point = "div:nth-child(" + randomIndex + ") > div > div > div.Cal_right__YUxVV > p";
@@ -113,11 +110,9 @@ public class TasksTest {
 
         driver.get("https://sisprogress.com/login");
 
-        driver.findElement(logLoc.loginField).clear();
-        driver.findElement(logLoc.loginField).sendKeys(dto.getValidEmail());
-        driver.findElement(logLoc.passwordField).clear();
-        driver.findElement(logLoc.passwordField).sendKeys(dto.getPassword());
-        driver.findElement(logLoc.loginButton).click();
+        general.enterText(logLoc.loginField,dto.getValidEmail());
+        general.enterText(logLoc.passwordField,dto.getPassword());
+        general.clickElement(logLoc.loginButton);
         wait.until(ExpectedConditions.visibilityOfElementLocated(homeLoc.userName));
         general.waitAndAssertUntilTextContains(homeLoc.userName, dto.getFullName(), 20);
         general.clickElement(calLoc.calendarIcon);
@@ -181,11 +176,9 @@ public class TasksTest {
 
         driver.get("https://sisprogress.com/login");
 
-        driver.findElement(logLoc.loginField).clear();
-        driver.findElement(logLoc.loginField).sendKeys(dto.getValidEmail());
-        driver.findElement(logLoc.passwordField).clear();
-        driver.findElement(logLoc.passwordField).sendKeys(dto.getPassword());
-        driver.findElement(logLoc.loginButton).click();
+        general.enterText(logLoc.loginField,dto.getValidEmail());
+        general.enterText(logLoc.passwordField,dto.getPassword());
+        general.clickElement(logLoc.loginButton);
         wait.until(ExpectedConditions.visibilityOfElementLocated(homeLoc.userName));
         general.waitAndAssertUntilTextContains(homeLoc.userName, dto.getFullName(), 20);
         general.clickElement(calLoc.calendarIcon);
@@ -242,11 +235,9 @@ public class TasksTest {
 
         driver.get("https://sisprogress.com/login");
 
-        driver.findElement(logLoc.loginField).clear();
-        driver.findElement(logLoc.loginField).sendKeys(dto.getValidEmail());
-        driver.findElement(logLoc.passwordField).clear();
-        driver.findElement(logLoc.passwordField).sendKeys(dto.getPassword());
-        driver.findElement(logLoc.loginButton).click();
+        general.enterText(logLoc.loginField,dto.getValidEmail());
+        general.enterText(logLoc.passwordField,dto.getPassword());
+        general.clickElement(logLoc.loginButton);
         wait.until(ExpectedConditions.visibilityOfElementLocated(homeLoc.userName));
 
         general.waitAndAssertUntilTextContains(homeLoc.userName, dto.getFullName(), 10);
@@ -308,11 +299,9 @@ public class TasksTest {
 
         driver.get("https://sisprogress.com/login");
 
-        driver.findElement(logLoc.loginField).clear();
-        driver.findElement(logLoc.loginField).sendKeys(dto.getValidEmail());
-        driver.findElement(logLoc.passwordField).clear();
-        driver.findElement(logLoc.passwordField).sendKeys(dto.getPassword());
-        driver.findElement(logLoc.loginButton).click();
+        general.enterText(logLoc.loginField,dto.getValidEmail());
+        general.enterText(logLoc.passwordField,dto.getPassword());
+        general.clickElement(logLoc.loginButton);
         wait.until(ExpectedConditions.visibilityOfElementLocated(homeLoc.userName));
 
         general.waitAndAssertUntilTextContains(homeLoc.userName, dto.getFullName(), 10);
@@ -375,11 +364,9 @@ public class TasksTest {
 
         driver.get("https://sisprogress.com/login");
 
-        driver.findElement(logLoc.loginField).clear();
-        driver.findElement(logLoc.loginField).sendKeys(dto.getValidEmail());
-        driver.findElement(logLoc.passwordField).clear();
-        driver.findElement(logLoc.passwordField).sendKeys(dto.getPassword());
-        driver.findElement(logLoc.loginButton).click();
+        general.enterText(logLoc.loginField,dto.getValidEmail());
+        general.enterText(logLoc.passwordField,dto.getPassword());
+        general.clickElement(logLoc.loginButton);
         wait.until(ExpectedConditions.visibilityOfElementLocated(homeLoc.userName));
 
         general.waitAndAssertUntilTextContains(homeLoc.userName, dto.getFullName(), 10);
@@ -413,7 +400,7 @@ public class TasksTest {
 
                 if (isModalDisplayed) {
                     System.out.println("Modal is opened for " + date);
-                    driver.findElement(calLoc.closeModal).click();
+                    general.clickElement(calLoc.closeModal);
                 }
             } else {
                 System.out.println("Cannot add a task for " + date + " on " + taskDay);
@@ -436,11 +423,9 @@ public class TasksTest {
 
         driver.get("https://sisprogress.com/login");
 
-        driver.findElement(logLoc.loginField).clear();
-        driver.findElement(logLoc.loginField).sendKeys(dto.getValidEmail());
-        driver.findElement(logLoc.passwordField).clear();
-        driver.findElement(logLoc.passwordField).sendKeys(dto.getPassword());
-        driver.findElement(logLoc.loginButton).click();
+        general.enterText(logLoc.loginField,dto.getValidEmail());
+        general.enterText(logLoc.passwordField,dto.getPassword());
+        general.clickElement(logLoc.loginButton);
         wait.until(ExpectedConditions.visibilityOfElementLocated(homeLoc.userName));
 
         general.waitAndAssertUntilTextContains(homeLoc.userName, dto.getFullName(), 10);

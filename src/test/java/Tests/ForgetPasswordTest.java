@@ -49,18 +49,18 @@ public class ForgetPasswordTest {
         TempMailMethods tempMailMeth = new TempMailMethods(driver);
 
         general.registerWithValidData();
-        driver.findElement(logLoc.Login).click();
-        driver.findElement(logLoc.forget).click();
+        general.clickElement(logLoc.Login);
+        general.clickElement(logLoc.forget);
+
         int currentTab = 1;
         tabControl.openNewTab();
         tabControl.switchTab();
         driver.get("https://internxt.com/temporary-email");
         tempMailMeth.getMail(mailLocators.uniqueMail);
         driver.switchTo().window(driver.getWindowHandles().toArray()[currentTab - 1].toString());
-        driver.findElement(logLoc.emailField).clear();
-        driver.findElement(logLoc.emailField).sendKeys(dto.getEmail());
+        general.enterText(logLoc.emailField,dto.getEmail());
+        general.clickElement(logLoc.sendEmail);
 
-        driver.findElement(logLoc.sendEmail).click();
         currentTab++;
         driver.switchTo().window(driver.getWindowHandles().toArray()[currentTab].toString());
 
@@ -68,22 +68,19 @@ public class ForgetPasswordTest {
         long scrollHeight = (Long) js.executeScript("return document.documentElement.scrollHeight");
         long scrollTo = scrollHeight / 15;
         js.executeScript("window.scrollTo(0, arguments[0]);", scrollTo);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(mailLocators.indexSection));
-        general.clickElement(mailLocators.indexSection);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(mailLocators.reset));
+        general.clickElement(mailLocators.reset);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(mailLocators.resetPassword));
         general.clickElement(mailLocators.resetPassword);
-        driver.findElement(logLoc.passwordField).clear();
-        driver.findElement(logLoc.passwordField).sendKeys(TestData.changedPass);
-        driver.findElement(regLoc.confirm).clear();
-        driver.findElement(regLoc.confirm).sendKeys(TestData.changedPass);
-        driver.findElement(logLoc.changeButton).click();
+        general.enterText(logLoc.passwordField,TestData.changedPass);
+        general.enterText(regLoc.confirm,TestData.changedPass);
+        general.clickElement(logLoc.changeButton);
         wait.until(ExpectedConditions.visibilityOfElementLocated(logLoc.PassChangedMessage));
         general.assertThatElementContains("YEAH! Your password is changed successfully",logLoc.PassChangedMessage);
         general.clickElement(logLoc.formChangeLogin);
-        driver.findElement(logLoc.loginField).clear();
-        driver.findElement(logLoc.loginField).sendKeys(dto.getEmail());
-        driver.findElement(logLoc.passwordField).clear();
-        driver.findElement(logLoc.passwordField).sendKeys(TestData.changedPass);
-        driver.findElement(logLoc.loginButton).click();
+        general.enterText(logLoc.loginField,dto.getEmail());
+        general.enterText(logLoc.passwordField,TestData.changedPass);
+        general.clickElement(logLoc.loginButton);
         wait.until(ExpectedConditions.visibilityOfElementLocated(homeLoc.userName));
         general.waitAndAssertUntilTextContains(homeLoc.userName, dto.getFullName(), 10);
         general.clickElement(setLoc.settingsIcon);
@@ -97,11 +94,12 @@ public class ForgetPasswordTest {
     @Test
     public void InvalidEmail(){
         LoginLocators logLoc= new LoginLocators();
+        General general = new General(driver);
+
         driver.get("https://sisprogress.com/login");
-        driver.findElement(logLoc.forget).click();
-        driver.findElement(logLoc.emailField).clear();
-        driver.findElement(logLoc.emailField).sendKeys("xyz");
-        driver.findElement(logLoc.sendEmail).click();
+        general.clickElement(logLoc.forget);
+        general.enterText(logLoc.emailField,"xyz");
+        general.clickElement(logLoc.sendEmail);
         String expectedValidationMessage = "Please include an '@' in the email address. 'xyz' is missing an '@'.";
         WebElement emailFieldAgain = driver.findElement(logLoc.emailField);
         String actualValidationMessage = emailFieldAgain.getAttribute("validationMessage");
@@ -120,18 +118,16 @@ public class ForgetPasswordTest {
         TempMailMethods tempMailMeth = new TempMailMethods(driver);
 
         general.registerWithValidData();
-        driver.findElement(logLoc.Login).click();
-        driver.findElement(logLoc.forget).click();
+        general.clickElement(logLoc.Login);
+        general.clickElement(logLoc.forget);
         int currentTab = 1;
         tabControl.openNewTab();
         tabControl.switchTab();
         driver.get("https://internxt.com/temporary-email");
         tempMailMeth.getMail(mailLocators.uniqueMail);
         driver.switchTo().window(driver.getWindowHandles().toArray()[currentTab - 1].toString());
-        driver.findElement(logLoc.emailField).clear();
-        driver.findElement(logLoc.emailField).sendKeys(dto.getEmail());
-
-        driver.findElement(logLoc.sendEmail).click();
+        general.enterText(logLoc.emailField,dto.getEmail());
+        general.clickElement(logLoc.sendEmail);
         currentTab++;
         driver.switchTo().window(driver.getWindowHandles().toArray()[currentTab].toString());
 
@@ -139,14 +135,13 @@ public class ForgetPasswordTest {
         long scrollHeight = (Long) js.executeScript("return document.documentElement.scrollHeight");
         long scrollTo = scrollHeight / 15;
         js.executeScript("window.scrollTo(0, arguments[0]);", scrollTo);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(mailLocators.indexSection));
-        general.clickElement(mailLocators.indexSection);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(mailLocators.reset));
+        general.clickElement(mailLocators.reset);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(mailLocators.resetPassword));
         general.clickElement(mailLocators.resetPassword);
-        driver.findElement(logLoc.passwordField).clear();
-        driver.findElement(logLoc.passwordField).sendKeys(TestData.changedPass);
-        driver.findElement(regLoc.confirm).clear();
-        driver.findElement(regLoc.confirm).sendKeys(TestData.password);
-        driver.findElement(logLoc.changeButton).click();
+        general.enterText(logLoc.passwordField,TestData.changedPass);
+        general.enterText(regLoc.confirm,TestData.password);
+        general.clickElement(logLoc.changeButton);
         general.assertThatElementContains("Password and Confirm Password does not match.",logLoc.PassErrorMessage);
     }
 

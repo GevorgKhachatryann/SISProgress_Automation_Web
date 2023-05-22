@@ -39,6 +39,7 @@ public class General {
         driver.findElement(selector).click();
     }
     public void enterText(By selector, String username) {
+        driver.findElement(selector).clear();
         driver.findElement(selector).sendKeys(username);
     }
 

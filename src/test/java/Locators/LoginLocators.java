@@ -15,5 +15,8 @@ public class LoginLocators {
     public By changeButton = By.className("FormChange_btn__m2S4P");
     public By PassChangedMessage = By.className("FormChange_er__fGHER");
     public By PassErrorMessage = By.className("FormChange_error__xUPE+");
-
+    public By logoutIcon = By.cssSelector("#root > div > div > div > div.SideBar_actt__qidHs > div.SideBar_parent__oir9z > svg");
+    public By logoutBtn = By.xpath("//*[@id=\"ModalLog\"]/div/div/div/button[2]");
+    public By emailChangedMessage = By.cssSelector("#root > main > div > div > p");
+    public By verifyPrimaryBtn = By.className("VerifyPrimare_btn__KNVqH");
 }
