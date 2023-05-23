@@ -14,7 +14,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.*;
 
 import java.time.Duration;
-import java.util.concurrent.TimeUnit;
 import static methods.TestData.password;
 
 public class LoginTest {
@@ -34,7 +33,6 @@ public class LoginTest {
     public static void afterClass () {
         driver.quit();
     }
-
 
 
     @Test
@@ -62,6 +60,7 @@ public class LoginTest {
         general.assertThatValueEquals(dto.getFullName(), setLoc.personalDetailsName);
         general.clickElement(setLoc.menuSection);
         general.assertThatValueEquals(dto.getValidEmail(), setLoc.mailInput);
+
     }
 
     @Test

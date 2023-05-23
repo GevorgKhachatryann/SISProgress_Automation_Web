@@ -90,7 +90,7 @@ public class TasksTest {
         wait.until(ExpectedConditions.visibilityOfElementLocated(calLoc.firstTask));
         general.clickElement(calLoc.firstTask);
         general.assertThatElementContains(taskName, calLoc.TasksName);
-        WebElement body = driver.findElement(By.tagName("body"));
+        WebElement body = driver.findElement(calLoc.body);
         Actions actions = new Actions(driver);
         actions.moveToElement(body).click().perform();
         general.assertThatElementContains("Planned", calLoc.TaskStatus);
@@ -105,11 +105,10 @@ public class TasksTest {
         ApiRequests requests = new ApiRequests();
         CalendarLocators calLoc = new CalendarLocators();
         HomePageLocators homeLoc = new HomePageLocators();
+
         String endpoint = "https://sisprogress.online/register/ForTest";
         requests.postRequest(endpoint);
-
         driver.get("https://sisprogress.com/login");
-
         general.enterText(logLoc.loginField,dto.getValidEmail());
         general.enterText(logLoc.passwordField,dto.getPassword());
         general.clickElement(logLoc.loginButton);
@@ -118,17 +117,12 @@ public class TasksTest {
         general.clickElement(calLoc.calendarIcon);
 
         LocalDate tomorrow = LocalDate.now().plusDays(1);
-
         String formattedDate = tomorrow.format(DateTimeFormatter.ofPattern("dd.MM"));
-
         String dateLocator = String.format("//p[contains(text(), '%s')]", formattedDate);
         WebElement dateElement = driver.findElement(By.xpath(dateLocator));
-
         WebElement addButton = dateElement.findElement(By.xpath("//div[contains(text(), '+')][@id='" + formattedDate + "_____1']"));
         addButton.click();
-
-        By checkboxLocator = calLoc.checkbox;
-        wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(checkboxLocator));
+        wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(calLoc.checkbox));
 
         List<WebElement> checkboxes = driver.findElements(calLoc.checkbox);
         int randomIndex = new Random().nextInt(checkboxes.size()) + 1;
@@ -145,18 +139,14 @@ public class TasksTest {
 
         general.clickElement(calLoc.AddBtn);
         wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(calLoc.firstTask));
-
         general.clickElement(calLoc.firstTask);
         wait.until(ExpectedConditions.visibilityOfElementLocated(calLoc.TasksName));
         general.assertThatElementContains(taskName, calLoc.TasksName);
-        WebElement body = driver.findElement(By.tagName("body"));
+        WebElement body = driver.findElement(calLoc.body);
         Actions actions = new Actions(driver);
         actions.moveToElement(body).click().perform();
-
         general.assertThatElementContains("Planned", calLoc.TaskStatus);
-
         String tomorrowDate = general.getFormattedTomorrowDate();
-
         general.assertThatElementContains("You can start this task from " + tomorrowDate, calLoc.taskFuture);
 
 
@@ -201,19 +191,16 @@ public class TasksTest {
 
         String taskName = driver.findElement(By.cssSelector(task)).getText();
         wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(calLoc.AddBtn));
-
         general.clickElement(calLoc.AddBtn);
         wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(calLoc.firstTask));
-
         general.clickElement(calLoc.firstTask);
         general.assertThatElementContains(taskName, calLoc.TasksName);
-        WebElement body = driver.findElement(By.tagName("body"));
+        WebElement body = driver.findElement(calLoc.body);
         Actions actions = new Actions(driver);
         actions.moveToElement(body).click().perform();
         general.assertThatElementContains("Planned", calLoc.TaskStatus);
         String tomorrowDate = general.getFormattedTomorrowDate();
         general.assertThatElementContains("You can start this task from " + tomorrowDate, calLoc.taskFuture);
-
         general.clickElement(calLoc.deleteBtn);
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.invisibilityOfElementLocated(calLoc.firstTask));
@@ -232,14 +219,11 @@ public class TasksTest {
 
         String endpoint = "https://sisprogress.online/register/ForTest";
         requests.postRequest(endpoint);
-
         driver.get("https://sisprogress.com/login");
-
         general.enterText(logLoc.loginField,dto.getValidEmail());
         general.enterText(logLoc.passwordField,dto.getPassword());
         general.clickElement(logLoc.loginButton);
         wait.until(ExpectedConditions.visibilityOfElementLocated(homeLoc.userName));
-
         general.waitAndAssertUntilTextContains(homeLoc.userName, dto.getFullName(), 10);
         general.clickElement(calLoc.calendarIcon);
         general.clickElement(calLoc.AddTask);
@@ -255,17 +239,13 @@ public class TasksTest {
 
         String taskName = driver.findElement(By.cssSelector(task)).getText();
         String points = driver.findElement(By.cssSelector(point)).getText();
-
         String number = points.replaceAll("[^\\d.]+", "");
-
         System.out.println(number);
         System.out.println(taskName);
         System.out.println(points);
         wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(calLoc.AddBtn));
-
         general.clickElement(calLoc.AddBtn);
         wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(calLoc.firstTask));
-
         general.clickElement(calLoc.firstTask);
         general.assertThatElementContains(taskName, calLoc.TasksName);
 
@@ -274,10 +254,9 @@ public class TasksTest {
 
         SubTaskCheckbox.get(randomInd).click();
         general.clickElement(calLoc.submit);
-        WebElement body = driver.findElement(By.tagName("body"));
+        WebElement body = driver.findElement(calLoc.body);
         Actions actions = new Actions(driver);
         actions.moveToElement(body).click().perform();
-
         driver.navigate().refresh();
         wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(calLoc.TaskStatus));
         System.out.println(driver.findElement(calLoc.TaskStatus).getText());
@@ -323,8 +302,6 @@ public class TasksTest {
         String number = points.replaceAll("[^\\d.]+", "");
 
         System.out.println(number);
-        System.out.println(taskName);
-        System.out.println(points);
         wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(calLoc.AddBtn));
 
         general.clickElement(calLoc.AddBtn);
@@ -340,7 +317,7 @@ public class TasksTest {
         }
 
         general.clickElement(calLoc.submit);
-        WebElement body = driver.findElement(By.tagName("body"));
+        WebElement body = driver.findElement(calLoc.body);
         Actions actions = new Actions(driver);
         actions.moveToElement(body).click().perform();
 
@@ -371,7 +348,7 @@ public class TasksTest {
 
         general.waitAndAssertUntilTextContains(homeLoc.userName, dto.getFullName(), 10);
         general.clickElement(calLoc.calendarIcon);
-        List<WebElement> dateElements = driver.findElements(By.className("Cal_nameWithDays__9S0U7"));
+        List<WebElement> dateElements = driver.findElements(calLoc.days);
         String[] taskDays = {  "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday","Sunday" };
 
         for (WebElement dateElement : dateElements) {
@@ -429,7 +406,7 @@ public class TasksTest {
         wait.until(ExpectedConditions.visibilityOfElementLocated(homeLoc.userName));
 
         general.waitAndAssertUntilTextContains(homeLoc.userName, dto.getFullName(), 10);
-        String columnId =String.format("[id='%s_____n']", general.getFormattedDate());
+        String columnId = String.format("[id='%s_____n']", general.getFormattedDate());
         WebElement columnElement = driver.findElement(By.cssSelector(columnId));
         columnElement.click();
         By checkboxLocator = calLoc.checkbox;
@@ -446,7 +423,7 @@ public class TasksTest {
         wait.until(ExpectedConditions.visibilityOfElementLocated(calLoc.firstTask));
         general.clickElement(calLoc.firstTask);
         general.assertThatElementContains(taskName, calLoc.TasksName);
-        WebElement body = driver.findElement(By.tagName("body"));
+        WebElement body = driver.findElement(calLoc.body);
         Actions actions = new Actions(driver);
         actions.moveToElement(body).click().perform();
         general.assertThatElementContains("Planned", calLoc.TaskStatus);

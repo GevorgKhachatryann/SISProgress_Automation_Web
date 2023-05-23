@@ -34,7 +34,7 @@ public class RegistrationTest {
     }
 
     @Test
-    public void registerWithValidData() throws InterruptedException {
+    public void registerWithValidData(){
         RegistrationLocators regLoc = new RegistrationLocators();
         MailLocators mailLocators = new MailLocators();
         UserDTO dto = new UserDTO();
@@ -42,7 +42,6 @@ public class RegistrationTest {
         RegistrationPage regPage = new RegistrationPage(driver);
         TabControl tabControl = new TabControl(driver);
         TempMailMethods tempMailMeth = new TempMailMethods(driver);
-        TestData testData = new TestData();
 
         driver.get("https://internxt.com/temporary-email");
         wait.until(ExpectedConditions.visibilityOfElementLocated(mailLocators.uniqueMail));
@@ -57,8 +56,8 @@ public class RegistrationTest {
 
         general.enterText(regLoc.usernameField, dto.getFullName());
         general.enterText(regLoc.emailField, dto.getEmail());
-        general.enterText(regLoc.passwordField, testData.password);
-        general.enterText(regLoc.confirmPasswordField, testData.password);
+        general.enterText(regLoc.passwordField, TestData.password);
+        general.enterText(regLoc.confirmPasswordField, TestData.password);
         general.selectFromDropdown(regLoc.countryNumDropdown, dto.getCountryNumValue());
         general.enterText(regLoc.mobileNumField, dto.getMobileNumber());
         regPage.enterDate("2000", "03", "20");
@@ -78,23 +77,13 @@ public class RegistrationTest {
         general.clickElement(regLoc.submit);
         general.clickElement(regLoc.verifyButton);
         tabControl.switchTabToLeft();
-
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        long scrollHeight = (Long) js.executeScript("return document.documentElement.scrollHeight");
-        long scrollTo = scrollHeight / 15;
-        js.executeScript("window.scrollTo(0, arguments[0]);", scrollTo);
+        general.scroll(15);
         wait.until(ExpectedConditions.visibilityOfElementLocated(mailLocators.indexSection));
         WebElement element = driver.findElement(mailLocators.indexSection);
         element.click();
-
-        scrollHeight = (Long) js.executeScript("return document.documentElement.scrollHeight");
-        scrollTo = scrollHeight / 13;
-        js.executeScript("window.scrollTo(0, arguments[0]);", scrollTo);
+        general.scroll(13);
         driver.findElement(mailLocators.verifyInMail).click();
-
         general.assertThatPageContains(regLoc.registrationVerifyAssert);
-        scrollHeight = (Long) js.executeScript("return document.documentElement.scrollHeight");
-        scrollTo = scrollHeight / 2;
-        js.executeScript("window.scrollTo(0, arguments[0]);", scrollTo);
+        general.scroll(2);
     }
 }

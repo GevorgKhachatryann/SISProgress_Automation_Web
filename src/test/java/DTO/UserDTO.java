@@ -4,9 +4,9 @@ import java.time.Instant;
 
 public class UserDTO {
     private static long randomNum = Instant.now().toEpochMilli();
+    private static String email;
     private String fullName = "Web User Test";
     private String updatedName = "Web";
-    private static String email;
     private String password = "Test1234*";
     private String countryNumValue = "AM";
     private String grade = "Up to 9th grade";
@@ -21,7 +21,8 @@ public class UserDTO {
     private String mail = "wetera4831@favilu.com";
     private String InvalidPassword = "Test1234";
     private String validUserName = "Web User Test";
-//    public String fake = "sdf";
+
+
     public String getFullName() {
         return fullName;
     }

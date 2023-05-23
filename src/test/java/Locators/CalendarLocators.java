@@ -16,4 +16,6 @@ public class CalendarLocators {
     public By submit =By.className("StatusModalContent_submite__ENbdP");
     public By closeModal = By.xpath("//*[@id=\"myModal\"]/div/div[1]/span");
     public By modal =  By.className("Modal_parent__PqnsG");
+    public By days = By.className("Cal_nameWithDays__9S0U7");
+    public By body = By.tagName("body");
 }
