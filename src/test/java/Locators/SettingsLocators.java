@@ -18,6 +18,9 @@ public class SettingsLocators {
     public By secondaryInput = By.xpath("//*[@id=\"root\"]/div/main/div/div[4]/div/div[2]/form[2]/div/div[1]/div/input");
     public By secondaryUpdate = By.className("MailSettings_btn__U7fL4");
     public By sendSecondaryVerify = By.xpath("//*[@id=\"button\"]");
+    public By emailBox =  By.className("MailSettings_name__hTaVX");
+    public By backToSettings = By.xpath("//*[@id=\"root\"]/main/div/div/a");
+    public By removeSecondary = By.className("MailSettings_add__NesG7");
 
 }
 

@@ -42,7 +42,13 @@ public class General {
         driver.findElement(selector).clear();
         driver.findElement(selector).sendKeys(username);
     }
+    public void scroll(int num){
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        long scrollHeight = (Long) js.executeScript("return document.documentElement.scrollHeight");
+        long scrollTo = scrollHeight / num;
+        js.executeScript("window.scrollTo(0, arguments[0]);", scrollTo);
 
+    }
     public void selectFromDropdown(By selector, String countryValue){
         Select dropdown = new Select(driver.findElement(selector));
         dropdown.selectByValue(countryValue);

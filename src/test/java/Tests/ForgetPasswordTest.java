@@ -51,7 +51,6 @@ public class ForgetPasswordTest {
         general.registerWithValidData();
         general.clickElement(logLoc.Login);
         general.clickElement(logLoc.forget);
-
         int currentTab = 1;
         tabControl.openNewTab();
         tabControl.switchTab();
@@ -60,14 +59,9 @@ public class ForgetPasswordTest {
         driver.switchTo().window(driver.getWindowHandles().toArray()[currentTab - 1].toString());
         general.enterText(logLoc.emailField,dto.getEmail());
         general.clickElement(logLoc.sendEmail);
-
         currentTab++;
         driver.switchTo().window(driver.getWindowHandles().toArray()[currentTab].toString());
-
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        long scrollHeight = (Long) js.executeScript("return document.documentElement.scrollHeight");
-        long scrollTo = scrollHeight / 15;
-        js.executeScript("window.scrollTo(0, arguments[0]);", scrollTo);
+        general.scroll(15);
         wait.until(ExpectedConditions.visibilityOfElementLocated(mailLocators.reset));
         general.clickElement(mailLocators.reset);
         wait.until(ExpectedConditions.visibilityOfElementLocated(mailLocators.resetPassword));
@@ -130,11 +124,7 @@ public class ForgetPasswordTest {
         general.clickElement(logLoc.sendEmail);
         currentTab++;
         driver.switchTo().window(driver.getWindowHandles().toArray()[currentTab].toString());
-
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        long scrollHeight = (Long) js.executeScript("return document.documentElement.scrollHeight");
-        long scrollTo = scrollHeight / 15;
-        js.executeScript("window.scrollTo(0, arguments[0]);", scrollTo);
+        general.scroll(15);
         wait.until(ExpectedConditions.visibilityOfElementLocated(mailLocators.reset));
         general.clickElement(mailLocators.reset);
         wait.until(ExpectedConditions.visibilityOfElementLocated(mailLocators.resetPassword));
