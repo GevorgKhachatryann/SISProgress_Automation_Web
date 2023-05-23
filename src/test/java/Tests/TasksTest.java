@@ -228,6 +228,7 @@ public class TasksTest extends BaseClass {
         wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(calendarLocators.TaskStatus));
         System.out.println(driver.findElement(calendarLocators.TaskStatus).getText());
         general.assertThatElementContains(Constants.IN_PROGRESS_STATUS, calendarLocators.TaskStatus);
+        System.out.println(Constants.IN_PROGRESS_STATUS);
 
     }
 
