@@ -1,49 +1,27 @@
 package Tests;
 
+import Config.BaseClass;
+import Config.URL;
 import DTO.UserDTO;
-import Locators.MailLocators;
-import Locators.RegistrationLocators;
+import Locators.*;
 import methods.*;
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.time.Duration;
-import java.util.concurrent.TimeUnit;
-
-public class RegistrationTest {
-    private WebDriver driver;
-    public static WebDriverWait wait;
-
-    @BeforeClass
-    public void setUp() {
-        System.setProperty("webdriver.chrome.driver", "Driver/chromedriver_win32 (1)/chromedriver.exe");
-        driver = new ChromeDriver();
-        wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-        driver.manage().window().maximize();
-    }
-
-    @AfterClass
-    public void tearDown() {
-        driver.quit();
-    }
+public class RegistrationTest extends BaseClass {
 
     @Test
     public void registerWithValidData(){
-        RegistrationLocators regLoc = new RegistrationLocators();
-        MailLocators mailLocators = new MailLocators();
         UserDTO dto = new UserDTO();
         General general = new General(driver);
-        RegistrationPage regPage = new RegistrationPage(driver);
         TabControl tabControl = new TabControl(driver);
+        MailLocators mailLocators = new MailLocators();
         TempMailMethods tempMailMeth = new TempMailMethods(driver);
+        RegistrationLocators registrationLocators = new RegistrationLocators();
+        RegistrationPage registrationPage = new RegistrationPage(driver);
 
-        driver.get("https://internxt.com/temporary-email");
+        driver.get(URL.Email_URL);
         wait.until(ExpectedConditions.visibilityOfElementLocated(mailLocators.uniqueMail));
         tempMailMeth.getMail(mailLocators.uniqueMail);
 
@@ -52,30 +30,30 @@ public class RegistrationTest {
         tabControl.openNewTab();
         tabControl.switchTab();
 
-        driver.get("https://sisprogress.com/register");
+        driver.get(URL.Registration_URL);
 
-        general.enterText(regLoc.usernameField, dto.getFullName());
-        general.enterText(regLoc.emailField, dto.getEmail());
-        general.enterText(regLoc.passwordField, TestData.password);
-        general.enterText(regLoc.confirmPasswordField, TestData.password);
-        general.selectFromDropdown(regLoc.countryNumDropdown, dto.getCountryNumValue());
-        general.enterText(regLoc.mobileNumField, dto.getMobileNumber());
-        regPage.enterDate("2000", "03", "20");
-        regPage.selectCountry(dto.getCountry());
-        regPage.selectGrade(dto.getGrade());
-        general.clickElement(regLoc.nextButton);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(regLoc.uniDropDown));
-        general.selectFromFancyDropdown(regLoc.uniDropDown, regLoc.uniClass, dto.getUniversity());
-        general.selectFromFancyDropdown(regLoc.academicDropDown, regLoc.academicClass, dto.getAcademics());
-        general.clickElement(regLoc.fall2024);
-        general.clickElement(regLoc.early);
-        general.clickElement(regLoc.yes);
-        general.clickElement(regLoc.yess);
-        general.clickElement(regLoc.nextButton2);
-        general.enterText(regLoc.admTextbox, dto.getAdmText());
-        general.clickElement(regLoc.privacyPolicy);
-        general.clickElement(regLoc.submit);
-        general.clickElement(regLoc.verifyButton);
+        general.enterText(registrationLocators.usernameField, dto.getFullName());
+        general.enterText(registrationLocators.emailField, dto.getEmail());
+        general.enterText(registrationLocators.passwordField, dto.getPassword());
+        general.enterText(registrationLocators.confirmPasswordField, dto.getPassword());
+        general.selectFromDropdown(registrationLocators.countryNumDropdown, dto.getCountryNumValue());
+        general.enterText(registrationLocators.mobileNumField, dto.getMobileNumber());
+        registrationPage.enterDate("2000", "03", "20");
+        registrationPage.selectCountry(dto.getCountry());
+        registrationPage.selectGrade(dto.getGrade());
+        general.clickElement(registrationLocators.nextButton);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(registrationLocators.uniDropDown));
+        general.selectFromFancyDropdown(registrationLocators.uniDropDown, registrationLocators.uniClass, dto.getUniversity());
+        general.selectFromFancyDropdown(registrationLocators.academicDropDown, registrationLocators.academicClass, dto.getAcademics());
+        general.clickElement(registrationLocators.fall2024);
+        general.clickElement(registrationLocators.early);
+        general.clickElement(registrationLocators.yes);
+        general.clickElement(registrationLocators.yess);
+        general.clickElement(registrationLocators.nextButton2);
+        general.enterText(registrationLocators.admTextbox, dto.getAdmText());
+        general.clickElement(registrationLocators.privacyPolicy);
+        general.clickElement(registrationLocators.submit);
+        general.clickElement(registrationLocators.verifyButton);
         tabControl.switchTabToLeft();
         general.scroll(15);
         wait.until(ExpectedConditions.visibilityOfElementLocated(mailLocators.indexSection));
@@ -83,7 +61,11 @@ public class RegistrationTest {
         element.click();
         general.scroll(13);
         driver.findElement(mailLocators.verifyInMail).click();
-        general.assertThatPageContains(regLoc.registrationVerifyAssert);
+        general.assertThatPageContains(registrationLocators.registrationVerifyAssert);
         general.scroll(2);
     }
+
+
 }
+
+

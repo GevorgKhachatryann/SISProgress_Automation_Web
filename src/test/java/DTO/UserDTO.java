@@ -22,6 +22,8 @@ public class UserDTO {
     private String InvalidPassword = "Test1234";
     private String validUserName = "Web User Test";
 
+    public static String changedPass = "Test12345*";
+
 
     public String getFullName() {
         return fullName;
@@ -74,7 +76,10 @@ public class UserDTO {
     public void setEmail(String email){
         this.email = email;
     }
-   public String getMailForUpdate(){
+    public String getMailForUpdate(){
         return mail;
+   }
+    public String getChangedPass(){
+        return changedPass;
    }
 }

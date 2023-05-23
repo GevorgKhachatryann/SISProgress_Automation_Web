@@ -1,64 +1,42 @@
 package Tests;
 
+import Config.BaseClass;
+import Config.Constants;
+import Config.URL;
 import DTO.UserDTO;
 import Locators.*;
 import methods.*;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.time.Duration;
 
 
-public class ForgetPasswordTest {
-
-    public static WebDriver driver;
-    public static WebDriverWait wait;
-
-
-    @BeforeMethod
-    public static void beforeClass() {
-        System.setProperty("webdriver.chrome.driver", "Driver/chromedriver_win32 (1)/chromedriver.exe");
-        driver = new ChromeDriver();
-        wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-        driver.manage().window().maximize();
-    }
-
-    @AfterMethod
-    public static void afterClass() {
-        driver.quit();
-    }
-
+public class ForgetPasswordTest extends BaseClass {
 
     @Test
     public void ForgetPassword() throws InterruptedException {
         UserDTO dto = new UserDTO();
         General general = new General(driver);
-        LoginLocators logLoc = new LoginLocators();
         TabControl tabControl = new TabControl(driver);
-        SettingsLocators setLoc = new SettingsLocators();
-        HomePageLocators homeLoc = new HomePageLocators();
         MailLocators mailLocators = new MailLocators();
-        RegistrationLocators regLoc = new RegistrationLocators();
+        LoginLocators loginLocators = new LoginLocators();
         TempMailMethods tempMailMeth = new TempMailMethods(driver);
+        SettingsLocators settingsLocators = new SettingsLocators();
+        HomePageLocators homePageLocators = new HomePageLocators();
+        RegistrationLocators registrationLocators = new RegistrationLocators();
 
         general.registerWithValidData();
-        general.clickElement(logLoc.Login);
-        general.clickElement(logLoc.forget);
+        general.clickElement(loginLocators.Login);
+        general.clickElement(loginLocators.forget);
         int currentTab = 1;
         tabControl.openNewTab();
         tabControl.switchTab();
-        driver.get("https://internxt.com/temporary-email");
+        driver.get(URL.Email_URL);
         tempMailMeth.getMail(mailLocators.uniqueMail);
         driver.switchTo().window(driver.getWindowHandles().toArray()[currentTab - 1].toString());
-        general.enterText(logLoc.emailField,dto.getEmail());
-        general.clickElement(logLoc.sendEmail);
+        general.enterText(loginLocators.emailField,dto.getEmail());
+        general.clickElement(loginLocators.sendEmail);
         currentTab++;
         driver.switchTo().window(driver.getWindowHandles().toArray()[currentTab].toString());
         general.scroll(15);
@@ -66,62 +44,62 @@ public class ForgetPasswordTest {
         general.clickElement(mailLocators.reset);
         wait.until(ExpectedConditions.visibilityOfElementLocated(mailLocators.resetPassword));
         general.clickElement(mailLocators.resetPassword);
-        general.enterText(logLoc.passwordField,TestData.changedPass);
-        general.enterText(regLoc.confirm,TestData.changedPass);
-        general.clickElement(logLoc.changeButton);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(logLoc.PassChangedMessage));
-        general.assertThatElementContains("YEAH! Your password is changed successfully",logLoc.PassChangedMessage);
-        general.clickElement(logLoc.formChangeLogin);
-        general.enterText(logLoc.loginField,dto.getEmail());
-        general.enterText(logLoc.passwordField,TestData.changedPass);
-        general.clickElement(logLoc.loginButton);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(homeLoc.userName));
-        general.waitAndAssertUntilTextContains(homeLoc.userName, dto.getFullName(), 10);
-        general.clickElement(setLoc.settingsIcon);
-        general.waitAndAssertThatEquals(dto.getFullName(), setLoc.name);
-        general.waitAndAssertUntilTextContains(homeLoc.userName, dto.getFullName(), 10);
-        general.assertThatValueEquals(dto.getFullName(), setLoc.personalDetailsName);
-        general.clickElement(setLoc.menuSection);
-        general.assertThatValueEquals(dto.getEmail(), setLoc.mailInput);
+        general.enterText(loginLocators.passwordField,dto.getChangedPass());
+        general.enterText(registrationLocators.confirm,dto.getChangedPass());
+        general.clickElement(loginLocators.changeButton);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(loginLocators.PassChangedMessage));
+        general.assertThatElementContains(Constants.PASSWORD_CHANGED_MESSAGE,loginLocators.PassChangedMessage);
+        general.clickElement(loginLocators.formChangeLogin);
+        general.enterText(loginLocators.loginField,dto.getEmail());
+        general.enterText(loginLocators.passwordField,dto.getChangedPass());
+        general.clickElement(loginLocators.loginButton);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(homePageLocators.userName));
+        general.waitAndAssertUntilTextContains(homePageLocators.userName, dto.getFullName(), 10);
+        general.clickElement(settingsLocators.settingsIcon);
+        general.waitAndAssertThatEquals(dto.getFullName(), settingsLocators.name);
+        general.waitAndAssertUntilTextContains(homePageLocators.userName, dto.getFullName(), 10);
+        general.assertThatValueEquals(dto.getFullName(), settingsLocators.personalDetailsName);
+        general.clickElement(settingsLocators.menuSection);
+        general.assertThatValueEquals(dto.getEmail(), settingsLocators.mailInput);
     }
 
     @Test
     public void InvalidEmail(){
-        LoginLocators logLoc= new LoginLocators();
         General general = new General(driver);
+        LoginLocators loginLocators = new LoginLocators();
 
-        driver.get("https://sisprogress.com/login");
-        general.clickElement(logLoc.forget);
-        general.enterText(logLoc.emailField,"xyz");
-        general.clickElement(logLoc.sendEmail);
-        String expectedValidationMessage = "Please include an '@' in the email address. 'xyz' is missing an '@'.";
-        WebElement emailFieldAgain = driver.findElement(logLoc.emailField);
-        String actualValidationMessage = emailFieldAgain.getAttribute("validationMessage");
+        driver.get(URL.Login_URL);
+        general.clickElement(loginLocators.forget);
+        general.enterText(loginLocators.emailField,Constants.WRONG_EMAIL);
+        general.clickElement(loginLocators.sendEmail);
+        String expectedValidationMessage = Constants.EMAIL_VALIDATION_MESSAGE;
+        WebElement emailFieldAgain = driver.findElement(loginLocators.emailField);
+        String actualValidationMessage = emailFieldAgain.getAttribute(Constants.ATTRIBUTE);
         if (actualValidationMessage.equals(expectedValidationMessage)) {
-            System.out.println("Verified Validation Message");
+            System.out.println(Constants.VERIFIED_MESSAGE);
         }
     }
     @Test
     public void PasswordsDoNotMatch() throws InterruptedException {
         UserDTO dto = new UserDTO();
         General general = new General(driver);
-        LoginLocators logLoc = new LoginLocators();
         TabControl tabControl = new TabControl(driver);
         MailLocators mailLocators = new MailLocators();
-        RegistrationLocators regLoc = new RegistrationLocators();
+        LoginLocators loginLocators = new LoginLocators();
         TempMailMethods tempMailMeth = new TempMailMethods(driver);
+        RegistrationLocators registrationLocators = new RegistrationLocators();
 
         general.registerWithValidData();
-        general.clickElement(logLoc.Login);
-        general.clickElement(logLoc.forget);
+        general.clickElement(loginLocators.Login);
+        general.clickElement(loginLocators.forget);
         int currentTab = 1;
         tabControl.openNewTab();
         tabControl.switchTab();
-        driver.get("https://internxt.com/temporary-email");
+        driver.get(URL.Email_URL);
         tempMailMeth.getMail(mailLocators.uniqueMail);
         driver.switchTo().window(driver.getWindowHandles().toArray()[currentTab - 1].toString());
-        general.enterText(logLoc.emailField,dto.getEmail());
-        general.clickElement(logLoc.sendEmail);
+        general.enterText(loginLocators.emailField,dto.getEmail());
+        general.clickElement(loginLocators.sendEmail);
         currentTab++;
         driver.switchTo().window(driver.getWindowHandles().toArray()[currentTab].toString());
         general.scroll(15);
@@ -129,10 +107,10 @@ public class ForgetPasswordTest {
         general.clickElement(mailLocators.reset);
         wait.until(ExpectedConditions.visibilityOfElementLocated(mailLocators.resetPassword));
         general.clickElement(mailLocators.resetPassword);
-        general.enterText(logLoc.passwordField,TestData.changedPass);
-        general.enterText(regLoc.confirm,TestData.password);
-        general.clickElement(logLoc.changeButton);
-        general.assertThatElementContains("Password and Confirm Password does not match.",logLoc.PassErrorMessage);
+        general.enterText(loginLocators.passwordField,dto.getChangedPass());
+        general.enterText(registrationLocators.confirm,dto.getPassword());
+        general.clickElement(loginLocators.changeButton);
+        general.assertThatElementContains(Constants.PASSWORD_AND_CONFIRM_DOES_NOT_MATCH,loginLocators.PassErrorMessage);
     }
 
 
