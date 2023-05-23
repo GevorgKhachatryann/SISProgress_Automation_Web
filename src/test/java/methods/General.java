@@ -17,8 +17,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-import static methods.TestData.mail;
-import static methods.TestData.password;
 
 public class General {
     private final WebDriver driver;
@@ -29,7 +27,7 @@ public class General {
     }
 
 
-    private String password = "Test1234*";
+
 
     public void selectFromFancyDropdown(By arrowSelector, String classSelector, String value){
         driver.findElement(arrowSelector).click();
@@ -99,7 +97,6 @@ public class General {
         RegistrationPage regPage = new RegistrationPage(driver);
         TabControl tabControl = new TabControl(driver);
         TempMailMethods tempMailMeth = new TempMailMethods(driver);
-        TestData testData = new TestData();
         wait = new WebDriverWait(driver, Duration.ofSeconds(20));
         driver.get("https://internxt.com/temporary-email");
         tempMailMeth.getMail(mailLocators.uniqueMail);
@@ -113,8 +110,8 @@ public class General {
 
         general.enterText(regLoc.usernameField, dto.getFullName());
         general.enterText(regLoc.emailField, dto.getEmail());
-        general.enterText(regLoc.passwordField, testData.password);
-        general.enterText(regLoc.confirmPasswordField, testData.password);
+        general.enterText(regLoc.passwordField, dto.getPassword());
+        general.enterText(regLoc.confirmPasswordField, dto.getPassword());
         general.selectFromDropdown(regLoc.countryNumDropdown, dto.getCountryNumValue());
         general.enterText(regLoc.mobileNumField, dto.getMobileNumber());
         Thread.sleep(200);

@@ -1,147 +1,119 @@
 package Tests;
 
+import Config.BaseClass;
+import Config.Constants;
+import Config.URL;
 import DTO.UserDTO;
-import Locators.HomePageLocators;
-import Locators.LoginLocators;
-import Locators.SettingsLocators;
+import Locators.*;
 import methods.ApiRequests;
 import methods.General;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.*;
 
-import java.time.Duration;
-import static methods.TestData.password;
-
-public class LoginTest {
-
-    public static WebDriver driver;
-    public static WebDriverWait wait;
-
-    @BeforeMethod
-    public static void beforeClass () {
-        System.setProperty("webdriver.chrome.driver", "Driver/chromedriver_win32 (1)/chromedriver.exe");
-        driver = new ChromeDriver();
-        wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-        driver.manage().window().maximize();
-    }
-
-    @AfterMethod
-    public static void afterClass () {
-        driver.quit();
-    }
-
+public class LoginTest extends BaseClass {
 
     @Test
     public void loginWithValidCreds(){
-        General general = new General(driver);
-        LoginLocators logLoc= new LoginLocators();
         UserDTO dto = new UserDTO();
-        HomePageLocators homeLoc = new HomePageLocators();
-        SettingsLocators setLoc = new SettingsLocators();
+        General general = new General(driver);
         ApiRequests requests = new ApiRequests();
+        LoginLocators loginLocators = new LoginLocators();
+        SettingsLocators settingsLocators = new SettingsLocators();
+        HomePageLocators homePageLocators = new HomePageLocators();
 
-        String endpoint = "https://sisprogress.online/register/ForTest";
-        requests.postRequest(endpoint);
+        requests.postRequest(Constants.REGISTRATION_ENDPOINT);
+        driver.get(URL.Login_URL);
 
-        driver.get("https://sisprogress.com/login");
-
-        general.enterText(logLoc.loginField,dto.getValidEmail());
-        general.enterText(logLoc.passwordField,dto.getPassword());
-        general.clickElement(logLoc.loginButton);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(homeLoc.userName));
-        general.waitAndAssertUntilTextContains(homeLoc.userName, dto.getFullName(), 10);
-        general.clickElement(setLoc.settingsIcon);
-        general.waitAndAssertThatEquals(dto.getFullName(), setLoc.name);
-        general.waitAndAssertUntilTextContains(homeLoc.userName, dto.getFullName(), 10);
-        general.assertThatValueEquals(dto.getFullName(), setLoc.personalDetailsName);
-        general.clickElement(setLoc.menuSection);
-        general.assertThatValueEquals(dto.getValidEmail(), setLoc.mailInput);
+        general.enterText(loginLocators.loginField,dto.getValidEmail());
+        general.enterText(loginLocators.passwordField,dto.getPassword());
+        general.clickElement(loginLocators.loginButton);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(homePageLocators.userName));
+        general.waitAndAssertUntilTextContains(homePageLocators.userName, dto.getFullName(), 10);
+        general.clickElement(settingsLocators.settingsIcon);
+        general.waitAndAssertThatEquals(dto.getFullName(), settingsLocators.name);
+        general.waitAndAssertUntilTextContains(homePageLocators.userName, dto.getFullName(), 10);
+        general.assertThatValueEquals(dto.getFullName(), settingsLocators.personalDetailsName);
+        general.clickElement(settingsLocators.menuSection);
+        general.assertThatValueEquals(dto.getValidEmail(), settingsLocators.mailInput);
 
     }
 
     @Test
     public void logInWithInvalidEmailValidPassword(){
-
-        General general = new General(driver);
-        LoginLocators logLoc= new LoginLocators();
         UserDTO dto = new UserDTO();
+        General general = new General(driver);
         ApiRequests requests = new ApiRequests();
+        LoginLocators loginLocators = new LoginLocators();
 
-        String endpoint = "https://sisprogress.online/register/ForTest";
-        requests.postRequest(endpoint);
-        driver.get("https://sisprogress.com/login");
-        general.enterText(logLoc.loginField,dto.getInvalidEmail());
-        general.enterText(logLoc.passwordField,dto.getPassword());
-        general.clickElement(logLoc.loginButton);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(logLoc.errorMessage));
-        general.assertThatElementContains("Invalid email or password",logLoc.errorMessage);
+        requests.postRequest(Constants.REGISTRATION_ENDPOINT);
+        driver.get(URL.Login_URL);
+        general.enterText(loginLocators.loginField,dto.getInvalidEmail());
+        general.enterText(loginLocators.passwordField,dto.getPassword());
+        general.clickElement(loginLocators.loginButton);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(loginLocators.errorMessage));
+        general.assertThatElementContains(Constants.INVALID_EMAIL_OR_PASSWORD,loginLocators.errorMessage);
 
     }
 
     @Test
     public void logInWithValidEmailInvalidPassword(){
-
-        General general = new General(driver);
-        LoginLocators logLoc= new LoginLocators();
         UserDTO dto = new UserDTO();
+        General general = new General(driver);
         ApiRequests requests = new ApiRequests();
+        LoginLocators loginLocators = new LoginLocators();
 
-        String endpoint = "https://sisprogress.online/register/ForTest";
-        requests.postRequest(endpoint);
-        driver.get("https://sisprogress.com/login");
-        general.enterText(logLoc.loginField,dto.getValidEmail());
-        general.enterText(logLoc.passwordField,dto.getInValidPassword());
-        general.clickElement(logLoc.loginButton);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(logLoc.errorMessage));
-        general.assertThatElementContains("Invalid email or password",logLoc.errorMessage);
+        requests.postRequest(Constants.REGISTRATION_ENDPOINT);
+        driver.get(URL.Login_URL);
+        general.enterText(loginLocators.loginField,dto.getValidEmail());
+        general.enterText(loginLocators.passwordField,dto.getInValidPassword());
+        general.clickElement(loginLocators.loginButton);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(loginLocators.errorMessage));
+        general.assertThatElementContains(Constants.INVALID_EMAIL_OR_PASSWORD,loginLocators.errorMessage);
 
     }
     @Test
     public void logInWithEmptyEmail(){
-
+        UserDTO dto = new UserDTO();
         General general = new General(driver);
-        LoginLocators logLoc= new LoginLocators();
+        LoginLocators loginLocators = new LoginLocators();
 
-        driver.get("https://sisprogress.com/login");
-        general.enterText(logLoc.loginField,"");
-        general.enterText(logLoc.passwordField,password);
-        general.clickElement(logLoc.loginButton);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(logLoc.errorMessage));
-        general.assertThatElementContains("Invalid email or password",logLoc.errorMessage);
+        driver.get(URL.Login_URL);
+        general.enterText(loginLocators.loginField,"");
+        general.enterText(loginLocators.passwordField,dto.getPassword());
+        general.clickElement(loginLocators.loginButton);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(loginLocators.errorMessage));
+        general.assertThatElementContains(Constants.INVALID_EMAIL_OR_PASSWORD,loginLocators.errorMessage);
     }
 
     @Test
     public void logInWithEmptyPassword(){
-        General general = new General(driver);
-        LoginLocators logLoc= new LoginLocators();
         UserDTO dto = new UserDTO();
+        General general = new General(driver);
+        LoginLocators loginLocators = new LoginLocators();
 
-        driver.get("https://sisprogress.com/login");
-        general.enterText(logLoc.loginField,dto.getValidEmail());
-        general.enterText(logLoc.passwordField,"");
-        general.clickElement(logLoc.loginButton);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(logLoc.errorMessage));
-        general.assertThatElementContains("Invalid email or password",logLoc.errorMessage);
+        driver.get(URL.Login_URL);
+        general.enterText(loginLocators.loginField,dto.getValidEmail());
+        general.enterText(loginLocators.passwordField,"");
+        general.clickElement(loginLocators.loginButton);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(loginLocators.errorMessage));
+        general.assertThatElementContains(Constants.INVALID_EMAIL_OR_PASSWORD,loginLocators.errorMessage);
     }
 
     @Test
     public void logInWithInvalidEmail(){
-        LoginLocators logLoc= new LoginLocators();
         General general = new General(driver);
+        LoginLocators loginLocators = new LoginLocators();
 
-        driver.get("https://sisprogress.com/login");
-        general.enterText(logLoc.loginField,"xyz");
-        general.clickElement(logLoc.loginButton);
-        String expectedValidationMessage = "Please include an '@' in the email address. 'xyz' is missing an '@'.";
-        WebElement emailFieldAgain = driver.findElement(logLoc.loginField);
-        String actualValidationMessage = emailFieldAgain.getAttribute("validationMessage");
+        driver.get(URL.Login_URL);
+        general.enterText(loginLocators.loginField,Constants.WRONG_EMAIL);
+        general.clickElement(loginLocators.loginButton);
+        String expectedValidationMessage = Constants.EMAIL_VALIDATION_MESSAGE;
+        WebElement emailFieldAgain = driver.findElement(loginLocators.loginField);
+        String actualValidationMessage = emailFieldAgain.getAttribute(Constants.ATTRIBUTE);
 
         if (actualValidationMessage.equals(expectedValidationMessage)) {
-            System.out.println("Verified Validation Message");
+            System.out.println(Constants.VERIFIED_MESSAGE);
         }
 
     }

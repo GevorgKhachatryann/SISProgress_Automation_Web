@@ -1,103 +1,79 @@
 package Tests;
 
+import Config.BaseClass;
+import Config.Constants;
+import Config.URL;
 import DTO.UserDTO;
 import Locators.*;
 import methods.*;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.time.Duration;
-
-public class SettingsTest {
-
-    public static WebDriver driver;
-    public static WebDriverWait wait;
-
-    @BeforeMethod
-    public static void beforeClass() {
-        System.setProperty("webdriver.chrome.driver", "Driver/chromedriver_win32 (1)/chromedriver.exe");
-        driver = new ChromeDriver();
-        wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-        driver.manage().window().maximize();
-
-    }
-
-    @AfterMethod
-    public static void afterClass() {
-        driver.quit();
-    }
+public class SettingsTest extends BaseClass {
 
     @Test
     public void updatePersonalDetails(){
         UserDTO dto = new UserDTO();
         General general = new General(driver);
-        LoginLocators logLoc= new LoginLocators();
         ApiRequests requests = new ApiRequests();
-        SettingsLocators setLoc = new SettingsLocators();
-        HomePageLocators homeLoc = new HomePageLocators();
-        RegistrationPage regPage = new RegistrationPage(driver);
-        RegistrationLocators regLoc = new RegistrationLocators();
+        LoginLocators loginLocators = new LoginLocators();
+        SettingsLocators settingsLocators = new SettingsLocators();
+        HomePageLocators homePageLocators = new HomePageLocators();
+        RegistrationLocators registrationLocators = new RegistrationLocators();
+        RegistrationPage registrationPage = new RegistrationPage(driver);
 
-        String endpoint = "https://sisprogress.online/register/ForTest";
-        requests.postRequest(endpoint);
+        requests.postRequest(Constants.REGISTRATION_ENDPOINT);
 
-        driver.get("https://sisprogress.com/login");
+        driver.get(URL.Login_URL);
 
-        general.enterText(logLoc.loginField,dto.getValidEmail());
-        general.enterText(logLoc.passwordField,dto.getPassword());
-        general.clickElement(logLoc.loginButton);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(homeLoc.userName));
-        general.waitAndAssertUntilTextContains(homeLoc.userName, dto.getFullName(), 10);
-        general.clickElement(setLoc.settingsIcon);
-        general.assertThatValueEquals(dto.getFullName(), setLoc.personalDetailsName);
-        general.enterText(setLoc.personalDetailsName,dto.getUpdatedName());
-        general.selectFromDropdown(regLoc.countryNumDropdown, dto.getCountryNumValue());
-        general.enterText(regLoc.mobileNumField, dto.getUpdatedMobileNumber());
-        regPage.enterDate("2000", "03", "21");
-        general.clickElement(setLoc.countryDrop);
-        general.clickElement(setLoc.country);
-        general.clickElement(setLoc.updateBtn);
-        WebElement modalWindow = driver.findElement(setLoc.modal);
-        Assert.assertTrue(modalWindow.isDisplayed(), "Modal window is not displayed.");
+        general.enterText(loginLocators.loginField,dto.getValidEmail());
+        general.enterText(loginLocators.passwordField,dto.getPassword());
+        general.clickElement(loginLocators.loginButton);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(homePageLocators.userName));
+        general.waitAndAssertUntilTextContains(homePageLocators.userName, dto.getFullName(), 10);
+        general.clickElement(settingsLocators.settingsIcon);
+        general.assertThatValueEquals(dto.getFullName(), settingsLocators.personalDetailsName);
+        general.enterText(settingsLocators.personalDetailsName,dto.getUpdatedName());
+        general.selectFromDropdown(registrationLocators.countryNumDropdown, dto.getCountryNumValue());
+        general.enterText(registrationLocators.mobileNumField, dto.getUpdatedMobileNumber());
+        registrationPage.enterDate("2000", "03", "21");
+        general.clickElement(settingsLocators.countryDrop);
+        general.clickElement(settingsLocators.country);
+        general.clickElement(settingsLocators.updateBtn);
+        WebElement modalWindow = driver.findElement(settingsLocators.modal);
+        Assert.assertTrue(modalWindow.isDisplayed(), Constants.MODAL_IS_NOT_DISPLAYED);
         String modalWindowText = modalWindow.getText();
-        Assert.assertTrue(modalWindowText.contains("Personal data is updated successfully"), "Modal window does not contain the expected text.");
+        Assert.assertTrue(modalWindowText.contains(Constants.PERSONAL_DATA_UPDATED), Constants.MODAL_DOES_NOT_CONTAIN_TEXT);
     }
 
     @Test
     public void checkDiscardBtnFunctionality() {
         UserDTO dto = new UserDTO();
         General general = new General(driver);
-        LoginLocators logLoc= new LoginLocators();
         ApiRequests requests = new ApiRequests();
-        SettingsLocators setLoc = new SettingsLocators();
-        HomePageLocators homeLoc = new HomePageLocators();
-        RegistrationLocators regLoc = new RegistrationLocators();
+        LoginLocators loginLocators = new LoginLocators();
+        SettingsLocators settingsLocators = new SettingsLocators();
+        HomePageLocators homePageLocators = new HomePageLocators();
+        RegistrationLocators registrationLocators = new RegistrationLocators();
 
-        String endpoint = "https://sisprogress.online/register/ForTest";
-        requests.postRequest(endpoint);
+        requests.postRequest(Constants.REGISTRATION_ENDPOINT);
+        driver.get(URL.Login_URL);
 
-        driver.get("https://sisprogress.com/login");
-
-        general.enterText(logLoc.loginField,dto.getValidEmail());
-        general.enterText(logLoc.passwordField,dto.getPassword());
-        general.clickElement(logLoc.loginButton);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(homeLoc.userName));
-        general.waitAndAssertUntilTextContains(homeLoc.userName, dto.getFullName(), 10);
-        general.clickElement(setLoc.settingsIcon);
-        general.assertThatValueEquals(dto.getFullName(), setLoc.personalDetailsName);
-        general.enterText(setLoc.personalDetailsName,dto.getUpdatedName());
-        general.selectFromDropdown(regLoc.countryNumDropdown, dto.getCountryNumValue());
-        general.enterText(regLoc.mobileNumField, dto.getUpdatedMobileNumber());
-        general.clickElement(setLoc.discardBtn);
-        general.assertThatValueEquals(dto.getFullName(), setLoc.personalDetailsName);
-        general.assertThatValueEquals(dto.getMobileNumber(), regLoc.mobileNumField);
+        general.enterText(loginLocators.loginField,dto.getValidEmail());
+        general.enterText(loginLocators.passwordField,dto.getPassword());
+        general.clickElement(loginLocators.loginButton);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(homePageLocators.userName));
+        general.waitAndAssertUntilTextContains(homePageLocators.userName, dto.getFullName(), 10);
+        general.clickElement(settingsLocators.settingsIcon);
+        general.assertThatValueEquals(dto.getFullName(), settingsLocators.personalDetailsName);
+        general.enterText(settingsLocators.personalDetailsName,dto.getUpdatedName());
+        general.selectFromDropdown(registrationLocators.countryNumDropdown, dto.getCountryNumValue());
+        general.enterText(registrationLocators.mobileNumField, dto.getUpdatedMobileNumber());
+        general.clickElement(settingsLocators.discardBtn);
+        general.assertThatValueEquals(dto.getFullName(), settingsLocators.personalDetailsName);
+        general.assertThatValueEquals(dto.getMobileNumber(), registrationLocators.mobileNumField);
 
     }
 
@@ -105,80 +81,78 @@ public class SettingsTest {
     public void updatePrimaryEmail(){
         UserDTO dto = new UserDTO();
         General general = new General(driver);
-        LoginLocators logLoc= new LoginLocators();
         ApiRequests requests = new ApiRequests();
-        SettingsLocators setLoc = new SettingsLocators();
-        HomePageLocators homeLoc = new HomePageLocators();
-        MailLocators mailLocators = new MailLocators();
-        TempMailMethods tempMailMeth = new TempMailMethods(driver);
         TabControl tabControl = new TabControl(driver);
+        MailLocators mailLocators = new MailLocators();
+        LoginLocators loginLocators = new LoginLocators();
+        TempMailMethods tempMailMeth = new TempMailMethods(driver);
+        SettingsLocators settingsLocators = new SettingsLocators();
+        HomePageLocators homePageLocators = new HomePageLocators();
 
-        String endpoint = "https://sisprogress.online/register/ForTest";
-        requests.postRequest(endpoint);
-        driver.get("https://sisprogress.com/login");
-        general.enterText(logLoc.loginField,dto.getValidEmail());
-        general.enterText(logLoc.passwordField,dto.getPassword());
-        general.clickElement(logLoc.loginButton);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(homeLoc.userName));
-        general.waitAndAssertUntilTextContains(homeLoc.userName, dto.getFullName(), 10);
-        general.clickElement(setLoc.settingsIcon);
-        general.clickElement(setLoc.menuSection);
-        general.assertThatValueEquals(dto.getValidEmail(), setLoc.mailInput);
-        Assert.assertFalse(driver.findElement(setLoc.updateBtn).isEnabled());
-        Assert.assertFalse(driver.findElement(setLoc.discardBtn).isEnabled());
+        requests.postRequest(Constants.REGISTRATION_ENDPOINT);
+        driver.get(URL.Login_URL);
+        general.enterText(loginLocators.loginField,dto.getValidEmail());
+        general.enterText(loginLocators.passwordField,dto.getPassword());
+        general.clickElement(loginLocators.loginButton);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(homePageLocators.userName));
+        general.waitAndAssertUntilTextContains(homePageLocators.userName, dto.getFullName(), 10);
+        general.clickElement(settingsLocators.settingsIcon);
+        general.clickElement(settingsLocators.menuSection);
+        general.assertThatValueEquals(dto.getValidEmail(), settingsLocators.mailInput);
+        Assert.assertFalse(driver.findElement(settingsLocators.updateBtn).isEnabled());
+        Assert.assertFalse(driver.findElement(settingsLocators.discardBtn).isEnabled());
         int currentTab = 1;
         tabControl.openNewTab();
         tabControl.switchTab();
-        driver.get("https://internxt.com/temporary-email");
+        driver.get(URL.Email_URL);
         tempMailMeth.getMail(mailLocators.uniqueMail);
         driver.switchTo().window(driver.getWindowHandles().toArray()[currentTab - 1].toString());
-        general.enterText(setLoc.mailInput,dto.getEmail());
-        general.clickElement(setLoc.updateBtn);
-        general.clickElement(setLoc.sendVerifyBtn);
+        general.enterText(settingsLocators.mailInput,dto.getEmail());
+        general.clickElement(settingsLocators.updateBtn);
+        general.clickElement(settingsLocators.sendVerifyBtn);
         tabControl.switchToNextTab();
         general.scroll(15);
         wait.until(ExpectedConditions.visibilityOfElementLocated(mailLocators.indexSection));
         general.clickElement(mailLocators.indexSection);
         general.clickElement(mailLocators.verifyInMail);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(logLoc.emailChangedMessage));
-        general.assertThatElementContains("YEAH! Your primary email has been updated successfully. Please use your new email address to log in to your account.",logLoc.emailChangedMessage);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(loginLocators.emailChangedMessage));
+        general.assertThatElementContains(Constants.PRIMARY_EMAIL_UPDATED,loginLocators.emailChangedMessage);
         general.scroll(2);
-        general.clickElement(logLoc.verifyPrimaryBtn);
-        general.enterText(logLoc.loginField,dto.getEmail());
-        general.enterText(logLoc.passwordField,dto.getPassword());
-        general.clickElement(logLoc.loginButton);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(homeLoc.userName));
-        general.waitAndAssertUntilTextContains(homeLoc.userName, dto.getFullName(), 10);
+        general.clickElement(loginLocators.verifyPrimaryBtn);
+        general.enterText(loginLocators.loginField,dto.getEmail());
+        general.enterText(loginLocators.passwordField,dto.getPassword());
+        general.clickElement(loginLocators.loginButton);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(homePageLocators.userName));
+        general.waitAndAssertUntilTextContains(homePageLocators.userName, dto.getFullName(), 10);
     }
 
     @Test
     public void updateWithInvalidEmail(){
         UserDTO dto = new UserDTO();
         General general = new General(driver);
-        LoginLocators logLoc= new LoginLocators();
         ApiRequests requests = new ApiRequests();
-        SettingsLocators setLoc = new SettingsLocators();
-        HomePageLocators homeLoc = new HomePageLocators();
+        LoginLocators loginLocators = new LoginLocators();
+        SettingsLocators settingsLocators = new SettingsLocators();
+        HomePageLocators homePageLocators = new HomePageLocators();
 
-        String endpoint = "https://sisprogress.online/register/ForTest";
-        requests.postRequest(endpoint);
-        driver.get("https://sisprogress.com/login");
-        general.enterText(logLoc.loginField,dto.getValidEmail());
-        general.enterText(logLoc.passwordField,dto.getPassword());
-        general.clickElement(logLoc.loginButton);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(homeLoc.userName));
-        general.waitAndAssertUntilTextContains(homeLoc.userName, dto.getFullName(), 10);
-        general.clickElement(setLoc.settingsIcon);
-        general.clickElement(setLoc.menuSection);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(setLoc.emailBox));
-        general.enterText(setLoc.emailBox,"xyz");
-        general.clickElement(setLoc.updateBtn);
-        String expectedValidationMessage = "Please include an '@' in the email address. 'xyz' is missing an '@'.";
-        WebElement emailFieldAgain = driver.findElement(setLoc.emailBox);
-        String actualValidationMessage = emailFieldAgain.getAttribute("validationMessage");
+        requests.postRequest(Constants.REGISTRATION_ENDPOINT);
+        driver.get(URL.Login_URL);
+        general.enterText(loginLocators.loginField,dto.getValidEmail());
+        general.enterText(loginLocators.passwordField,dto.getPassword());
+        general.clickElement(loginLocators.loginButton);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(homePageLocators.userName));
+        general.waitAndAssertUntilTextContains(homePageLocators.userName, dto.getFullName(), 10);
+        general.clickElement(settingsLocators.settingsIcon);
+        general.clickElement(settingsLocators.menuSection);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(settingsLocators.emailBox));
+        general.enterText(settingsLocators.emailBox,Constants.WRONG_EMAIL);
+        general.clickElement(settingsLocators.updateBtn);
+        String expectedValidationMessage = Constants.EMAIL_VALIDATION_MESSAGE;
+        WebElement emailFieldAgain = driver.findElement(settingsLocators.emailBox);
+        String actualValidationMessage = emailFieldAgain.getAttribute(Constants.ATTRIBUTE);
 
         if (actualValidationMessage.equals(expectedValidationMessage)) {
-            System.out.println("Verified Validation Message");
+            System.out.println(Constants.VERIFIED_MESSAGE);
         }
 
     }
@@ -187,43 +161,42 @@ public class SettingsTest {
     public void addSecondaryEmail(){
         UserDTO dto = new UserDTO();
         General general = new General(driver);
-        LoginLocators logLoc= new LoginLocators();
         ApiRequests requests = new ApiRequests();
-        SettingsLocators setLoc = new SettingsLocators();
-        HomePageLocators homeLoc = new HomePageLocators();
-        MailLocators mailLocators = new MailLocators();
-        TempMailMethods tempMailMeth = new TempMailMethods(driver);
         TabControl tabControl = new TabControl(driver);
+        MailLocators mailLocators = new MailLocators();
+        LoginLocators loginLocators = new LoginLocators();
+        TempMailMethods tempMailMeth = new TempMailMethods(driver);
+        SettingsLocators settingsLocators = new SettingsLocators();
+        HomePageLocators homePageLocators = new HomePageLocators();
 
-        String endpoint = "https://sisprogress.online/register/ForTest";
-        requests.postRequest(endpoint);
-        driver.get("https://sisprogress.com/login");
-        general.enterText(logLoc.loginField,dto.getValidEmail());
-        general.enterText(logLoc.passwordField,dto.getPassword());
-        general.clickElement(logLoc.loginButton);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(homeLoc.userName));
-        general.waitAndAssertUntilTextContains(homeLoc.userName, dto.getFullName(), 10);
-        general.clickElement(setLoc.settingsIcon);
-        general.clickElement(setLoc.menuSection);
-        general.assertThatValueEquals(dto.getValidEmail(), setLoc.mailInput);
+        requests.postRequest(Constants.REGISTRATION_ENDPOINT);
+        driver.get(URL.Login_URL);
+        general.enterText(loginLocators.loginField,dto.getValidEmail());
+        general.enterText(loginLocators.passwordField,dto.getPassword());
+        general.clickElement(loginLocators.loginButton);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(homePageLocators.userName));
+        general.waitAndAssertUntilTextContains(homePageLocators.userName, dto.getFullName(), 10);
+        general.clickElement(settingsLocators.settingsIcon);
+        general.clickElement(settingsLocators.menuSection);
+        general.assertThatValueEquals(dto.getValidEmail(), settingsLocators.mailInput);
         int currentTab = 1;
         tabControl.openNewTab();
         tabControl.switchTab();
-        driver.get("https://internxt.com/temporary-email");
+        driver.get(URL.Email_URL);
         tempMailMeth.getMail(mailLocators.uniqueMail);
         driver.switchTo().window(driver.getWindowHandles().toArray()[currentTab - 1].toString());
-        general.clickElement(setLoc.addSecondary);
-        general.enterText(setLoc.secondaryInput,dto.getEmail());
-        general.clickElement(setLoc.secondaryUpdate);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(setLoc.sendSecondaryVerify));
-        general.clickElement(setLoc.sendSecondaryVerify);
+        general.clickElement(settingsLocators.addSecondary);
+        general.enterText(settingsLocators.secondaryInput,dto.getEmail());
+        general.clickElement(settingsLocators.secondaryUpdate);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(settingsLocators.sendSecondaryVerify));
+        general.clickElement(settingsLocators.sendSecondaryVerify);
         tabControl.switchToNextTab();
         general.scroll(15);
         wait.until(ExpectedConditions.visibilityOfElementLocated(mailLocators.indexSection));
         general.clickElement(mailLocators.indexSection);
         general.clickElement(mailLocators.verifyInMail);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(logLoc.emailChangedMessage));
-        general.assertThatElementContains("YEAH! The secondary email has been added.",logLoc.emailChangedMessage);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(loginLocators.emailChangedMessage));
+        general.assertThatElementContains(Constants.SECONDARY_EMAIL_ADDED,loginLocators.emailChangedMessage);
 
     }
 
@@ -231,51 +204,50 @@ public class SettingsTest {
     public void removeSecondaryEmail(){
         UserDTO dto = new UserDTO();
         General general = new General(driver);
-        LoginLocators logLoc= new LoginLocators();
         ApiRequests requests = new ApiRequests();
-        SettingsLocators setLoc = new SettingsLocators();
-        HomePageLocators homeLoc = new HomePageLocators();
-        MailLocators mailLocators = new MailLocators();
-        TempMailMethods tempMailMeth = new TempMailMethods(driver);
         TabControl tabControl = new TabControl(driver);
+        MailLocators mailLocators = new MailLocators();
+        LoginLocators loginLocators = new LoginLocators();
+        TempMailMethods tempMailMeth = new TempMailMethods(driver);
+        SettingsLocators settingsLocators = new SettingsLocators();
+        HomePageLocators homePageLocators = new HomePageLocators();
 
-        String endpoint = "https://sisprogress.online/register/ForTest";
-        requests.postRequest(endpoint);
-        driver.get("https://sisprogress.com/login");
-        general.enterText(logLoc.loginField,dto.getValidEmail());
-        general.enterText(logLoc.passwordField,dto.getPassword());
-        general.clickElement(logLoc.loginButton);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(homeLoc.userName));
-        general.waitAndAssertUntilTextContains(homeLoc.userName, dto.getFullName(), 10);
-        general.clickElement(setLoc.settingsIcon);
-        general.clickElement(setLoc.menuSection);
-        general.assertThatValueEquals(dto.getValidEmail(), setLoc.mailInput);
+        requests.postRequest(Constants.REGISTRATION_ENDPOINT);
+        driver.get(URL.Login_URL);
+        general.enterText(loginLocators.loginField,dto.getValidEmail());
+        general.enterText(loginLocators.passwordField,dto.getPassword());
+        general.clickElement(loginLocators.loginButton);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(homePageLocators.userName));
+        general.waitAndAssertUntilTextContains(homePageLocators.userName, dto.getFullName(), 10);
+        general.clickElement(settingsLocators.settingsIcon);
+        general.clickElement(settingsLocators.menuSection);
+        general.assertThatValueEquals(dto.getValidEmail(), settingsLocators.mailInput);
         int currentTab = 1;
         tabControl.openNewTab();
         tabControl.switchTab();
-        driver.get("https://internxt.com/temporary-email");
+        driver.get(URL.Email_URL);
         tempMailMeth.getMail(mailLocators.uniqueMail);
         driver.switchTo().window(driver.getWindowHandles().toArray()[currentTab - 1].toString());
-        general.clickElement(setLoc.addSecondary);
-        general.enterText(setLoc.secondaryInput,dto.getEmail());
-        general.clickElement(setLoc.secondaryUpdate);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(setLoc.sendSecondaryVerify));
-        general.clickElement(setLoc.sendSecondaryVerify);
+        general.clickElement(settingsLocators.addSecondary);
+        general.enterText(settingsLocators.secondaryInput,dto.getEmail());
+        general.clickElement(settingsLocators.secondaryUpdate);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(settingsLocators.sendSecondaryVerify));
+        general.clickElement(settingsLocators.sendSecondaryVerify);
         tabControl.switchToNextTab();
         general.scroll(15);
         wait.until(ExpectedConditions.visibilityOfElementLocated(mailLocators.indexSection));
         general.clickElement(mailLocators.indexSection);
         general.clickElement(mailLocators.verifyInMail);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(logLoc.emailChangedMessage));
-        general.assertThatElementContains("YEAH! The secondary email has been added.",logLoc.emailChangedMessage);
-        general.clickElement(setLoc.backToSettings);
-        general.clickElement(setLoc.menuSection);
-        general.assertThatValueEquals(dto.getEmail(),setLoc.secondaryInput);
-        general.clickElement(setLoc.removeSecondary);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(setLoc.addSecondary));
-        WebElement element = driver.findElement(setLoc.addSecondary);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(loginLocators.emailChangedMessage));
+        general.assertThatElementContains(Constants.SECONDARY_EMAIL_ADDED,loginLocators.emailChangedMessage);
+        general.clickElement(settingsLocators.backToSettings);
+        general.clickElement(settingsLocators.menuSection);
+        general.assertThatValueEquals(dto.getEmail(),settingsLocators.secondaryInput);
+        general.clickElement(settingsLocators.removeSecondary);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(settingsLocators.addSecondary));
+        WebElement element = driver.findElement(settingsLocators.addSecondary);
         String actualText = element.getText();
-        Assert.assertTrue(actualText.contains("+ Add Secondery email"));
+        Assert.assertTrue(actualText.contains(Constants.ADD_SECONDARY_EMAIL));
 
     }
 }
