@@ -8,6 +8,7 @@ public class UserDTO {
     private static String id;
     private static String token;
     private static String registrationMail;
+    private static int randomIndex;
 
     private String fullName = "Web User Test";
     private String updatedName = "Web";
@@ -43,6 +44,9 @@ public class UserDTO {
     }
     public String getToken(){
         return token;
+    }
+    public int getRandomIndex(){
+        return randomIndex;
     }
     public String getRegistrationMail(){
         return registrationMail;
@@ -98,6 +102,9 @@ public class UserDTO {
     }
     public void setRegistrationMail(String registrationMail){
         this.registrationMail = registrationMail;
+    }
+    public void setRandomIndex(int randomIndex){
+       this.randomIndex = randomIndex;
     }
     public String getMailForUpdate(){
         return mail;
