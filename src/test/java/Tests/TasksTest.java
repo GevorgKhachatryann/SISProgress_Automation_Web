@@ -107,7 +107,7 @@ public class TasksTest extends BaseClass {
         String number = points.replaceAll("[^\\d.]+", ""); //points for example 5 (5 points)
 
         general.clickElement(calendarLocators.AddBtn);
-        wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(calendarLocators.firstTask));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(calendarLocators.firstTask));
         general.clickElement(calendarLocators.firstTask);
         wait.until(ExpectedConditions.visibilityOfElementLocated(calendarLocators.TasksName));
         general.assertThatElementContains(taskName, calendarLocators.TasksName);

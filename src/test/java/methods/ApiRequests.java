@@ -56,9 +56,9 @@ public class ApiRequests {
             throw new RuntimeException(e);
         }
 
-        int statusCode = response.statusCode(); //status
-        String responseBody = response.body(); //response body
-        HttpHeaders headers = response.headers(); //response header
+        int statusCode = response.statusCode();
+        String responseBody = response.body();
+        HttpHeaders headers = response.headers();
 
         System.out.println("Status code: " + statusCode);
         System.out.println("Response body: " + responseBody);
@@ -73,10 +73,9 @@ public class ApiRequests {
         }catch (InterruptedException e){
             e.printStackTrace();
         }
-        // Step 1: Obtain an access token
+
         String token = obtainAccessToken(dto.getEmail(), "string");
         dto.setToken(token);
-        // Step 2: Make API request to retrieve the list of email messages
         org.apache.http.client.HttpClient httpClient = HttpClientBuilder.create().build();
         HttpGet httpGet = new HttpGet("https://api.mail.tm/messages");
         httpGet.setHeader("Authorization", "Bearer " + token);
@@ -145,10 +144,8 @@ public class ApiRequests {
         }catch (InterruptedException e){
             e.printStackTrace();
         }
-        // Step 1: Obtain an access token
         String token = obtainAccessToken(dto.getEmail(), "string");
         dto.setToken(token);
-        // Step 2: Make API request to retrieve the list of email messages
         org.apache.http.client.HttpClient httpClient = HttpClientBuilder.create().build();
         HttpGet httpGet = new HttpGet("https://api.mail.tm/messages");
         httpGet.setHeader("Authorization", "Bearer " + token);
@@ -219,11 +216,9 @@ public class ApiRequests {
         HttpURLConnection connection = createConnection(authEndpointUrl, "POST");
         connection.setRequestProperty("Content-Type", "application/json");
 
-        // Create a JSON object with the authentication credentials
         JSONObject requestBodyJson = new JSONObject();
         requestBodyJson.put("address", username);
         requestBodyJson.put("password", password);
-        // Set the request body
         connection.getOutputStream().write(requestBodyJson.toString().getBytes());
 
         int responseCode = connection.getResponseCode();
@@ -264,24 +259,16 @@ public class ApiRequests {
 
                 String generatedEmail = jsonResponse.getString("address");
                 dto.setEmail(generatedEmail);
-//                String id = jsonResponse.getString("id");
-//                dto.setId(id);
-
-
                 System.out.println("Generated Email: " + generatedEmail);
-//                System.out.println("Generated Id: " + id);
-//                Map<String, String> emailData = new HashMap<>();
-//                emailData.put("email", generatedEmail);
-//                emailData.put("id", id);
-                return generatedEmail;
 
+                return generatedEmail;
             } else {
                 throw new IOException("Failed to generate random email. Response code: " + responseCode);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null; // This line should not be reachable, but added to satisfy the compiler
+        return null;
     }
 
     private static String generateRandomEmail() {
@@ -330,37 +317,6 @@ public class ApiRequests {
         general.clickElement(registrationLocators.verifyButton);
     }
 
-//    private static JSONObject retrieveVerificationEmail(String id) throws IOException {
-//        UserDTO dto = new UserDTO();
-//
-//        String endpointUrl = URL.MAIL_API_BASE_URL + "/messages/" + id;
-//
-//        HttpURLConnection connection = createConnection(endpointUrl, "GET");
-//        connection.setRequestProperty("Authorization", dto.getToken());
-//
-//        int responseCode = connection.getResponseCode();
-//        if (responseCode == HttpURLConnection.HTTP_OK) {
-//            String responseBody = getResponseBody(connection);
-//            JSONArray emailMessages = new JSONArray(responseBody);
-//            if (emailMessages.length() > 0) {
-//                return emailMessages.getJSONObject(0);
-//            }
-//        } else {
-//            throw new IOException("Failed to retrieve verification email. Response code: " + responseCode);
-//        }
-//
-//        return null;
-//    }
-
-//    public void performVerification() {
-//        UserDTO dto = new UserDTO();
-//        System.out.println(dto.getToken());
-//
-//        System.out.println("https://sisprogress.com/message?token=" + dto.getToken());
-//        System.out.println("Email verification successful!");
-//    }
-
-
     public static HttpURLConnection createConnection(String url, String requestMethod) throws IOException {
         HttpURLConnection connection = (HttpURLConnection) new java.net.URL(url).openConnection();
         connection.setRequestMethod(requestMethod);
@@ -390,7 +346,7 @@ public class ApiRequests {
             String verificationLink = matcher.group(1);
             return verificationLink;
         } else {
-            return null; // Verification link not found
+            return null;
         }
     }
     public String extractForgetPasswordLink(String emailContent) {
@@ -401,7 +357,7 @@ public class ApiRequests {
             String verificationLink = matcher.group(1);
             return verificationLink;
         } else {
-            return null; // Verification link not found
+            return null;
         }
     }
 
