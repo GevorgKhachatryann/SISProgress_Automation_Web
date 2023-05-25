@@ -10,6 +10,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import java.io.IOException;
 
 public class SettingsTest extends BaseClass {
 
@@ -17,7 +18,7 @@ public class SettingsTest extends BaseClass {
     public void updatePersonalDetails(){
         UserDTO dto = new UserDTO();
         General general = new General(driver);
-        ApiRequests requests = new ApiRequests();
+        ApiRequests requests = new ApiRequests(driver);
         LoginLocators loginLocators = new LoginLocators();
         SettingsLocators settingsLocators = new SettingsLocators();
         HomePageLocators homePageLocators = new HomePageLocators();
@@ -52,7 +53,7 @@ public class SettingsTest extends BaseClass {
     public void checkDiscardBtnFunctionality() {
         UserDTO dto = new UserDTO();
         General general = new General(driver);
-        ApiRequests requests = new ApiRequests();
+        ApiRequests requests = new ApiRequests(driver);
         LoginLocators loginLocators = new LoginLocators();
         SettingsLocators settingsLocators = new SettingsLocators();
         HomePageLocators homePageLocators = new HomePageLocators();
@@ -78,14 +79,11 @@ public class SettingsTest extends BaseClass {
     }
 
     @Test
-    public void updatePrimaryEmail(){
+    public void updatePrimaryEmail() throws IOException {
         UserDTO dto = new UserDTO();
         General general = new General(driver);
-        ApiRequests requests = new ApiRequests();
-        TabControl tabControl = new TabControl(driver);
-        MailLocators mailLocators = new MailLocators();
+        ApiRequests requests = new ApiRequests(driver);
         LoginLocators loginLocators = new LoginLocators();
-        TempMailMethods tempMailMeth = new TempMailMethods(driver);
         SettingsLocators settingsLocators = new SettingsLocators();
         HomePageLocators homePageLocators = new HomePageLocators();
 
@@ -101,24 +99,18 @@ public class SettingsTest extends BaseClass {
         general.assertThatValueEquals(dto.getValidEmail(), settingsLocators.mailInput);
         Assert.assertFalse(driver.findElement(settingsLocators.updateBtn).isEnabled());
         Assert.assertFalse(driver.findElement(settingsLocators.discardBtn).isEnabled());
-        int currentTab = 1;
-        tabControl.openNewTab();
-        tabControl.switchTab();
-        driver.get(URL.Email_URL);
-        tempMailMeth.getMail(mailLocators.uniqueMail);
-        driver.switchTo().window(driver.getWindowHandles().toArray()[currentTab - 1].toString());
+        requests.generateRandomEmailForTest();
         general.enterText(settingsLocators.mailInput,dto.getEmail());
         general.clickElement(settingsLocators.updateBtn);
         general.clickElement(settingsLocators.sendVerifyBtn);
-        tabControl.switchToNextTab();
-        general.scroll(15);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(mailLocators.indexSection));
-        general.clickElement(mailLocators.indexSection);
-        general.clickElement(mailLocators.verifyInMail);
+        requests.retrieveVerificationEmail();
+        String verificationLink = requests.extractVerificationLink(dto.getRegistrationMail());
+        driver.get(verificationLink);
         wait.until(ExpectedConditions.visibilityOfElementLocated(loginLocators.emailChangedMessage));
         general.assertThatElementContains(Constants.PRIMARY_EMAIL_UPDATED,loginLocators.emailChangedMessage);
         general.scroll(2);
         general.clickElement(loginLocators.verifyPrimaryBtn);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(loginLocators.loginField));
         general.enterText(loginLocators.loginField,dto.getEmail());
         general.enterText(loginLocators.passwordField,dto.getPassword());
         general.clickElement(loginLocators.loginButton);
@@ -130,7 +122,7 @@ public class SettingsTest extends BaseClass {
     public void updateWithInvalidEmail(){
         UserDTO dto = new UserDTO();
         General general = new General(driver);
-        ApiRequests requests = new ApiRequests();
+        ApiRequests requests = new ApiRequests(driver);
         LoginLocators loginLocators = new LoginLocators();
         SettingsLocators settingsLocators = new SettingsLocators();
         HomePageLocators homePageLocators = new HomePageLocators();
@@ -158,14 +150,11 @@ public class SettingsTest extends BaseClass {
     }
 
     @Test
-    public void addSecondaryEmail(){
+    public void addSecondaryEmail() throws IOException {
         UserDTO dto = new UserDTO();
         General general = new General(driver);
-        ApiRequests requests = new ApiRequests();
-        TabControl tabControl = new TabControl(driver);
-        MailLocators mailLocators = new MailLocators();
+        ApiRequests requests = new ApiRequests(driver);
         LoginLocators loginLocators = new LoginLocators();
-        TempMailMethods tempMailMeth = new TempMailMethods(driver);
         SettingsLocators settingsLocators = new SettingsLocators();
         HomePageLocators homePageLocators = new HomePageLocators();
 
@@ -179,36 +168,26 @@ public class SettingsTest extends BaseClass {
         general.clickElement(settingsLocators.settingsIcon);
         general.clickElement(settingsLocators.menuSection);
         general.assertThatValueEquals(dto.getValidEmail(), settingsLocators.mailInput);
-        int currentTab = 1;
-        tabControl.openNewTab();
-        tabControl.switchTab();
-        driver.get(URL.Email_URL);
-        tempMailMeth.getMail(mailLocators.uniqueMail);
-        driver.switchTo().window(driver.getWindowHandles().toArray()[currentTab - 1].toString());
+        requests.generateRandomEmailForTest();
         general.clickElement(settingsLocators.addSecondary);
         general.enterText(settingsLocators.secondaryInput,dto.getEmail());
         general.clickElement(settingsLocators.secondaryUpdate);
         wait.until(ExpectedConditions.visibilityOfElementLocated(settingsLocators.sendSecondaryVerify));
         general.clickElement(settingsLocators.sendSecondaryVerify);
-        tabControl.switchToNextTab();
-        general.scroll(15);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(mailLocators.indexSection));
-        general.clickElement(mailLocators.indexSection);
-        general.clickElement(mailLocators.verifyInMail);
+        requests.retrieveVerificationEmail();
+        String verificationLink = requests.extractVerificationLink(dto.getRegistrationMail());
+        driver.get(verificationLink);
         wait.until(ExpectedConditions.visibilityOfElementLocated(loginLocators.emailChangedMessage));
         general.assertThatElementContains(Constants.SECONDARY_EMAIL_ADDED,loginLocators.emailChangedMessage);
 
     }
 
     @Test
-    public void removeSecondaryEmail(){
+    public void removeSecondaryEmail() throws IOException {
         UserDTO dto = new UserDTO();
         General general = new General(driver);
-        ApiRequests requests = new ApiRequests();
-        TabControl tabControl = new TabControl(driver);
-        MailLocators mailLocators = new MailLocators();
+        ApiRequests requests = new ApiRequests(driver);
         LoginLocators loginLocators = new LoginLocators();
-        TempMailMethods tempMailMeth = new TempMailMethods(driver);
         SettingsLocators settingsLocators = new SettingsLocators();
         HomePageLocators homePageLocators = new HomePageLocators();
 
@@ -222,22 +201,15 @@ public class SettingsTest extends BaseClass {
         general.clickElement(settingsLocators.settingsIcon);
         general.clickElement(settingsLocators.menuSection);
         general.assertThatValueEquals(dto.getValidEmail(), settingsLocators.mailInput);
-        int currentTab = 1;
-        tabControl.openNewTab();
-        tabControl.switchTab();
-        driver.get(URL.Email_URL);
-        tempMailMeth.getMail(mailLocators.uniqueMail);
-        driver.switchTo().window(driver.getWindowHandles().toArray()[currentTab - 1].toString());
+        requests.generateRandomEmailForTest();
         general.clickElement(settingsLocators.addSecondary);
         general.enterText(settingsLocators.secondaryInput,dto.getEmail());
         general.clickElement(settingsLocators.secondaryUpdate);
         wait.until(ExpectedConditions.visibilityOfElementLocated(settingsLocators.sendSecondaryVerify));
         general.clickElement(settingsLocators.sendSecondaryVerify);
-        tabControl.switchToNextTab();
-        general.scroll(15);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(mailLocators.indexSection));
-        general.clickElement(mailLocators.indexSection);
-        general.clickElement(mailLocators.verifyInMail);
+        requests.retrieveVerificationEmail();
+        String verificationLink = requests.extractVerificationLink(dto.getRegistrationMail());
+        driver.get(verificationLink);
         wait.until(ExpectedConditions.visibilityOfElementLocated(loginLocators.emailChangedMessage));
         general.assertThatElementContains(Constants.SECONDARY_EMAIL_ADDED,loginLocators.emailChangedMessage);
         general.clickElement(settingsLocators.backToSettings);

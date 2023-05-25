@@ -1,5 +1,6 @@
 package methods;
 
+import DTO.UserDTO;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -8,6 +9,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
+import java.io.IOException;
 import java.time.Duration;
 
 
@@ -46,5 +48,18 @@ public class RegistrationPage {
         driver.findElement(gradeDropdown).click();
         driver.findElement(By.xpath ("//*[contains(@class, 'WhichClass_countryName__+VCbE') and contains(text(), \'"+grade+"\')]")).click();
     }
-
+    public void registration() throws IOException {
+        UserDTO dto = new UserDTO();
+        ApiRequests requests = new ApiRequests(driver);
+        requests.generateRandomEmailForTest();
+        requests.performRegistration(dto.getEmail());
+        requests.retrieveVerificationEmail();
+        String verificationLink = requests.extractVerificationLink(dto.getRegistrationMail());
+        System.out.println("Verification link: " + verificationLink);
+        if (verificationLink != null) {
+            driver.get(verificationLink);
+        } else {
+            System.out.println("Verification link not found!");
+        }
+    }
 }

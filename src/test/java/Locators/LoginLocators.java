@@ -4,7 +4,7 @@ import org.openqa.selenium.By;
 
 public class LoginLocators {
     public By loginField = By.cssSelector("[name=\"mail\"]");
-    public By passwordField = By.cssSelector("[name=\"pass\"]");
+    public By passwordField = By.cssSelector("[placeholder=\"Password\"]");
     public By loginButton = By.className("LoginForm_btn__FLvAr");
     public By Login  = By.cssSelector("a.Massages_btnr__N7W4x[href='/login']");
     public By formChangeLogin = By.className("FormChange_bt__nsc5s");
