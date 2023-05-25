@@ -7,6 +7,7 @@ import DTO.UserDTO;
 import Locators.*;
 import methods.ApiRequests;
 import methods.General;
+import methods.TaskPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -14,10 +15,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import java.time.DayOfWeek;
 import java.time.Duration;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Random;
 
@@ -28,6 +26,7 @@ public class TasksTest extends BaseClass {
     public void addTaskFunctionality() {
         UserDTO dto = new UserDTO();
         General general = new General(driver);
+        TaskPage taskPage = new TaskPage(driver);
         ApiRequests requests = new ApiRequests(driver);
         LoginLocators loginLocators = new LoginLocators();
         HomePageLocators homePageLocators = new HomePageLocators();
@@ -45,16 +44,10 @@ public class TasksTest extends BaseClass {
         By checkboxLocator = calendarLocators.checkbox;
         wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(checkboxLocator));
 
-        List<WebElement> checkboxes = driver.findElements(calendarLocators.checkbox);
-        int randomIndex = new Random().nextInt(checkboxes.size()) + 1;
-
-        checkboxes.get(randomIndex - 1).click();
-        String task = "div:nth-child(" + randomIndex + ") div.Cal_left__L23rE > p";
-        String point = "div:nth-child(" + randomIndex + ") > div > div > div.Cal_right__YUxVV > p";
-        String taskName = driver.findElement(By.cssSelector(task)).getText();
-        String points = driver.findElement(By.cssSelector(point)).getText();
+        int randomIndex = taskPage.clickRandomCheckbox(driver, checkboxLocator);
+        String taskName = taskPage.getTaskName(driver, randomIndex);
+        String points = taskPage.getPoints(driver, randomIndex);
         String number = points.replaceAll("[^\\d.]+", "");
-
         System.out.println(number);
         System.out.println(taskName);
         System.out.println(points);
@@ -74,6 +67,7 @@ public class TasksTest extends BaseClass {
     public void addTaskForTomorrow() {
         UserDTO dto = new UserDTO();
         General general = new General(driver);
+        TaskPage taskPage = new TaskPage(driver);
         ApiRequests requests = new ApiRequests(driver);
         LoginLocators loginLocators = new LoginLocators();
         HomePageLocators homePageLocators = new HomePageLocators();
@@ -87,29 +81,15 @@ public class TasksTest extends BaseClass {
         wait.until(ExpectedConditions.visibilityOfElementLocated(homePageLocators.userName));
         general.waitAndAssertUntilTextContains(homePageLocators.userName, dto.getFullName(), 20);
         general.clickElement(calendarLocators.calendarIcon);
-
-        LocalDate tomorrow = LocalDate.now().plusDays(1);
-        String formattedDate = tomorrow.format(DateTimeFormatter.ofPattern("dd.MM"));
-        String dateLocator = String.format("//p[contains(text(), '%s')]", formattedDate);
-        WebElement dateElement = driver.findElement(By.xpath(dateLocator));
-        WebElement addButton = dateElement.findElement(By.xpath("//div[contains(text(), '+')][@id='" + formattedDate + "_____1']"));
-        addButton.click();
-        wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(calendarLocators.checkbox));
-
-        List<WebElement> checkboxes = driver.findElements(calendarLocators.checkbox);
-        int randomIndex = new Random().nextInt(checkboxes.size()) + 1;
-
-        checkboxes.get(randomIndex - 1).click();
-        String task = "div:nth-child(" + randomIndex + ") div.Cal_left__L23rE > p";
-        String point = "div:nth-child(" + randomIndex + ") > div > div > div.Cal_right__YUxVV > p";
-        String taskName = driver.findElement(By.cssSelector(task)).getText();
-        String points = driver.findElement(By.cssSelector(point)).getText();
-        String number = points.replaceAll("[^\\d.]+", ""); //points for example 5 (5 points)
-
+        taskPage.addTaskAndSelectCheckbox(driver, wait, calendarLocators.checkbox);
+        String taskName = taskPage.getTaskName(driver, dto.getRandomIndex());
+        System.out.println(taskName);
+        String points = taskPage.getPoints(driver, dto.getRandomIndex());
         general.clickElement(calendarLocators.AddBtn);
         wait.until(ExpectedConditions.visibilityOfElementLocated(calendarLocators.firstTask));
         general.clickElement(calendarLocators.firstTask);
         wait.until(ExpectedConditions.visibilityOfElementLocated(calendarLocators.TasksName));
+        System.out.println(driver.findElement(calendarLocators.TasksName).getText());
         general.assertThatElementContains(taskName, calendarLocators.TasksName);
         WebElement body = driver.findElement(calendarLocators.body);
         Actions actions = new Actions(driver);
@@ -126,6 +106,7 @@ public class TasksTest extends BaseClass {
     public void deleteTask() {
         UserDTO dto = new UserDTO();
         General general = new General(driver);
+        TaskPage taskPage = new TaskPage(driver);
         ApiRequests requests = new ApiRequests(driver);
         LoginLocators loginLocators = new LoginLocators();
         HomePageLocators homePageLocators = new HomePageLocators();
@@ -141,28 +122,15 @@ public class TasksTest extends BaseClass {
         wait.until(ExpectedConditions.visibilityOfElementLocated(homePageLocators.userName));
         general.waitAndAssertUntilTextContains(homePageLocators.userName, dto.getFullName(), 20);
         general.clickElement(calendarLocators.calendarIcon);
-
-        LocalDate tomorrow = LocalDate.now().plusDays(1);
-        String formattedDate = tomorrow.format(DateTimeFormatter.ofPattern("dd.MM"));
-        String dateLocator = String.format("//p[contains(text(), '%s')]", formattedDate);
-        WebElement dateElement = driver.findElement(By.xpath(dateLocator));
-
-        WebElement addButton = dateElement.findElement(By.xpath("//div[contains(text(), '+')][@id='" + formattedDate + "_____1']"));
-        addButton.click();
-        By checkboxLocator = calendarLocators.checkbox;
-        wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(checkboxLocator));
-
-        List<WebElement> checkboxes = driver.findElements(calendarLocators.checkbox);
-        int randomIndex = new Random().nextInt(checkboxes.size()) + 1;
-
-        checkboxes.get(randomIndex - 1).click();
-        String task = "div:nth-child(" + randomIndex + ") div.Cal_left__L23rE > p";
-
-        String taskName = driver.findElement(By.cssSelector(task)).getText();
+        taskPage.addTaskAndSelectCheckbox(driver, wait, calendarLocators.checkbox);
+        String taskName = taskPage.getTaskName(driver, dto.getRandomIndex());
+        System.out.println(taskName);
+        String points = taskPage.getPoints(driver, dto.getRandomIndex());
         wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(calendarLocators.AddBtn));
         general.clickElement(calendarLocators.AddBtn);
         wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(calendarLocators.firstTask));
         general.clickElement(calendarLocators.firstTask);
+        System.out.println(driver.findElement(calendarLocators.TasksName).getText());
         general.assertThatElementContains(taskName, calendarLocators.TasksName);
         WebElement body = driver.findElement(calendarLocators.body);
         actions.moveToElement(body).click().perform();
@@ -180,6 +148,7 @@ public class TasksTest extends BaseClass {
     public void checkInProgressStatus() {
         UserDTO dto = new UserDTO();
         General general = new General(driver);
+        TaskPage taskPage = new TaskPage(driver);
         ApiRequests requests = new ApiRequests(driver);
         LoginLocators loginLocators = new LoginLocators();
         HomePageLocators homePageLocators = new HomePageLocators();
@@ -196,16 +165,9 @@ public class TasksTest extends BaseClass {
         general.clickElement(calendarLocators.AddTask);
         By checkboxLocator = calendarLocators.checkbox;
         wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(checkboxLocator));
-
-        List<WebElement> checkboxes = driver.findElements(calendarLocators.checkbox);
-        int randomIndex = new Random().nextInt(checkboxes.size()) + 1;
-
-        checkboxes.get(randomIndex - 1).click();
-        String task = "div:nth-child(" + randomIndex + ") div.Cal_left__L23rE > p";
-        String point = "div:nth-child(" + randomIndex + ") > div > div > div.Cal_right__YUxVV > p";
-
-        String taskName = driver.findElement(By.cssSelector(task)).getText();
-        String points = driver.findElement(By.cssSelector(point)).getText();
+        int randomIndex = taskPage.clickRandomCheckbox(driver, checkboxLocator);
+        String taskName = taskPage.getTaskName(driver, randomIndex);
+        String points = taskPage.getPoints(driver, randomIndex);
         String number = points.replaceAll("[^\\d.]+", "");
         System.out.println(number);
         System.out.println(taskName);
@@ -236,6 +198,7 @@ public class TasksTest extends BaseClass {
     public void checkCompletedStatus() {
         UserDTO dto = new UserDTO();
         General general = new General(driver);
+        TaskPage taskPage = new TaskPage(driver);
         ApiRequests requests = new ApiRequests(driver);
         LoginLocators loginLocators = new LoginLocators();
         HomePageLocators homePageLocators = new HomePageLocators();
@@ -243,50 +206,32 @@ public class TasksTest extends BaseClass {
 
         requests.postRequest(Constants.REGISTRATION_ENDPOINT);
         driver.get(URL.Login_URL);
-
         general.enterText(loginLocators.loginField,dto.getValidEmail());
         general.enterText(loginLocators.passwordField,dto.getPassword());
         general.clickElement(loginLocators.loginButton);
         wait.until(ExpectedConditions.visibilityOfElementLocated(homePageLocators.userName));
-
         general.waitAndAssertUntilTextContains(homePageLocators.userName, dto.getFullName(), 10);
         general.clickElement(calendarLocators.calendarIcon);
         general.clickElement(calendarLocators.AddTask);
         By checkboxLocator = calendarLocators.checkbox;
         wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(checkboxLocator));
-
-        List<WebElement> checkboxes = driver.findElements(calendarLocators.checkbox);
-        int randomIndex = new Random().nextInt(checkboxes.size()) + 1;
-
-        checkboxes.get(randomIndex - 1).click();
-        String task = "div:nth-child(" + randomIndex + ") div.Cal_left__L23rE > p";
-        String point = "div:nth-child(" + randomIndex + ") > div > div > div.Cal_right__YUxVV > p";
-
-        String taskName = driver.findElement(By.cssSelector(task)).getText();
-        String points = driver.findElement(By.cssSelector(point)).getText();
-
+        int randomIndex = taskPage.clickRandomCheckbox(driver, checkboxLocator);
+        String taskName = taskPage.getTaskName(driver, randomIndex);
+        String points = taskPage.getPoints(driver, randomIndex);
         String number = points.replaceAll("[^\\d.]+", "");
-
         System.out.println(number);
         wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(calendarLocators.AddBtn));
-
         general.clickElement(calendarLocators.AddBtn);
         wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(calendarLocators.firstTask));
-
         general.clickElement(calendarLocators.firstTask);
         general.assertThatElementContains(taskName, calendarLocators.TasksName);
 
-        List<WebElement> SubTaskCheckbox = driver.findElements(calendarLocators.subTaskCheckbox);
-
-        for (WebElement checkbox : SubTaskCheckbox) {
-            checkbox.click();
-        }
+        taskPage.clickAllSubTaskCheckboxes(driver,calendarLocators.subTaskCheckbox);
 
         general.clickElement(calendarLocators.submit);
         WebElement body = driver.findElement(calendarLocators.body);
         Actions actions = new Actions(driver);
         actions.moveToElement(body).click().perform();
-
         driver.navigate().refresh();
         wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(calendarLocators.TaskStatus));
         System.out.println(driver.findElement(calendarLocators.TaskStatus).getText());
@@ -298,6 +243,7 @@ public class TasksTest extends BaseClass {
     public void taskAdditionOnPastDaysIsImpossible() {
         UserDTO dto = new UserDTO();
         General general = new General(driver);
+        TaskPage taskPage = new TaskPage(driver);
         ApiRequests requests = new ApiRequests(driver);
         LoginLocators loginLocators = new LoginLocators();
         HomePageLocators homePageLocators = new HomePageLocators();
@@ -305,50 +251,13 @@ public class TasksTest extends BaseClass {
 
         requests.postRequest(Constants.REGISTRATION_ENDPOINT);
         driver.get(URL.Login_URL);
-
         general.enterText(loginLocators.loginField,dto.getValidEmail());
         general.enterText(loginLocators.passwordField,dto.getPassword());
         general.clickElement(loginLocators.loginButton);
         wait.until(ExpectedConditions.visibilityOfElementLocated(homePageLocators.userName));
-
         general.waitAndAssertUntilTextContains(homePageLocators.userName, dto.getFullName(), 10);
         general.clickElement(calendarLocators.calendarIcon);
-        List<WebElement> dateElements = driver.findElements(calendarLocators.days);
-        String[] taskDays = {   Constants.MONDAY, Constants.TUESDAY, Constants.WEDNESDAY, Constants.THURSDAY,
-                                Constants.FRIDAY, Constants.SATURDAY, Constants.SUNDAY };
-        for (WebElement dateElement : dateElements) {
-            String dateText = dateElement.getText();
-            String[] parts = General.extractDateParts(dateText);
-            // String dayText = parts[0];
-            String date = parts[1];
-
-            int day = Integer.parseInt(date.substring(0, 2));
-            int month = Integer.parseInt(date.substring(3, 5));
-
-            LocalDate websiteDate = LocalDate.of(LocalDate.now().getYear(), month, day);
-            DayOfWeek websiteDayOfWeek = websiteDate.getDayOfWeek();
-            int websiteDayIndex = websiteDayOfWeek.getValue() - 1;
-
-            String taskDay = taskDays[websiteDayIndex];
-
-            if (websiteDate.isAfter(LocalDate.now()) || websiteDate.isEqual(LocalDate.now())) {
-                System.out.println(Constants.CAN_ADD_A_TASK_FOR + date + Constants.ON + taskDay);
-                String columnId =String.format("//div[text()='+'][@id='%s_____1']", date);
-                WebElement columnElement = driver.findElement(By.xpath(columnId));
-                columnElement.click();
-
-                wait.until(ExpectedConditions.visibilityOfElementLocated(calendarLocators.modal));
-                boolean isModalDisplayed = driver.findElement(calendarLocators.modal).isDisplayed();
-
-                if (isModalDisplayed) {
-                    System.out.println(Constants.MODAL_IS_OPENED_FOR + date);
-                    general.clickElement(calendarLocators.closeModal);
-                }
-            } else {
-                System.out.println(Constants.CANNOT_ADD_A_TASK_FOR + date + Constants.ON + taskDay);
-            }
-
-        }
+        taskPage.processDateElements(driver, wait);
 
     }
 
@@ -356,6 +265,7 @@ public class TasksTest extends BaseClass {
     public void addTaskFromDashboard(){
         UserDTO dto = new UserDTO();
         General general = new General(driver);
+        TaskPage taskPage = new TaskPage(driver);
         ApiRequests requests = new ApiRequests(driver);
         LoginLocators loginLocators = new LoginLocators();
         HomePageLocators homePageLocators = new HomePageLocators();
@@ -375,14 +285,8 @@ public class TasksTest extends BaseClass {
         columnElement.click();
         By checkboxLocator = calendarLocators.checkbox;
         wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(checkboxLocator));
-
-        List<WebElement> checkboxes = driver.findElements(calendarLocators.checkbox);
-        int randomIndex = new Random().nextInt(checkboxes.size()) + 1;
-        checkboxes.get(randomIndex - 1).click();
-
-        String task = "div:nth-child(" + randomIndex + ") div.Cal_left__L23rE > p";
-        String taskName = driver.findElement(By.cssSelector(task)).getText();
-
+        int randomIndex = taskPage.clickRandomCheckbox(driver, checkboxLocator);
+        String taskName = taskPage.getTaskName(driver, randomIndex);
         general.clickElement(calendarLocators.AddBtn);
         wait.until(ExpectedConditions.visibilityOfElementLocated(calendarLocators.firstTask));
         general.clickElement(calendarLocators.firstTask);

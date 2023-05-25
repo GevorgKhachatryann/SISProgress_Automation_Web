@@ -107,7 +107,6 @@ public class ApiRequests {
                 System.out.println(messageResponseCode);
 
                 if (messageResponseCode == 200) {
-                    System.out.println("mtav");
                     String messageResponseBody = EntityUtils.toString(messageResponse.getEntity());
                     System.out.println(messageResponseBody);
 
