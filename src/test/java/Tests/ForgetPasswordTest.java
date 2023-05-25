@@ -16,7 +16,7 @@ import java.io.IOException;
 public class ForgetPasswordTest extends BaseClass {
 
     @Test
-    public void ForgetPasswordAPI() throws IOException {
+    public void ForgetPassword() throws IOException {
         UserDTO dto = new UserDTO();
         General general = new General(driver);
         ApiRequests requests = new ApiRequests(driver);
