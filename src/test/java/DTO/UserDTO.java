@@ -5,6 +5,10 @@ import java.time.Instant;
 public class UserDTO {
     private static long randomNum = Instant.now().toEpochMilli();
     private static String email;
+    private static String id;
+    private static String token;
+    private static String registrationMail;
+
     private String fullName = "Web User Test";
     private String updatedName = "Web";
     private String password = "Test1234*";
@@ -34,6 +38,16 @@ public class UserDTO {
     public String getEmail() {
         return email;
     }
+    public String getId() {
+        return id;
+    }
+    public String getToken(){
+        return token;
+    }
+    public String getRegistrationMail(){
+        return registrationMail;
+    }
+
     public String getPassword() {
         return password;
     }
@@ -75,6 +89,15 @@ public class UserDTO {
     }
     public void setEmail(String email){
         this.email = email;
+    }
+    public void setId(String id){
+        this.id = id;
+    }
+    public void setToken(String token){
+        this.token = token;
+    }
+    public void setRegistrationMail(String registrationMail){
+        this.registrationMail = registrationMail;
     }
     public String getMailForUpdate(){
         return mail;

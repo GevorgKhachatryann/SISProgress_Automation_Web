@@ -28,7 +28,7 @@ public class TasksTest extends BaseClass {
     public void addTaskFunctionality() {
         UserDTO dto = new UserDTO();
         General general = new General(driver);
-        ApiRequests requests = new ApiRequests();
+        ApiRequests requests = new ApiRequests(driver);
         LoginLocators loginLocators = new LoginLocators();
         HomePageLocators homePageLocators = new HomePageLocators();
         CalendarLocators calendarLocators = new CalendarLocators();
@@ -74,7 +74,7 @@ public class TasksTest extends BaseClass {
     public void addTaskForTomorrow() {
         UserDTO dto = new UserDTO();
         General general = new General(driver);
-        ApiRequests requests = new ApiRequests();
+        ApiRequests requests = new ApiRequests(driver);
         LoginLocators loginLocators = new LoginLocators();
         HomePageLocators homePageLocators = new HomePageLocators();
         CalendarLocators calendarLocators = new CalendarLocators();
@@ -126,7 +126,7 @@ public class TasksTest extends BaseClass {
     public void deleteTask() {
         UserDTO dto = new UserDTO();
         General general = new General(driver);
-        ApiRequests requests = new ApiRequests();
+        ApiRequests requests = new ApiRequests(driver);
         LoginLocators loginLocators = new LoginLocators();
         HomePageLocators homePageLocators = new HomePageLocators();
         CalendarLocators calendarLocators = new CalendarLocators();
@@ -180,7 +180,7 @@ public class TasksTest extends BaseClass {
     public void checkInProgressStatus() {
         UserDTO dto = new UserDTO();
         General general = new General(driver);
-        ApiRequests requests = new ApiRequests();
+        ApiRequests requests = new ApiRequests(driver);
         LoginLocators loginLocators = new LoginLocators();
         HomePageLocators homePageLocators = new HomePageLocators();
         CalendarLocators calendarLocators = new CalendarLocators();
@@ -236,7 +236,7 @@ public class TasksTest extends BaseClass {
     public void checkCompletedStatus() {
         UserDTO dto = new UserDTO();
         General general = new General(driver);
-        ApiRequests requests = new ApiRequests();
+        ApiRequests requests = new ApiRequests(driver);
         LoginLocators loginLocators = new LoginLocators();
         HomePageLocators homePageLocators = new HomePageLocators();
         CalendarLocators calendarLocators = new CalendarLocators();
@@ -298,7 +298,7 @@ public class TasksTest extends BaseClass {
     public void taskAdditionOnPastDaysIsImpossible() {
         UserDTO dto = new UserDTO();
         General general = new General(driver);
-        ApiRequests requests = new ApiRequests();
+        ApiRequests requests = new ApiRequests(driver);
         LoginLocators loginLocators = new LoginLocators();
         HomePageLocators homePageLocators = new HomePageLocators();
         CalendarLocators calendarLocators = new CalendarLocators();
@@ -356,7 +356,7 @@ public class TasksTest extends BaseClass {
     public void addTaskFromDashboard(){
         UserDTO dto = new UserDTO();
         General general = new General(driver);
-        ApiRequests requests = new ApiRequests();
+        ApiRequests requests = new ApiRequests(driver);
         LoginLocators loginLocators = new LoginLocators();
         HomePageLocators homePageLocators = new HomePageLocators();
         CalendarLocators calendarLocators = new CalendarLocators();

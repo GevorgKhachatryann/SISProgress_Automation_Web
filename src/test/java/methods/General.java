@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.time.Duration;
 import java.time.Instant;
@@ -38,6 +39,7 @@ public class General {
     }
     public void enterText(By selector, String username) {
         driver.findElement(selector).clear();
+        driver.findElement(selector).click();
         driver.findElement(selector).sendKeys(username);
     }
     public void scroll(int num){
@@ -89,69 +91,9 @@ public class General {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("arguments[0].scrollIntoView(true);", element);
     }
-    public void registerWithValidData() throws InterruptedException {
-        RegistrationLocators regLoc = new RegistrationLocators();
-        MailLocators mailLocators = new MailLocators();
-        UserDTO dto = new UserDTO();
-        General general = new General(driver);
-        RegistrationPage regPage = new RegistrationPage(driver);
-        TabControl tabControl = new TabControl(driver);
-        TempMailMethods tempMailMeth = new TempMailMethods(driver);
-        wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-        driver.get("https://internxt.com/temporary-email");
-        tempMailMeth.getMail(mailLocators.uniqueMail);
 
-        System.out.println(dto.getEmail());
 
-        tabControl.openNewTab();
-        tabControl.switchTab();
-
-        driver.get("https://sisprogress.com/register");
-
-        general.enterText(regLoc.usernameField, dto.getFullName());
-        general.enterText(regLoc.emailField, dto.getEmail());
-        general.enterText(regLoc.passwordField, dto.getPassword());
-        general.enterText(regLoc.confirmPasswordField, dto.getPassword());
-        general.selectFromDropdown(regLoc.countryNumDropdown, dto.getCountryNumValue());
-        general.enterText(regLoc.mobileNumField, dto.getMobileNumber());
-        Thread.sleep(200);
-        regPage.enterDate("2000", "03", "20");
-        regPage.selectCountry(dto.getCountry());
-        regPage.selectGrade(dto.getGrade());
-        general.clickElement(regLoc.nextButton);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(regLoc.uniDropDown));
-        general.selectFromFancyDropdown(regLoc.uniDropDown, regLoc.uniClass, dto.getUniversity());
-        general.selectFromFancyDropdown(regLoc.academicDropDown, regLoc.academicClass, dto.getAcademics());
-        general.clickElement(regLoc.fall2024);
-        general.clickElement(regLoc.early);
-        general.clickElement(regLoc.yes);
-        general.clickElement(regLoc.yess);
-        general.clickElement(regLoc.nextButton2);
-        general.enterText(regLoc.admTextbox, dto.getAdmText());
-        general.clickElement(regLoc.privacyPolicy);
-        general.clickElement(regLoc.submit);
-        general.clickElement(regLoc.verifyButton);
-        tabControl.switchTabToLeft();
-
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        long scrollHeight = (Long) js.executeScript("return document.documentElement.scrollHeight");
-        long scrollTo = scrollHeight / 15;
-        js.executeScript("window.scrollTo(0, arguments[0]);", scrollTo);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(mailLocators.indexSection));
-        WebElement element = driver.findElement(mailLocators.indexSection);
-        element.click();
-
-        scrollHeight = (Long) js.executeScript("return document.documentElement.scrollHeight");
-        scrollTo = scrollHeight / 13;
-        js.executeScript("window.scrollTo(0, arguments[0]);", scrollTo);
-        driver.findElement(mailLocators.verifyInMail).click();
-
-        general.assertThatPageContains(regLoc.registrationVerifyAssert);
-        scrollHeight = (Long) js.executeScript("return document.documentElement.scrollHeight");
-        scrollTo = scrollHeight / 2;
-        js.executeScript("window.scrollTo(0, arguments[0]);", scrollTo);
-    }
-    public String getFormattedDate() {
+        public String getFormattedDate() {
         LocalDate currentDate = LocalDate.now();
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM");

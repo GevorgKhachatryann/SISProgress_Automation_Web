@@ -17,7 +17,7 @@ public class LoginTest extends BaseClass {
     public void loginWithValidCreds(){
         UserDTO dto = new UserDTO();
         General general = new General(driver);
-        ApiRequests requests = new ApiRequests();
+        ApiRequests requests = new ApiRequests(driver);
         LoginLocators loginLocators = new LoginLocators();
         SettingsLocators settingsLocators = new SettingsLocators();
         HomePageLocators homePageLocators = new HomePageLocators();
@@ -43,7 +43,7 @@ public class LoginTest extends BaseClass {
     public void logInWithInvalidEmailValidPassword(){
         UserDTO dto = new UserDTO();
         General general = new General(driver);
-        ApiRequests requests = new ApiRequests();
+        ApiRequests requests = new ApiRequests(driver);
         LoginLocators loginLocators = new LoginLocators();
 
         requests.postRequest(Constants.REGISTRATION_ENDPOINT);
@@ -60,7 +60,7 @@ public class LoginTest extends BaseClass {
     public void logInWithValidEmailInvalidPassword(){
         UserDTO dto = new UserDTO();
         General general = new General(driver);
-        ApiRequests requests = new ApiRequests();
+        ApiRequests requests = new ApiRequests(driver);
         LoginLocators loginLocators = new LoginLocators();
 
         requests.postRequest(Constants.REGISTRATION_ENDPOINT);

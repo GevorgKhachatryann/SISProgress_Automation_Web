@@ -15,6 +15,7 @@ public class RegistrationLocators {
     public By yes = By.id("yes");
     public By yess = By.id("yess");
     public By confirm = By.cssSelector("[name=\"comf\"]");
+    public By forgetPassField = By.className("FormChange_password__Iwy8f");
     public By emailField = By.className("RegisterOne_mail__+-frM");
     public By confirmPasswordField = By.cssSelector("[placeholder = \"Confirm Password\"]");
     public By countryNumDropdown = By.className("PhoneInputCountrySelect");

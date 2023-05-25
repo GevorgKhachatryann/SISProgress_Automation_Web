@@ -10,40 +10,31 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.annotations.Test;
 
+import java.io.IOException;
 
 
 public class ForgetPasswordTest extends BaseClass {
 
     @Test
-    public void ForgetPassword() throws InterruptedException {
+    public void ForgetPasswordAPI() throws IOException {
         UserDTO dto = new UserDTO();
         General general = new General(driver);
-        TabControl tabControl = new TabControl(driver);
-        MailLocators mailLocators = new MailLocators();
+        ApiRequests requests = new ApiRequests(driver);
         LoginLocators loginLocators = new LoginLocators();
-        TempMailMethods tempMailMeth = new TempMailMethods(driver);
         SettingsLocators settingsLocators = new SettingsLocators();
         HomePageLocators homePageLocators = new HomePageLocators();
+        RegistrationPage registrationPage = new RegistrationPage(driver);
         RegistrationLocators registrationLocators = new RegistrationLocators();
 
-        general.registerWithValidData();
+        registrationPage.registration();
         general.clickElement(loginLocators.Login);
         general.clickElement(loginLocators.forget);
-        int currentTab = 1;
-        tabControl.openNewTab();
-        tabControl.switchTab();
-        driver.get(URL.Email_URL);
-        tempMailMeth.getMail(mailLocators.uniqueMail);
-        driver.switchTo().window(driver.getWindowHandles().toArray()[currentTab - 1].toString());
         general.enterText(loginLocators.emailField,dto.getEmail());
         general.clickElement(loginLocators.sendEmail);
-        currentTab++;
-        driver.switchTo().window(driver.getWindowHandles().toArray()[currentTab].toString());
-        general.scroll(15);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(mailLocators.reset));
-        general.clickElement(mailLocators.reset);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(mailLocators.resetPassword));
-        general.clickElement(mailLocators.resetPassword);
+        requests.retrieveForgetPasswordEmail();
+        String verificationLink = requests.extractForgetPasswordLink(dto.getRegistrationMail());
+        System.out.println(Constants.PASSWORD_CHANGE_LINK + verificationLink);
+        driver.get(verificationLink);
         general.enterText(loginLocators.passwordField,dto.getChangedPass());
         general.enterText(registrationLocators.confirm,dto.getChangedPass());
         general.clickElement(loginLocators.changeButton);
@@ -62,7 +53,6 @@ public class ForgetPasswordTest extends BaseClass {
         general.clickElement(settingsLocators.menuSection);
         general.assertThatValueEquals(dto.getEmail(), settingsLocators.mailInput);
     }
-
     @Test
     public void InvalidEmail(){
         General general = new General(driver);
@@ -80,33 +70,23 @@ public class ForgetPasswordTest extends BaseClass {
         }
     }
     @Test
-    public void PasswordsDoNotMatch() throws InterruptedException {
+    public void PasswordsDoNotMatch() throws IOException {
         UserDTO dto = new UserDTO();
         General general = new General(driver);
-        TabControl tabControl = new TabControl(driver);
-        MailLocators mailLocators = new MailLocators();
+        ApiRequests requests = new ApiRequests(driver);
         LoginLocators loginLocators = new LoginLocators();
-        TempMailMethods tempMailMeth = new TempMailMethods(driver);
         RegistrationLocators registrationLocators = new RegistrationLocators();
+        RegistrationPage registrationPage = new RegistrationPage(driver);
 
-        general.registerWithValidData();
+        registrationPage.registration();
         general.clickElement(loginLocators.Login);
         general.clickElement(loginLocators.forget);
-        int currentTab = 1;
-        tabControl.openNewTab();
-        tabControl.switchTab();
-        driver.get(URL.Email_URL);
-        tempMailMeth.getMail(mailLocators.uniqueMail);
-        driver.switchTo().window(driver.getWindowHandles().toArray()[currentTab - 1].toString());
         general.enterText(loginLocators.emailField,dto.getEmail());
         general.clickElement(loginLocators.sendEmail);
-        currentTab++;
-        driver.switchTo().window(driver.getWindowHandles().toArray()[currentTab].toString());
-        general.scroll(15);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(mailLocators.reset));
-        general.clickElement(mailLocators.reset);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(mailLocators.resetPassword));
-        general.clickElement(mailLocators.resetPassword);
+        requests.retrieveForgetPasswordEmail();
+        String verificationLink = requests.extractForgetPasswordLink(dto.getRegistrationMail());
+        System.out.println(Constants.PASSWORD_CHANGE_LINK + verificationLink);
+        driver.get(verificationLink);
         general.enterText(loginLocators.passwordField,dto.getChangedPass());
         general.enterText(registrationLocators.confirm,dto.getPassword());
         general.clickElement(loginLocators.changeButton);

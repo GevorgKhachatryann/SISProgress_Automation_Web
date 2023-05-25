@@ -30,6 +30,9 @@ public class Constants {
     public static final String CANNOT_ADD_A_TASK_FOR = "Cannot add a task for ";
     public static final String VERIFIED_MESSAGE = "Verified Validation Message";
     public static final String ATTRIBUTE = "validationMessage";
+    public static final String PASSWORD_CHANGE_LINK = "Password Change link: ";
+    public static final String VERIFICATION_LINK = "Verification link: ";
+    public static final String VERIFICATION_LINK_NOT_FOUND = "Verification link not found!";
 
 
 
