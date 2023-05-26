@@ -16,8 +16,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import java.time.Duration;
-import java.util.List;
-import java.util.Random;
+
 
 
 public class TasksTest extends BaseClass {
@@ -25,6 +24,7 @@ public class TasksTest extends BaseClass {
     @Test
     public void addTaskFunctionality() {
         UserDTO dto = new UserDTO();
+        Actions actions = new Actions(driver);
         General general = new General(driver);
         TaskPage taskPage = new TaskPage(driver);
         ApiRequests requests = new ApiRequests(driver);
@@ -57,7 +57,6 @@ public class TasksTest extends BaseClass {
         general.clickElement(calendarLocators.firstTask);
         general.assertThatElementContains(taskName, calendarLocators.TasksName);
         WebElement body = driver.findElement(calendarLocators.body);
-        Actions actions = new Actions(driver);
         actions.moveToElement(body).click().perform();
         general.assertThatElementContains(Constants.PLANNED_STATUS, calendarLocators.TaskStatus);
 
@@ -66,6 +65,7 @@ public class TasksTest extends BaseClass {
     @Test
     public void addTaskForTomorrow() {
         UserDTO dto = new UserDTO();
+        Actions actions = new Actions(driver);
         General general = new General(driver);
         TaskPage taskPage = new TaskPage(driver);
         ApiRequests requests = new ApiRequests(driver);
@@ -92,7 +92,6 @@ public class TasksTest extends BaseClass {
         System.out.println(driver.findElement(calendarLocators.TasksName).getText());
         general.assertThatElementContains(taskName, calendarLocators.TasksName);
         WebElement body = driver.findElement(calendarLocators.body);
-        Actions actions = new Actions(driver);
         actions.moveToElement(body).click().perform();
         general.assertThatElementContains(Constants.PLANNED_STATUS, calendarLocators.TaskStatus);
         String tomorrowDate = general.getFormattedTomorrowDate();
@@ -177,11 +176,7 @@ public class TasksTest extends BaseClass {
         wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(calendarLocators.firstTask));
         general.clickElement(calendarLocators.firstTask);
         general.assertThatElementContains(taskName, calendarLocators.TasksName);
-
-        List<WebElement> SubTaskCheckbox = driver.findElements(calendarLocators.subTaskCheckbox);
-        int randomInd = new Random().nextInt(SubTaskCheckbox.size());
-
-        SubTaskCheckbox.get(randomInd).click();
+        taskPage.clickRandomSubTaskCheckbox(driver,calendarLocators.subTaskCheckbox);
         general.clickElement(calendarLocators.submit);
         WebElement body = driver.findElement(calendarLocators.body);
         Actions actions = new Actions(driver);

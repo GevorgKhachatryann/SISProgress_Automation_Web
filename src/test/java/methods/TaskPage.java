@@ -102,4 +102,9 @@ public class TaskPage {
             checkbox.click();
         }
     }
+    public void clickRandomSubTaskCheckbox(WebDriver driver, By subTaskCheckboxLocator) {
+        List<WebElement> subTaskCheckboxes = driver.findElements(subTaskCheckboxLocator);
+        int randomIndex = new Random().nextInt(subTaskCheckboxes.size());
+        subTaskCheckboxes.get(randomIndex).click();
+    }
 }

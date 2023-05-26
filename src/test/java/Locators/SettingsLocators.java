@@ -21,6 +21,15 @@ public class SettingsLocators {
     public By emailBox =  By.className("MailSettings_name__hTaVX");
     public By backToSettings = By.xpath("//*[@id=\"root\"]/main/div/div/a");
     public By removeSecondary = By.className("MailSettings_add__NesG7");
+    public By deleteBtn = By.xpath("//button[contains(text(),'Delete account')]");
+    public By reasonField = By.className("DeletePop_area__3+VTA");
+    public By deleteNext = By.className("DeletePop_btns__l1cY3");
+    public By enableNext = By.className("DeletePop_btn__DcS69");
+    public By passForDelete = By.className("PassDelete_password__Gpgrh");
+    public By submit = By.className("PassDelete_btn__-quG5");
+    public By accountDeletedMessage = By.className("DeleteMessage_titlesr__ISdZs");
+    public By skip = By.className("DeletePop_skip__8c1hF");
+    public By cancel = By.className("PassDelete_btnn__3j+qO");
 
 }
 

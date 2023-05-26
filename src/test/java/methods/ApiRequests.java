@@ -206,7 +206,75 @@ public class ApiRequests {
 
         return null;
     }
+    public JSONObject retrieveThankYouEmail() throws IOException {
+        UserDTO dto = new UserDTO();
+        try{
+            Thread.sleep(10000);
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }
+        String token = obtainAccessToken(dto.getEmail(), "string");
+        dto.setToken(token);
+        org.apache.http.client.HttpClient httpClient = HttpClientBuilder.create().build();
+        HttpGet httpGet = new HttpGet("https://api.mail.tm/messages");
+        httpGet.setHeader("Authorization", "Bearer " + token);
 
+        org.apache.http.HttpResponse response = httpClient.execute(httpGet);
+
+        int responseCode = response.getStatusLine().getStatusCode();
+        String responseBody = EntityUtils.toString(response.getEntity());
+        System.out.println(responseBody);
+        System.out.println(responseCode);
+
+        if (responseCode == 200) {
+            JSONObject jsonResponse = new JSONObject(responseBody);
+            JSONArray emailMessages = jsonResponse.getJSONArray("hydra:member");
+            System.out.println(emailMessages.length());
+
+            if (emailMessages.length() >= 2) {
+                JSONObject message = emailMessages.getJSONObject(0);
+                String messageId = message.getString("id");
+                System.out.println(messageId);
+                String messageEndpointUrl = URL.MAIL_API_BASE_URL + "/messages/" + messageId;
+
+                HttpGet messageHttpGet = new HttpGet(messageEndpointUrl);
+                messageHttpGet.setHeader("Authorization", "Bearer " + token);
+
+                org.apache.http.HttpResponse messageResponse = httpClient.execute(messageHttpGet);
+
+                int messageResponseCode = messageResponse.getStatusLine().getStatusCode();
+                System.out.println(messageResponseCode);
+
+                if (messageResponseCode == 200) {
+                    String messageResponseBody = EntityUtils.toString(messageResponse.getEntity());
+                    System.out.println(messageResponseBody);
+
+
+                    JSONObject messageJsonObject;
+                    try {
+                        messageJsonObject = new JSONObject(messageResponseBody);
+                        System.out.println(messageJsonObject);
+
+                        String fieldValue = messageJsonObject.getString("subject");
+                        dto.setRegistrationMail(fieldValue);
+                        System.out.println("Subject:   " + fieldValue);
+
+                        return messageJsonObject;
+
+                    } catch (JSONException e) {
+                        System.err.println("Failed to parse response as JSON object: " + e.getMessage());
+                    }
+
+                } else {
+                    throw new IOException("Failed to retrieve verification email. Response code: " + messageResponseCode);
+                }
+            }
+        } else {
+            throw new IOException("Failed to retrieve email messages. Response code: " + responseCode);
+        }
+
+        return null;
+    }
 
 
     private static String obtainAccessToken(String username,String password) throws IOException {
@@ -301,6 +369,7 @@ public class ApiRequests {
         registrationPage.enterDate("2000", "03", "20");
         registrationPage.selectCountry(dto.getCountry());
         registrationPage.selectGrade(dto.getGrade());
+        wait.until(ExpectedConditions.visibilityOfElementLocated(registrationLocators.nextButton));
         general.clickElement(registrationLocators.nextButton);
         wait.until(ExpectedConditions.visibilityOfElementLocated(registrationLocators.uniDropDown));
         general.selectFromFancyDropdown(registrationLocators.uniDropDown, registrationLocators.uniClass, dto.getUniversity());
@@ -359,5 +428,15 @@ public class ApiRequests {
             return null;
         }
     }
+    public String extractAccountDeletionLink(String emailContent) {
+        Pattern pattern = Pattern.compile("Confirm\n\\[(https?://\\S+)\\]");
+        Matcher matcher = pattern.matcher(emailContent);
 
+        if (matcher.find()) {
+            String verificationLink = matcher.group(1);
+            return verificationLink;
+        } else {
+            return null;
+        }
+    }
 }
