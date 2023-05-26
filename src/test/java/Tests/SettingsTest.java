@@ -199,6 +199,7 @@ public class SettingsTest extends BaseClass {
         wait.until(ExpectedConditions.visibilityOfElementLocated(homePageLocators.userName));
         general.waitAndAssertUntilTextContains(homePageLocators.userName, dto.getFullName(), 10);
         general.clickElement(settingsLocators.settingsIcon);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(settingsLocators.menuSection));
         general.clickElement(settingsLocators.menuSection);
         general.assertThatValueEquals(dto.getValidEmail(), settingsLocators.mailInput);
         requests.generateRandomEmailForTest();
