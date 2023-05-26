@@ -39,7 +39,7 @@ public class SettingsTest extends BaseClass {
         general.enterText(settingsLocators.personalDetailsName,dto.getUpdatedName());
         general.selectFromDropdown(registrationLocators.countryNumDropdown, dto.getCountryNumValue());
         general.enterText(registrationLocators.mobileNumField, dto.getUpdatedMobileNumber());
-        registrationPage.enterDate("2000", "03", "21");
+//        registrationPage.enterDate("2000", "03", "21");
         general.clickElement(settingsLocators.countryDrop);
         general.clickElement(settingsLocators.country);
         general.clickElement(settingsLocators.updateBtn);

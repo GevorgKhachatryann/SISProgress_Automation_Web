@@ -29,16 +29,16 @@ public class RegistrationPage {
         this.driver = driver;
     }
 
-    public void enterDate(String year, String month, String day ){
-        wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(dateField));
-        driver.findElement(dateField).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(dateArrow));
-        driver.findElement(dateArrow).click();
-        driver.findElement(By.xpath("//*[text()='" + year + "']")).click();
-        driver.findElement(By.cssSelector(".MuiTypography-root:nth-child("+month+")")).click();
-        driver.findElement(By.xpath("//*[text()='" + day + "']")).click();
-    }
+//    public void enterDate(String year, String month, String day ){
+//        wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+//        wait.until(ExpectedConditions.visibilityOfElementLocated(dateField));
+//        driver.findElement(dateField).click();
+//        wait.until(ExpectedConditions.visibilityOfElementLocated(dateArrow));
+//        driver.findElement(dateArrow).click();
+//        driver.findElement(By.xpath("//*[text()='" + year + "']")).click();
+//        driver.findElement(By.cssSelector(".MuiTypography-root:nth-child("+month+")")).click();
+//        driver.findElement(By.xpath("//*[text()='" + day + "']")).click();
+//    }
     public void selectCountry(String countryValue){
         driver.findElement(countryDropdown).click();
         driver.findElement(By.xpath ("//*[contains(@class, 'Countries_countryName__XU42W') and contains(text(), \'"+countryValue+"\')]")).click();
