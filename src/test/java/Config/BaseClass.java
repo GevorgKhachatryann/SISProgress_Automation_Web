@@ -21,8 +21,8 @@ public class BaseClass {
         driver.manage().window().maximize();
     }
 
-    @AfterMethod
-    public static void afterClass() {
-        driver.quit();
-    }
+//    @AfterMethod
+//    public static void afterClass() {
+//        driver.quit();
+//    }
 }

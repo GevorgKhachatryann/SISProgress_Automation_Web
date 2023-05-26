@@ -30,7 +30,10 @@ public class RegistrationPage {
     }
 
     public void enterDate(String year, String month, String day ){
+        wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(dateField));
         driver.findElement(dateField).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(dateArrow));
         driver.findElement(dateArrow).click();
         driver.findElement(By.xpath("//*[text()='" + year + "']")).click();
         driver.findElement(By.cssSelector(".MuiTypography-root:nth-child("+month+")")).click();

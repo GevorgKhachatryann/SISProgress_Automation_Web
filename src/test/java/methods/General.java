@@ -1,22 +1,17 @@
 package methods;
 
-import DTO.UserDTO;
-import Locators.MailLocators;
-import Locators.RegistrationLocators;
 import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
-import java.io.IOException;
-import java.lang.reflect.Array;
 import java.time.Duration;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 
 public class General {
@@ -27,7 +22,19 @@ public class General {
         this.driver = driver;
     }
 
+    private static final List<String> DELETE_ACCOUNT_REASONS = new ArrayList<>();
 
+    static {
+        DELETE_ACCOUNT_REASONS.add("No longer need the account");
+        DELETE_ACCOUNT_REASONS.add("Found an alternative service");
+        DELETE_ACCOUNT_REASONS.add("Privacy concerns");
+        DELETE_ACCOUNT_REASONS.add("Account is no longer active");
+        DELETE_ACCOUNT_REASONS.add("Don't like this site");
+        DELETE_ACCOUNT_REASONS.add("Too many ads on the site");
+        DELETE_ACCOUNT_REASONS.add("Difficult to navigate the site");
+        DELETE_ACCOUNT_REASONS.add("Unsatisfactory user experience");
+        DELETE_ACCOUNT_REASONS.add("Security concerns");
+    }
 
 
     public void selectFromFancyDropdown(By arrowSelector, String classSelector, String value){
@@ -148,5 +155,17 @@ public class General {
         } catch (Exception e) {
             return false;
         }
+    }
+    public String generateDeleteReason() {
+        int randomIndex = new Random().nextInt(DELETE_ACCOUNT_REASONS.size());
+        return DELETE_ACCOUNT_REASONS.get(randomIndex);
+    }
+    public boolean isDisabled(WebDriver driver, By cssSelector) {
+        WebElement element = driver.findElement(cssSelector);
+        String disabledAttribute = element.getAttribute("disabled");
+        return disabledAttribute != null;
+    }
+    public boolean urlDoesNotContainPath(String url, String path) {
+        return !url.contains(path);
     }
 }

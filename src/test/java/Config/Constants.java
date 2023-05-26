@@ -33,9 +33,9 @@ public class Constants {
     public static final String PASSWORD_CHANGE_LINK = "Password Change link: ";
     public static final String VERIFICATION_LINK = "Verification link: ";
     public static final String VERIFICATION_LINK_NOT_FOUND = "Verification link not found!";
+    public static final String ACCOUNT_HAS_BEEN_SUCCESSFULLY_DELETED = "Your account has been successfully deleted. We're sorry to see you go.";
 
-
-
-
+    public static final String FAREWELL_AND_A_SPECIAL_THANK_YOU = "SIS Progress: Farewell and a Special Thank You";
+    public static final String LOGIN = "/login";
 
 }
