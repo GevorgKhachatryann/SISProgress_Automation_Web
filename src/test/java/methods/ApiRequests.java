@@ -9,6 +9,7 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -366,7 +367,7 @@ public class ApiRequests {
         general.enterText(registrationLocators.confirmPasswordField, dto.getPassword());
         general.selectFromDropdown(registrationLocators.countryNumDropdown, dto.getCountryNumValue());
         general.enterText(registrationLocators.mobileNumField, dto.getMobileNumber());
-        registrationPage.enterDate("2000", "03", "20");
+//        registrationPage.enterDate("2000", "03", "20");
         registrationPage.selectCountry(dto.getCountry());
         registrationPage.selectGrade(dto.getGrade());
         wait.until(ExpectedConditions.visibilityOfElementLocated(registrationLocators.nextButton));
