@@ -48,6 +48,8 @@ public class DeactivateTest extends BaseClass {
         general.assertThatElementContains("",settingsLocators.deactivatedMessage);
         requests.retrieveThankYouEmail();
         Assert.assertEquals(dto.getRegistrationMail(),Constants.HOPE_TO_SEE_YOU_SOON);
+        requests.retrieveThankYouEmailUsername();
+        Assert.assertEquals(dto.getUsername(),Constants.DEAR + dto.getFullName());
     }
     @Test
     public void deactivateWithoutReason() throws IOException {
@@ -78,6 +80,8 @@ public class DeactivateTest extends BaseClass {
         general.assertThatElementContains("",settingsLocators.deactivatedMessage);
         requests.retrieveThankYouEmail();
         Assert.assertEquals(dto.getRegistrationMail(),Constants.HOPE_TO_SEE_YOU_SOON);
+        requests.retrieveThankYouEmailUsername();
+        Assert.assertEquals(dto.getUsername(),Constants.DEAR + dto.getFullName());
     }
 
     @Test

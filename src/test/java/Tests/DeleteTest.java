@@ -49,6 +49,8 @@ public class DeleteTest extends BaseClass {
         general.assertThatElementContains(Constants.ACCOUNT_HAS_BEEN_SUCCESSFULLY_DELETED,settingsLocators.accountDeletedMessage);
         requests.retrieveThankYouEmail();
         Assert.assertEquals(dto.getRegistrationMail(),Constants.FAREWELL_AND_A_SPECIAL_THANK_YOU);
+        requests.retrieveThankYouEmailUsername();
+        Assert.assertEquals(dto.getUsername(),Constants.DEAR + dto.getFullName());
 
     }
     @Test
@@ -82,6 +84,10 @@ public class DeleteTest extends BaseClass {
         general.assertThatElementContains(Constants.ACCOUNT_HAS_BEEN_SUCCESSFULLY_DELETED,settingsLocators.accountDeletedMessage);
         requests.retrieveThankYouEmail();
         Assert.assertEquals(dto.getRegistrationMail(),Constants.FAREWELL_AND_A_SPECIAL_THANK_YOU);
+        requests.retrieveThankYouEmailUsername();
+        Assert.assertEquals(dto.getUsername(),Constants.DEAR + dto.getFullName());
+
+
     }
 
     @Test
