@@ -430,6 +430,11 @@ public class ApiRequests {
         }
     }
     public String extractAccountDeletionLink(String emailContent) {
+        try{
+            Thread.sleep(3000);
+        }catch(InterruptedException e){
+            e.printStackTrace();
+        }
         Pattern pattern = Pattern.compile("Confirm\n\\[(https?://\\S+)\\]");
         Matcher matcher = pattern.matcher(emailContent);
 

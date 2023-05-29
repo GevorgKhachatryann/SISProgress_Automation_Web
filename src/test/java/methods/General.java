@@ -23,6 +23,8 @@ public class General {
     }
 
     private static final List<String> DELETE_ACCOUNT_REASONS = new ArrayList<>();
+    private static List<String> ACCOUNT_DEACTIVATION_REASONS = new ArrayList<>();
+
 
     static {
         DELETE_ACCOUNT_REASONS.add("No longer need the account");
@@ -35,8 +37,17 @@ public class General {
         DELETE_ACCOUNT_REASONS.add("Unsatisfactory user experience");
         DELETE_ACCOUNT_REASONS.add("Security concerns");
     }
-
-
+    static {
+        ACCOUNT_DEACTIVATION_REASONS.add("No longer need the account");
+        ACCOUNT_DEACTIVATION_REASONS.add("Found an alternative service");
+        ACCOUNT_DEACTIVATION_REASONS.add("Privacy concerns");
+        ACCOUNT_DEACTIVATION_REASONS.add("Account is no longer active");
+        ACCOUNT_DEACTIVATION_REASONS.add("Don't like this site");
+        ACCOUNT_DEACTIVATION_REASONS.add("Too many ads on the site");
+        ACCOUNT_DEACTIVATION_REASONS.add("Difficult to navigate the site");
+        ACCOUNT_DEACTIVATION_REASONS.add("Unsatisfactory user experience");
+        ACCOUNT_DEACTIVATION_REASONS.add("Security concerns");
+    }
     public void selectFromFancyDropdown(By arrowSelector, String classSelector, String value){
         driver.findElement(arrowSelector).click();
         driver.findElement(By.xpath ("//*[contains(@class, \'"+classSelector+"\') and contains(text(), \'"+value+"\')]")).click();
@@ -167,5 +178,9 @@ public class General {
     }
     public boolean urlDoesNotContainPath(String url, String path) {
         return !url.contains(path);
+    }
+    public String generateDeactivationReason() {
+        int randomIndex = new Random().nextInt(ACCOUNT_DEACTIVATION_REASONS.size());
+        return ACCOUNT_DEACTIVATION_REASONS.get(randomIndex);
     }
 }
