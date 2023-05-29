@@ -88,7 +88,6 @@ public class DeleteTest extends BaseClass {
     public void cancelDeletion() throws IOException {
         UserDTO dto = new UserDTO();
         General general = new General(driver);
-        ApiRequests requests = new ApiRequests(driver);
         LoginLocators loginLocators = new LoginLocators();
         HomePageLocators homePageLocators = new HomePageLocators();
         SettingsLocators settingsLocators = new SettingsLocators();

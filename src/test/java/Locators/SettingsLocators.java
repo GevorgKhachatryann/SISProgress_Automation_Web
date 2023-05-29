@@ -30,6 +30,13 @@ public class SettingsLocators {
     public By accountDeletedMessage = By.className("DeleteMessage_titlesr__ISdZs");
     public By skip = By.className("DeletePop_skip__8c1hF");
     public By cancel = By.className("PassDelete_btnn__3j+qO");
-
+    public By deactivate = By.xpath("//button[contains(text(),'Deactivate My account')]");
+    public By deactivateReason = By.className("DeactivePop_area__LTy7i");
+    public By reasonNext = By.className("DeactivePop_btn__9vfh9");
+    public By passForDeactivate = By.className("DeactivePass_password__AEa-E");
+    public By submitDeactivate = By.className("DeactivePass_btn__Q8OeS");
+    public By deactivatedMessage = By.className("DeactivateMessage_titlesr__u60Wj");
+    public By deactivateSkipBtn = By.className("DeactivePop_skip__5xtNN");
+    public By cancelBtn = By.className("DeactivePass_btnn__kJJjp");
 }
 
