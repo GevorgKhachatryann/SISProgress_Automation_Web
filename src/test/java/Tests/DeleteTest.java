@@ -36,23 +36,24 @@ public class DeleteTest extends BaseClass {
         general.clickElement(settingsLocators.settingsIcon);
         general.clickElement(settingsLocators.deleteBtn);
         wait.until(ExpectedConditions.visibilityOfElementLocated(settingsLocators.deleteNext));
-        general.isDisabled(driver,settingsLocators.deleteNext);
+        general.isDisabled(driver, settingsLocators.deleteNext);
         String deleteReason = general.generateDeleteReason();
-        general.enterText(settingsLocators.reasonField,deleteReason);
+        general.enterText(settingsLocators.reasonField, deleteReason);
         general.clickElement(settingsLocators.enableNext);
         wait.until(ExpectedConditions.visibilityOfElementLocated(settingsLocators.passForDelete));
-        general.enterText(settingsLocators.passForDelete,dto.getPassword());
+        general.enterText(settingsLocators.passForDelete, dto.getPassword());
         general.clickElement(settingsLocators.submit);
         requests.retrieveVerificationEmail();
         String confirmationLink = requests.extractAccountDeletionLink(dto.getRegistrationMail());
         driver.get(confirmationLink);
-        general.assertThatElementContains(Constants.ACCOUNT_HAS_BEEN_SUCCESSFULLY_DELETED,settingsLocators.accountDeletedMessage);
+        general.assertThatElementContains(Constants.ACCOUNT_HAS_BEEN_SUCCESSFULLY_DELETED, settingsLocators.accountDeletedMessage);
         requests.retrieveThankYouEmail();
-        Assert.assertEquals(dto.getRegistrationMail(),Constants.FAREWELL_AND_A_SPECIAL_THANK_YOU);
+        Assert.assertEquals(dto.getRegistrationMail(), Constants.FAREWELL_AND_A_SPECIAL_THANK_YOU);
         requests.retrieveThankYouEmailUsername();
-        Assert.assertEquals(dto.getUsername(),Constants.DEAR + dto.getFullName());
+        Assert.assertEquals(dto.getUsername(), Constants.DEAR + dto.getFullName());
 
     }
+
     @Test
     public void deleteAccountWithoutReason() throws IOException {
         UserDTO dto = new UserDTO();
@@ -73,19 +74,19 @@ public class DeleteTest extends BaseClass {
         general.clickElement(settingsLocators.settingsIcon);
         general.clickElement(settingsLocators.deleteBtn);
         wait.until(ExpectedConditions.visibilityOfElementLocated(settingsLocators.deleteNext));
-        general.isDisabled(driver,settingsLocators.deleteNext);
+        general.isDisabled(driver, settingsLocators.deleteNext);
         general.clickElement(settingsLocators.skip);
         wait.until(ExpectedConditions.visibilityOfElementLocated(settingsLocators.passForDelete));
-        general.enterText(settingsLocators.passForDelete,dto.getPassword());
+        general.enterText(settingsLocators.passForDelete, dto.getPassword());
         general.clickElement(settingsLocators.submit);
         requests.retrieveVerificationEmail();
         String confirmationLink = requests.extractAccountDeletionLink(dto.getRegistrationMail());
         driver.get(confirmationLink);
-        general.assertThatElementContains(Constants.ACCOUNT_HAS_BEEN_SUCCESSFULLY_DELETED,settingsLocators.accountDeletedMessage);
+        general.assertThatElementContains(Constants.ACCOUNT_HAS_BEEN_SUCCESSFULLY_DELETED, settingsLocators.accountDeletedMessage);
         requests.retrieveThankYouEmail();
-        Assert.assertEquals(dto.getRegistrationMail(),Constants.FAREWELL_AND_A_SPECIAL_THANK_YOU);
+        Assert.assertEquals(dto.getRegistrationMail(), Constants.FAREWELL_AND_A_SPECIAL_THANK_YOU);
         requests.retrieveThankYouEmailUsername();
-        Assert.assertEquals(dto.getUsername(),Constants.DEAR + dto.getFullName());
+        Assert.assertEquals(dto.getUsername(), Constants.DEAR + dto.getFullName());
 
 
     }
@@ -109,10 +110,10 @@ public class DeleteTest extends BaseClass {
         general.clickElement(settingsLocators.settingsIcon);
         general.clickElement(settingsLocators.deleteBtn);
         wait.until(ExpectedConditions.visibilityOfElementLocated(settingsLocators.deleteNext));
-        general.isDisabled(driver,settingsLocators.deleteNext);
+        general.isDisabled(driver, settingsLocators.deleteNext);
         general.clickElement(settingsLocators.skip);
         wait.until(ExpectedConditions.visibilityOfElementLocated(settingsLocators.passForDelete));
-        general.enterText(settingsLocators.passForDelete,dto.getPassword());
+        general.enterText(settingsLocators.passForDelete, dto.getPassword());
         general.clickElement(settingsLocators.cancel);
         general.urlDoesNotContainPath(driver.getCurrentUrl(), Constants.LOGIN);
     }

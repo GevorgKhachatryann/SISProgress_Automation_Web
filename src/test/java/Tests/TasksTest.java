@@ -15,8 +15,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import java.time.Duration;
 
+import java.time.Duration;
 
 
 public class TasksTest extends BaseClass {
@@ -34,8 +34,8 @@ public class TasksTest extends BaseClass {
 
         requests.postRequest(Constants.REGISTRATION_ENDPOINT);
         driver.get(URL.Login_URL);
-        general.enterText(loginLocators.loginField,dto.getValidEmail());
-        general.enterText(loginLocators.passwordField,dto.getPassword());
+        general.enterText(loginLocators.loginField, dto.getValidEmail());
+        general.enterText(loginLocators.passwordField, dto.getPassword());
         general.clickElement(loginLocators.loginButton);
         wait.until(ExpectedConditions.visibilityOfElementLocated(homePageLocators.userName));
         general.waitAndAssertUntilTextContains(homePageLocators.userName, dto.getFullName(), 10);
@@ -75,8 +75,8 @@ public class TasksTest extends BaseClass {
 
         requests.postRequest(Constants.REGISTRATION_ENDPOINT);
         driver.get(URL.Login_URL);
-        general.enterText(loginLocators.loginField,dto.getValidEmail());
-        general.enterText(loginLocators.passwordField,dto.getPassword());
+        general.enterText(loginLocators.loginField, dto.getValidEmail());
+        general.enterText(loginLocators.passwordField, dto.getPassword());
         general.clickElement(loginLocators.loginButton);
         wait.until(ExpectedConditions.visibilityOfElementLocated(homePageLocators.userName));
         general.waitAndAssertUntilTextContains(homePageLocators.userName, dto.getFullName(), 20);
@@ -115,8 +115,8 @@ public class TasksTest extends BaseClass {
         requests.postRequest(Constants.REGISTRATION_ENDPOINT);
         driver.get(URL.Login_URL);
 
-        general.enterText(loginLocators.loginField,dto.getValidEmail());
-        general.enterText(loginLocators.passwordField,dto.getPassword());
+        general.enterText(loginLocators.loginField, dto.getValidEmail());
+        general.enterText(loginLocators.passwordField, dto.getPassword());
         general.clickElement(loginLocators.loginButton);
         wait.until(ExpectedConditions.visibilityOfElementLocated(homePageLocators.userName));
         general.waitAndAssertUntilTextContains(homePageLocators.userName, dto.getFullName(), 20);
@@ -155,8 +155,8 @@ public class TasksTest extends BaseClass {
 
         requests.postRequest(Constants.REGISTRATION_ENDPOINT);
         driver.get(URL.Login_URL);
-        general.enterText(loginLocators.loginField,dto.getValidEmail());
-        general.enterText(loginLocators.passwordField,dto.getPassword());
+        general.enterText(loginLocators.loginField, dto.getValidEmail());
+        general.enterText(loginLocators.passwordField, dto.getPassword());
         general.clickElement(loginLocators.loginButton);
         wait.until(ExpectedConditions.visibilityOfElementLocated(homePageLocators.userName));
         general.waitAndAssertUntilTextContains(homePageLocators.userName, dto.getFullName(), 10);
@@ -176,7 +176,7 @@ public class TasksTest extends BaseClass {
         wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(calendarLocators.firstTask));
         general.clickElement(calendarLocators.firstTask);
         general.assertThatElementContains(taskName, calendarLocators.TasksName);
-        taskPage.clickRandomSubTaskCheckbox(driver,calendarLocators.subTaskCheckbox);
+        taskPage.clickRandomSubTaskCheckbox(driver, calendarLocators.subTaskCheckbox);
         general.clickElement(calendarLocators.submit);
         WebElement body = driver.findElement(calendarLocators.body);
         Actions actions = new Actions(driver);
@@ -201,8 +201,8 @@ public class TasksTest extends BaseClass {
 
         requests.postRequest(Constants.REGISTRATION_ENDPOINT);
         driver.get(URL.Login_URL);
-        general.enterText(loginLocators.loginField,dto.getValidEmail());
-        general.enterText(loginLocators.passwordField,dto.getPassword());
+        general.enterText(loginLocators.loginField, dto.getValidEmail());
+        general.enterText(loginLocators.passwordField, dto.getPassword());
         general.clickElement(loginLocators.loginButton);
         wait.until(ExpectedConditions.visibilityOfElementLocated(homePageLocators.userName));
         general.waitAndAssertUntilTextContains(homePageLocators.userName, dto.getFullName(), 10);
@@ -221,7 +221,7 @@ public class TasksTest extends BaseClass {
         general.clickElement(calendarLocators.firstTask);
         general.assertThatElementContains(taskName, calendarLocators.TasksName);
 
-        taskPage.clickAllSubTaskCheckboxes(driver,calendarLocators.subTaskCheckbox);
+        taskPage.clickAllSubTaskCheckboxes(driver, calendarLocators.subTaskCheckbox);
 
         general.clickElement(calendarLocators.submit);
         WebElement body = driver.findElement(calendarLocators.body);
@@ -246,8 +246,8 @@ public class TasksTest extends BaseClass {
 
         requests.postRequest(Constants.REGISTRATION_ENDPOINT);
         driver.get(URL.Login_URL);
-        general.enterText(loginLocators.loginField,dto.getValidEmail());
-        general.enterText(loginLocators.passwordField,dto.getPassword());
+        general.enterText(loginLocators.loginField, dto.getValidEmail());
+        general.enterText(loginLocators.passwordField, dto.getPassword());
         general.clickElement(loginLocators.loginButton);
         wait.until(ExpectedConditions.visibilityOfElementLocated(homePageLocators.userName));
         general.waitAndAssertUntilTextContains(homePageLocators.userName, dto.getFullName(), 10);
@@ -257,7 +257,7 @@ public class TasksTest extends BaseClass {
     }
 
     @Test
-    public void addTaskFromDashboard(){
+    public void addTaskFromDashboard() {
         UserDTO dto = new UserDTO();
         General general = new General(driver);
         TaskPage taskPage = new TaskPage(driver);
@@ -269,8 +269,8 @@ public class TasksTest extends BaseClass {
         requests.postRequest(Constants.REGISTRATION_ENDPOINT);
         driver.get(URL.Login_URL);
 
-        general.enterText(loginLocators.loginField,dto.getValidEmail());
-        general.enterText(loginLocators.passwordField,dto.getPassword());
+        general.enterText(loginLocators.loginField, dto.getValidEmail());
+        general.enterText(loginLocators.passwordField, dto.getPassword());
         general.clickElement(loginLocators.loginButton);
         wait.until(ExpectedConditions.visibilityOfElementLocated(homePageLocators.userName));
 
@@ -292,5 +292,54 @@ public class TasksTest extends BaseClass {
         general.assertThatElementContains(Constants.PLANNED_STATUS, calendarLocators.TaskStatus);
     }
 
+    @Test
+    public void checkMyTasksSection() {
+        UserDTO dto = new UserDTO();
+        General general = new General(driver);
+        Actions actions = new Actions(driver);
+        TaskPage taskPage = new TaskPage(driver);
+        ApiRequests requests = new ApiRequests(driver);
+        LoginLocators loginLocators = new LoginLocators();
+        MyTasksLocators myTasksLocators = new MyTasksLocators();
+        HomePageLocators homePageLocators = new HomePageLocators();
+        CalendarLocators calendarLocators = new CalendarLocators();
+
+        requests.postRequest(Constants.REGISTRATION_ENDPOINT);
+        driver.get(URL.Login_URL);
+        general.enterText(loginLocators.loginField, dto.getValidEmail());
+        general.enterText(loginLocators.passwordField, dto.getPassword());
+        general.clickElement(loginLocators.loginButton);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(homePageLocators.userName));
+        general.waitAndAssertUntilTextContains(homePageLocators.userName, dto.getFullName(), 10);
+        general.clickElement(calendarLocators.calendarIcon);
+        general.clickElement(calendarLocators.AddTask);
+        By checkboxLocator = calendarLocators.checkbox;
+        wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(checkboxLocator));
+        int randomIndex = taskPage.clickRandomCheckbox(driver, checkboxLocator);
+        String taskName = taskPage.getTaskName(driver, randomIndex);
+        general.clickElement(calendarLocators.AddBtn);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(calendarLocators.TaskStatus));
+        general.assertThatElementContains(Constants.PLANNED_STATUS, calendarLocators.TaskStatus);
+        general.clickElement(myTasksLocators.myTaskIcon);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(myTasksLocators.taskName));
+        general.assertThatElementContains(taskName,myTasksLocators.taskName);
+        general.assertThatElementContains(Constants.PLANNED_STATUS,myTasksLocators.status);
+        general.clickElement(calendarLocators.calendarIcon);
+        wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(calendarLocators.firstTask));
+        general.clickElement(calendarLocators.firstTask);
+        general.assertThatElementContains(taskName, calendarLocators.TasksName);
+        taskPage.clickAllSubTaskCheckboxes(driver, calendarLocators.subTaskCheckbox);
+        general.clickElement(calendarLocators.submit);
+        WebElement body = driver.findElement(calendarLocators.body);
+        actions.moveToElement(body).click().perform();
+        driver.navigate().refresh();
+        wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(calendarLocators.TaskStatus));
+        general.assertThatElementContains(Constants.COMPLETED_STATUS, calendarLocators.TaskStatus);
+        general.clickElement(myTasksLocators.myTaskIcon);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(myTasksLocators.taskName));
+        general.assertThatElementContains(taskName,myTasksLocators.taskName);
+        general.assertThatElementContains(Constants.COMPLETED_STATUS,myTasksLocators.status);
+
+    }
 
 }

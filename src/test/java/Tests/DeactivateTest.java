@@ -37,20 +37,21 @@ public class DeactivateTest extends BaseClass {
         general.clickElement(settingsLocators.settingsIcon);
         general.clickElement(settingsLocators.deactivate);
         String deactivationReason = general.generateDeleteReason();
-        general.enterText(settingsLocators.deactivateReason,deactivationReason);
+        general.enterText(settingsLocators.deactivateReason, deactivationReason);
         general.clickElement(settingsLocators.reasonNext);
         wait.until(ExpectedConditions.visibilityOfElementLocated(settingsLocators.passForDeactivate));
-        general.enterText(settingsLocators.passForDeactivate,dto.getPassword());
+        general.enterText(settingsLocators.passForDeactivate, dto.getPassword());
         general.clickElement(settingsLocators.submitDeactivate);
         requests.retrieveVerificationEmail();
         String confirmationLink = requests.extractAccountDeletionLink(dto.getRegistrationMail());
         driver.get(confirmationLink);
-        general.assertThatElementContains("",settingsLocators.deactivatedMessage);
+        general.assertThatElementContains("", settingsLocators.deactivatedMessage);
         requests.retrieveThankYouEmail();
-        Assert.assertEquals(dto.getRegistrationMail(),Constants.HOPE_TO_SEE_YOU_SOON);
+        Assert.assertEquals(dto.getRegistrationMail(), Constants.HOPE_TO_SEE_YOU_SOON);
         requests.retrieveThankYouEmailUsername();
-        Assert.assertEquals(dto.getUsername(),Constants.DEAR + dto.getFullName());
+        Assert.assertEquals(dto.getUsername(), Constants.DEAR + dto.getFullName());
     }
+
     @Test
     public void deactivateWithoutReason() throws IOException {
         UserDTO dto = new UserDTO();
@@ -72,16 +73,16 @@ public class DeactivateTest extends BaseClass {
         general.clickElement(settingsLocators.deactivate);
         general.clickElement(settingsLocators.deactivateSkipBtn);
         wait.until(ExpectedConditions.visibilityOfElementLocated(settingsLocators.passForDeactivate));
-        general.enterText(settingsLocators.passForDeactivate,dto.getPassword());
+        general.enterText(settingsLocators.passForDeactivate, dto.getPassword());
         general.clickElement(settingsLocators.submitDeactivate);
         requests.retrieveVerificationEmail();
         String confirmationLink = requests.extractAccountDeletionLink(dto.getRegistrationMail());
         driver.get(confirmationLink);
-        general.assertThatElementContains("",settingsLocators.deactivatedMessage);
+        general.assertThatElementContains("", settingsLocators.deactivatedMessage);
         requests.retrieveThankYouEmail();
-        Assert.assertEquals(dto.getRegistrationMail(),Constants.HOPE_TO_SEE_YOU_SOON);
+        Assert.assertEquals(dto.getRegistrationMail(), Constants.HOPE_TO_SEE_YOU_SOON);
         requests.retrieveThankYouEmailUsername();
-        Assert.assertEquals(dto.getUsername(),Constants.DEAR + dto.getFullName());
+        Assert.assertEquals(dto.getUsername(), Constants.DEAR + dto.getFullName());
     }
 
     @Test
@@ -104,10 +105,10 @@ public class DeactivateTest extends BaseClass {
         general.clickElement(settingsLocators.settingsIcon);
         general.clickElement(settingsLocators.deactivate);
         String deactivationReason = general.generateDeleteReason();
-        general.enterText(settingsLocators.deactivateReason,deactivationReason);
+        general.enterText(settingsLocators.deactivateReason, deactivationReason);
         general.clickElement(settingsLocators.reasonNext);
         wait.until(ExpectedConditions.visibilityOfElementLocated(settingsLocators.passForDeactivate));
-        general.enterText(settingsLocators.passForDeactivate,dto.getPassword());
+        general.enterText(settingsLocators.passForDeactivate, dto.getPassword());
         general.clickElement(settingsLocators.cancelBtn);
         general.urlDoesNotContainPath(driver.getCurrentUrl(), Constants.LOGIN);
 

@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.DayOfWeek;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -18,15 +19,20 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import static Config.BaseClass.wait;
+
 public class TaskPage {
     private WebDriver driver;
     public TaskPage(WebDriver driver) {
         this.driver = driver;
     }
     public int clickRandomCheckbox(WebDriver driver, By checkboxLocator) {
-
         List<WebElement> checkboxes = driver.findElements(checkboxLocator);
         int randomIndex = new Random().nextInt(checkboxes.size()) + 1;
+        WebElement element = driver.findElement(checkboxLocator);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(checkboxLocator));
+        wait.until(ExpectedConditions.elementToBeClickable(checkboxLocator));
         checkboxes.get(randomIndex - 1).click();
 
         return randomIndex;
@@ -97,6 +103,8 @@ public class TaskPage {
         }
     }
     public void clickAllSubTaskCheckboxes(WebDriver driver, By calendarLocators) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(calendarLocators));
         List<WebElement> subTaskCheckboxes = driver.findElements(calendarLocators);
         for (WebElement checkbox : subTaskCheckboxes) {
             checkbox.click();

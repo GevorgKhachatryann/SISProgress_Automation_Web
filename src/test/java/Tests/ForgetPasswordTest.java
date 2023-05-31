@@ -29,20 +29,20 @@ public class ForgetPasswordTest extends BaseClass {
         registrationPage.registration();
         general.clickElement(loginLocators.Login);
         general.clickElement(loginLocators.forget);
-        general.enterText(loginLocators.emailField,dto.getEmail());
+        general.enterText(loginLocators.emailField, dto.getEmail());
         general.clickElement(loginLocators.sendEmail);
         requests.retrieveForgetPasswordEmail();
         String verificationLink = requests.extractForgetPasswordLink(dto.getRegistrationMail());
         System.out.println(Constants.PASSWORD_CHANGE_LINK + verificationLink);
         driver.get(verificationLink);
-        general.enterText(loginLocators.passwordField,dto.getChangedPass());
-        general.enterText(registrationLocators.confirm,dto.getChangedPass());
+        general.enterText(loginLocators.passwordField, dto.getChangedPass());
+        general.enterText(registrationLocators.confirm, dto.getChangedPass());
         general.clickElement(loginLocators.changeButton);
         wait.until(ExpectedConditions.visibilityOfElementLocated(loginLocators.PassChangedMessage));
-        general.assertThatElementContains(Constants.PASSWORD_CHANGED_MESSAGE,loginLocators.PassChangedMessage);
+        general.assertThatElementContains(Constants.PASSWORD_CHANGED_MESSAGE, loginLocators.PassChangedMessage);
         general.clickElement(loginLocators.formChangeLogin);
-        general.enterText(loginLocators.loginField,dto.getEmail());
-        general.enterText(loginLocators.passwordField,dto.getChangedPass());
+        general.enterText(loginLocators.loginField, dto.getEmail());
+        general.enterText(loginLocators.passwordField, dto.getChangedPass());
         general.clickElement(loginLocators.loginButton);
         wait.until(ExpectedConditions.visibilityOfElementLocated(homePageLocators.userName));
         general.waitAndAssertUntilTextContains(homePageLocators.userName, dto.getFullName(), 10);
@@ -53,14 +53,15 @@ public class ForgetPasswordTest extends BaseClass {
         general.clickElement(settingsLocators.menuSection);
         general.assertThatValueEquals(dto.getEmail(), settingsLocators.mailInput);
     }
+
     @Test
-    public void InvalidEmail(){
+    public void InvalidEmail() {
         General general = new General(driver);
         LoginLocators loginLocators = new LoginLocators();
 
         driver.get(URL.Login_URL);
         general.clickElement(loginLocators.forget);
-        general.enterText(loginLocators.emailField,Constants.WRONG_EMAIL);
+        general.enterText(loginLocators.emailField, Constants.WRONG_EMAIL);
         general.clickElement(loginLocators.sendEmail);
         String expectedValidationMessage = Constants.EMAIL_VALIDATION_MESSAGE;
         WebElement emailFieldAgain = driver.findElement(loginLocators.emailField);
@@ -69,6 +70,7 @@ public class ForgetPasswordTest extends BaseClass {
             System.out.println(Constants.VERIFIED_MESSAGE);
         }
     }
+
     @Test
     public void PasswordsDoNotMatch() throws IOException {
         UserDTO dto = new UserDTO();
@@ -81,19 +83,17 @@ public class ForgetPasswordTest extends BaseClass {
         registrationPage.registration();
         general.clickElement(loginLocators.Login);
         general.clickElement(loginLocators.forget);
-        general.enterText(loginLocators.emailField,dto.getEmail());
+        general.enterText(loginLocators.emailField, dto.getEmail());
         general.clickElement(loginLocators.sendEmail);
         requests.retrieveForgetPasswordEmail();
         String verificationLink = requests.extractForgetPasswordLink(dto.getRegistrationMail());
         System.out.println(Constants.PASSWORD_CHANGE_LINK + verificationLink);
         driver.get(verificationLink);
-        general.enterText(loginLocators.passwordField,dto.getChangedPass());
-        general.enterText(registrationLocators.confirm,dto.getPassword());
+        general.enterText(loginLocators.passwordField, dto.getChangedPass());
+        general.enterText(registrationLocators.confirm, dto.getPassword());
         general.clickElement(loginLocators.changeButton);
-        general.assertThatElementContains(Constants.PASSWORD_AND_CONFIRM_DOES_NOT_MATCH,loginLocators.PassErrorMessage);
+        general.assertThatElementContains(Constants.PASSWORD_AND_CONFIRM_DOES_NOT_MATCH, loginLocators.PassErrorMessage);
     }
-
-
 
 
 }
