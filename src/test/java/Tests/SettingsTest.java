@@ -10,12 +10,13 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
 import java.io.IOException;
 
 public class SettingsTest extends BaseClass {
 
     @Test
-    public void updatePersonalDetails(){
+    public void updatePersonalDetails() {
         UserDTO dto = new UserDTO();
         General general = new General(driver);
         ApiRequests requests = new ApiRequests(driver);
@@ -29,14 +30,14 @@ public class SettingsTest extends BaseClass {
 
         driver.get(URL.Login_URL);
 
-        general.enterText(loginLocators.loginField,dto.getValidEmail());
-        general.enterText(loginLocators.passwordField,dto.getPassword());
+        general.enterText(loginLocators.loginField, dto.getValidEmail());
+        general.enterText(loginLocators.passwordField, dto.getPassword());
         general.clickElement(loginLocators.loginButton);
         wait.until(ExpectedConditions.visibilityOfElementLocated(homePageLocators.userName));
         general.waitAndAssertUntilTextContains(homePageLocators.userName, dto.getFullName(), 10);
         general.clickElement(settingsLocators.settingsIcon);
         general.assertThatValueEquals(dto.getFullName(), settingsLocators.personalDetailsName);
-        general.enterText(settingsLocators.personalDetailsName,dto.getUpdatedName());
+        general.enterText(settingsLocators.personalDetailsName, dto.getUpdatedName());
         general.selectFromDropdown(registrationLocators.countryNumDropdown, dto.getCountryNumValue());
         general.enterText(registrationLocators.mobileNumField, dto.getUpdatedMobileNumber());
 //        registrationPage.enterDate("2000", "03", "21");
@@ -62,14 +63,14 @@ public class SettingsTest extends BaseClass {
         requests.postRequest(Constants.REGISTRATION_ENDPOINT);
         driver.get(URL.Login_URL);
 
-        general.enterText(loginLocators.loginField,dto.getValidEmail());
-        general.enterText(loginLocators.passwordField,dto.getPassword());
+        general.enterText(loginLocators.loginField, dto.getValidEmail());
+        general.enterText(loginLocators.passwordField, dto.getPassword());
         general.clickElement(loginLocators.loginButton);
         wait.until(ExpectedConditions.visibilityOfElementLocated(homePageLocators.userName));
         general.waitAndAssertUntilTextContains(homePageLocators.userName, dto.getFullName(), 10);
         general.clickElement(settingsLocators.settingsIcon);
         general.assertThatValueEquals(dto.getFullName(), settingsLocators.personalDetailsName);
-        general.enterText(settingsLocators.personalDetailsName,dto.getUpdatedName());
+        general.enterText(settingsLocators.personalDetailsName, dto.getUpdatedName());
         general.selectFromDropdown(registrationLocators.countryNumDropdown, dto.getCountryNumValue());
         general.enterText(registrationLocators.mobileNumField, dto.getUpdatedMobileNumber());
         general.clickElement(settingsLocators.discardBtn);
@@ -89,8 +90,8 @@ public class SettingsTest extends BaseClass {
 
         requests.postRequest(Constants.REGISTRATION_ENDPOINT);
         driver.get(URL.Login_URL);
-        general.enterText(loginLocators.loginField,dto.getValidEmail());
-        general.enterText(loginLocators.passwordField,dto.getPassword());
+        general.enterText(loginLocators.loginField, dto.getValidEmail());
+        general.enterText(loginLocators.passwordField, dto.getPassword());
         general.clickElement(loginLocators.loginButton);
         wait.until(ExpectedConditions.visibilityOfElementLocated(homePageLocators.userName));
         general.waitAndAssertUntilTextContains(homePageLocators.userName, dto.getFullName(), 10);
@@ -100,26 +101,26 @@ public class SettingsTest extends BaseClass {
         Assert.assertFalse(driver.findElement(settingsLocators.updateBtn).isEnabled());
         Assert.assertFalse(driver.findElement(settingsLocators.discardBtn).isEnabled());
         requests.generateRandomEmailForTest();
-        general.enterText(settingsLocators.mailInput,dto.getEmail());
+        general.enterText(settingsLocators.mailInput, dto.getEmail());
         general.clickElement(settingsLocators.updateBtn);
         general.clickElement(settingsLocators.sendVerifyBtn);
         requests.retrieveVerificationEmail();
         String verificationLink = requests.extractVerificationLink(dto.getRegistrationMail());
         driver.get(verificationLink);
         wait.until(ExpectedConditions.visibilityOfElementLocated(loginLocators.emailChangedMessage));
-        general.assertThatElementContains(Constants.PRIMARY_EMAIL_UPDATED,loginLocators.emailChangedMessage);
+        general.assertThatElementContains(Constants.PRIMARY_EMAIL_UPDATED, loginLocators.emailChangedMessage);
         general.scroll(2);
         general.clickElement(loginLocators.verifyPrimaryBtn);
         wait.until(ExpectedConditions.visibilityOfElementLocated(loginLocators.loginField));
-        general.enterText(loginLocators.loginField,dto.getEmail());
-        general.enterText(loginLocators.passwordField,dto.getPassword());
+        general.enterText(loginLocators.loginField, dto.getEmail());
+        general.enterText(loginLocators.passwordField, dto.getPassword());
         general.clickElement(loginLocators.loginButton);
         wait.until(ExpectedConditions.visibilityOfElementLocated(homePageLocators.userName));
         general.waitAndAssertUntilTextContains(homePageLocators.userName, dto.getFullName(), 10);
     }
 
     @Test
-    public void updateWithInvalidEmail(){
+    public void updateWithInvalidEmail() {
         UserDTO dto = new UserDTO();
         General general = new General(driver);
         ApiRequests requests = new ApiRequests(driver);
@@ -129,15 +130,15 @@ public class SettingsTest extends BaseClass {
 
         requests.postRequest(Constants.REGISTRATION_ENDPOINT);
         driver.get(URL.Login_URL);
-        general.enterText(loginLocators.loginField,dto.getValidEmail());
-        general.enterText(loginLocators.passwordField,dto.getPassword());
+        general.enterText(loginLocators.loginField, dto.getValidEmail());
+        general.enterText(loginLocators.passwordField, dto.getPassword());
         general.clickElement(loginLocators.loginButton);
         wait.until(ExpectedConditions.visibilityOfElementLocated(homePageLocators.userName));
         general.waitAndAssertUntilTextContains(homePageLocators.userName, dto.getFullName(), 10);
         general.clickElement(settingsLocators.settingsIcon);
         general.clickElement(settingsLocators.menuSection);
         wait.until(ExpectedConditions.visibilityOfElementLocated(settingsLocators.emailBox));
-        general.enterText(settingsLocators.emailBox,Constants.WRONG_EMAIL);
+        general.enterText(settingsLocators.emailBox, Constants.WRONG_EMAIL);
         general.clickElement(settingsLocators.updateBtn);
         String expectedValidationMessage = Constants.EMAIL_VALIDATION_MESSAGE;
         WebElement emailFieldAgain = driver.findElement(settingsLocators.emailBox);
@@ -160,8 +161,8 @@ public class SettingsTest extends BaseClass {
 
         requests.postRequest(Constants.REGISTRATION_ENDPOINT);
         driver.get(URL.Login_URL);
-        general.enterText(loginLocators.loginField,dto.getValidEmail());
-        general.enterText(loginLocators.passwordField,dto.getPassword());
+        general.enterText(loginLocators.loginField, dto.getValidEmail());
+        general.enterText(loginLocators.passwordField, dto.getPassword());
         general.clickElement(loginLocators.loginButton);
         wait.until(ExpectedConditions.visibilityOfElementLocated(homePageLocators.userName));
         general.waitAndAssertUntilTextContains(homePageLocators.userName, dto.getFullName(), 10);
@@ -170,7 +171,7 @@ public class SettingsTest extends BaseClass {
         general.assertThatValueEquals(dto.getValidEmail(), settingsLocators.mailInput);
         requests.generateRandomEmailForTest();
         general.clickElement(settingsLocators.addSecondary);
-        general.enterText(settingsLocators.secondaryInput,dto.getEmail());
+        general.enterText(settingsLocators.secondaryInput, dto.getEmail());
         general.clickElement(settingsLocators.secondaryUpdate);
         wait.until(ExpectedConditions.visibilityOfElementLocated(settingsLocators.sendSecondaryVerify));
         general.clickElement(settingsLocators.sendSecondaryVerify);
@@ -178,7 +179,7 @@ public class SettingsTest extends BaseClass {
         String verificationLink = requests.extractVerificationLink(dto.getRegistrationMail());
         driver.get(verificationLink);
         wait.until(ExpectedConditions.visibilityOfElementLocated(loginLocators.emailChangedMessage));
-        general.assertThatElementContains(Constants.SECONDARY_EMAIL_ADDED,loginLocators.emailChangedMessage);
+        general.assertThatElementContains(Constants.SECONDARY_EMAIL_ADDED, loginLocators.emailChangedMessage);
 
     }
 
@@ -193,8 +194,8 @@ public class SettingsTest extends BaseClass {
 
         requests.postRequest(Constants.REGISTRATION_ENDPOINT);
         driver.get(URL.Login_URL);
-        general.enterText(loginLocators.loginField,dto.getValidEmail());
-        general.enterText(loginLocators.passwordField,dto.getPassword());
+        general.enterText(loginLocators.loginField, dto.getValidEmail());
+        general.enterText(loginLocators.passwordField, dto.getPassword());
         general.clickElement(loginLocators.loginButton);
         wait.until(ExpectedConditions.visibilityOfElementLocated(homePageLocators.userName));
         general.waitAndAssertUntilTextContains(homePageLocators.userName, dto.getFullName(), 10);
@@ -204,7 +205,7 @@ public class SettingsTest extends BaseClass {
         general.assertThatValueEquals(dto.getValidEmail(), settingsLocators.mailInput);
         requests.generateRandomEmailForTest();
         general.clickElement(settingsLocators.addSecondary);
-        general.enterText(settingsLocators.secondaryInput,dto.getEmail());
+        general.enterText(settingsLocators.secondaryInput, dto.getEmail());
         general.clickElement(settingsLocators.secondaryUpdate);
         wait.until(ExpectedConditions.visibilityOfElementLocated(settingsLocators.sendSecondaryVerify));
         general.clickElement(settingsLocators.sendSecondaryVerify);
@@ -212,10 +213,12 @@ public class SettingsTest extends BaseClass {
         String verificationLink = requests.extractVerificationLink(dto.getRegistrationMail());
         driver.get(verificationLink);
         wait.until(ExpectedConditions.visibilityOfElementLocated(loginLocators.emailChangedMessage));
-        general.assertThatElementContains(Constants.SECONDARY_EMAIL_ADDED,loginLocators.emailChangedMessage);
+        general.assertThatElementContains(Constants.SECONDARY_EMAIL_ADDED, loginLocators.emailChangedMessage);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(settingsLocators.backToSettings));
         general.clickElement(settingsLocators.backToSettings);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(settingsLocators.menuSection));
         general.clickElement(settingsLocators.menuSection);
-        general.assertThatValueEquals(dto.getEmail(),settingsLocators.secondaryInput);
+        general.assertThatValueEquals(dto.getEmail(), settingsLocators.secondaryInput);
         general.clickElement(settingsLocators.removeSecondary);
         wait.until(ExpectedConditions.visibilityOfElementLocated(settingsLocators.addSecondary));
         WebElement element = driver.findElement(settingsLocators.addSecondary);

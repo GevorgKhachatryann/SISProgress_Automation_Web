@@ -39,5 +39,6 @@ public class Constants {
     public static final String LOGIN = "/login";
     public static final String HOPE_TO_SEE_YOU_SOON = "SIS Progress: We Hope to See You Again Soon!";
     public static final String DEAR = "Dear ";
+    public static final String CONGRATS_NOTIFICATION = "Congrats on Maxing Extracurricular Task Points in 'Dream' Stage!";
 
 }

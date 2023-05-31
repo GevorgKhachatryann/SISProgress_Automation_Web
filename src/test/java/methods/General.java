@@ -1,5 +1,6 @@
 package methods;
 
+import Locators.CalendarLocators;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -9,9 +10,7 @@ import org.testng.Assert;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 
 public class General {
@@ -47,6 +46,72 @@ public class General {
         ACCOUNT_DEACTIVATION_REASONS.add("Difficult to navigate the site");
         ACCOUNT_DEACTIVATION_REASONS.add("Unsatisfactory user experience");
         ACCOUNT_DEACTIVATION_REASONS.add("Security concerns");
+    }
+    public int totalPoints = 0;
+    public double targetPoints = 0.3 * 320;  // 30% of 320
+    public double lastPoints = 0;
+    public Set<Integer> previousIndexes = new HashSet<>();
+
+    public  void performTask(WebDriver driver, General general, TaskPage taskPage, WebDriverWait wait,
+                                   CalendarLocators calendarLocators) {
+        do {
+            wait.until(ExpectedConditions.elementToBeClickable(calendarLocators.AddTask));
+
+            general.clickElement(calendarLocators.AddTask);
+
+            int randomIndex;
+            do {
+                wait.until(ExpectedConditions.visibilityOfElementLocated(calendarLocators.checkbox));
+                wait.until(ExpectedConditions.elementToBeClickable(calendarLocators.checkbox));
+
+                randomIndex = taskPage.clickRandomCheckbox(driver, calendarLocators.checkbox);
+                System.out.println("index: " + randomIndex);
+            } while (previousIndexes.contains(randomIndex));
+            previousIndexes.add(randomIndex);
+
+            String taskName = taskPage.getTaskName(driver, randomIndex);
+            String points = taskPage.getPoints(driver, randomIndex);
+            String number = points.replaceAll("[^\\d.]+", "");
+            System.out.println(number);
+            System.out.println(taskName);
+            System.out.println(points);
+
+            general.clickElement(calendarLocators.AddBtn);
+
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[contains(text(),'Planned')]")));
+            driver.findElement(By.xpath("//p[contains(text(),'Planned')]")).click();
+            taskPage.clickAllSubTaskCheckboxes(driver, calendarLocators.subTaskCheckbox);
+            String sub = "//*[@id=\"statusModal___" + randomIndex + "\"]/div/div[2]/div/div[2]/button";
+            System.out.println(sub);
+            driver.findElement(By.xpath(sub)).click();
+
+            double taskPoints = Double.parseDouble(number);
+            totalPoints += taskPoints;
+            lastPoints = taskPoints;
+
+            System.out.println(totalPoints);
+            System.out.println(previousIndexes);
+
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        } while (!(totalPoints >= targetPoints));
+
+        System.out.println("Total Points: " + totalPoints);
+        System.out.println("Last Points: " + lastPoints);
+    }
+
+    public double extractTaskPoints(String points) {
+        String number = points.replaceAll("[^\\d.]+", "");
+        return Double.parseDouble(number);
+    }
+    public void click(WebDriver driver, By selector) {
+        WebElement element = driver.findElement(selector);
+        JavascriptExecutor executor = (JavascriptExecutor) driver;
+        executor.executeScript("arguments[0].click();", element);
     }
     public void selectFromFancyDropdown(By arrowSelector, String classSelector, String value){
         driver.findElement(arrowSelector).click();
