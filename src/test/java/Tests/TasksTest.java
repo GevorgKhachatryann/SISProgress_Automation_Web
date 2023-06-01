@@ -175,6 +175,7 @@ public class TasksTest extends BaseClass {
         general.clickElement(calendarLocators.AddBtn);
         wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(calendarLocators.firstTask));
         general.clickElement(calendarLocators.firstTask);
+        wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(calendarLocators.TasksName));
         general.assertThatElementContains(taskName, calendarLocators.TasksName);
         taskPage.clickRandomSubTaskCheckbox(driver, calendarLocators.subTaskCheckbox);
         general.clickElement(calendarLocators.submit);

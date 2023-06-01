@@ -1,5 +1,8 @@
 package DTO;
 
+import Config.Constants;
+import org.testng.annotations.DataProvider;
+
 import java.time.Instant;
 
 public class UserDTO {
@@ -10,7 +13,7 @@ public class UserDTO {
     private static String token;
     private static String registrationMail;
     private static int randomIndex;
-
+    private static String percent;
     private String fullName = "Web User Test";
     private String updatedName = "Web";
     private String password = "Test1234*";
@@ -47,6 +50,10 @@ public class UserDTO {
     public String getId() {
         return id;
     }
+    public String getPercent() {
+        return percent;
+    }
+
     public String getToken(){
         return token;
     }
@@ -102,6 +109,10 @@ public class UserDTO {
     public void setId(String id){
         this.id = id;
     }
+    public void setPercent(String percent) {
+        this.percent = percent;
+    }
+
     public void setToken(String token){
         this.token = token;
     }
@@ -120,4 +131,18 @@ public class UserDTO {
     public String getChangedPass(){
         return changedPass;
    }
+    @DataProvider(name = "userData")
+    public static Object[][] getUserData() {
+        UserDTO dto = new UserDTO();
+        return new Object[][] {
+                { dto.getValidEmail(), dto.getPassword() },
+                { dto.getInvalidEmail(), dto.getPassword() },
+                { dto.getValidEmail(), dto.getInValidPassword() },
+                { "", dto.getPassword() },
+                { dto.getValidEmail(), "" },
+                { Constants.WRONG_EMAIL, "" }
+
+        };
+    }
+
 }
