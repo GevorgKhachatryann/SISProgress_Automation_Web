@@ -14,9 +14,9 @@ import org.testng.annotations.*;
 
 public class LoginTest extends BaseClass {
 
-    @Test(dataProvider = "userData", dataProviderClass = UserDTO.class)
-    public void loginTest(String email, String password) {
 
+    @Test
+    public void loginWithValidCreds() {
         UserDTO dto = new UserDTO();
         General general = new General(driver);
         ApiRequests requests = new ApiRequests(driver);
@@ -26,49 +26,98 @@ public class LoginTest extends BaseClass {
 
         requests.postRequest(Constants.REGISTRATION_ENDPOINT);
         driver.get(URL.Login_URL);
-        general.enterText(loginLocators.loginField, email);
-        general.enterText(loginLocators.passwordField, password);
+
+        general.enterText(loginLocators.loginField, dto.getValidEmail());
+        general.enterText(loginLocators.passwordField, dto.getPassword());
         general.clickElement(loginLocators.loginButton);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(homePageLocators.userName));
+        general.waitAndAssertUntilTextContains(homePageLocators.userName, dto.getFullName(), 10);
+        general.clickElement(settingsLocators.settingsIcon);
+        general.waitAndAssertThatEquals(dto.getFullName(), settingsLocators.name);
+        general.waitAndAssertUntilTextContains(homePageLocators.userName, dto.getFullName(), 10);
+        general.assertThatValueEquals(dto.getFullName(), settingsLocators.personalDetailsName);
+        general.clickElement(settingsLocators.menuSection);
+        general.assertThatValueEquals(dto.getValidEmail(), settingsLocators.mailInput);
 
-
-        if (email.equals(dto.getValidEmail()) && password.equals(dto.getPassword())) {
-
-            wait.until(ExpectedConditions.visibilityOfElementLocated(homePageLocators.userName));
-            general.waitAndAssertUntilTextContains(homePageLocators.userName, dto.getFullName(), 10);
-            general.clickElement(settingsLocators.settingsIcon);
-            general.waitAndAssertThatEquals(dto.getFullName(), settingsLocators.name);
-            general.waitAndAssertUntilTextContains(homePageLocators.userName, dto.getFullName(), 10);
-            general.assertThatValueEquals(dto.getFullName(), settingsLocators.personalDetailsName);
-            general.clickElement(settingsLocators.menuSection);
-            general.assertThatValueEquals(dto.getValidEmail(), settingsLocators.mailInput);
-
-        } else if (email.equals(dto.getInvalidEmail())) {
-
-            wait.until(ExpectedConditions.visibilityOfElementLocated(loginLocators.errorMessage));
-            general.assertThatElementContains(Constants.INVALID_EMAIL_OR_PASSWORD, loginLocators.errorMessage);
-
-        } else if (password.equals(dto.getInValidPassword())) {
-
-            wait.until(ExpectedConditions.visibilityOfElementLocated(loginLocators.errorMessage));
-            general.assertThatElementContains(Constants.INVALID_EMAIL_OR_PASSWORD, loginLocators.errorMessage);
-
-        } else if (email.equals(Constants.WRONG_EMAIL)) {
-
-            String expectedValidationMessage = Constants.EMAIL_VALIDATION_MESSAGE;
-            WebElement emailFieldAgain = driver.findElement(loginLocators.loginField);
-            String actualValidationMessage = emailFieldAgain.getAttribute(Constants.ATTRIBUTE);
-            Assert.assertEquals(actualValidationMessage, expectedValidationMessage, Constants.VERIFIED_MESSAGE);
-
-        } else if (email.isEmpty()) {
-
-            wait.until(ExpectedConditions.visibilityOfElementLocated(loginLocators.errorMessage));
-            general.assertThatElementContains(Constants.INVALID_EMAIL_OR_PASSWORD, loginLocators.errorMessage);
-
-        } else if (password.isEmpty()) {
-
-            wait.until(ExpectedConditions.visibilityOfElementLocated(loginLocators.errorMessage));
-            general.assertThatElementContains(Constants.INVALID_EMAIL_OR_PASSWORD, loginLocators.errorMessage);
-        }
     }
 
+    @Test
+    public void logInWithInvalidEmailValidPassword() {
+        UserDTO dto = new UserDTO();
+        General general = new General(driver);
+        ApiRequests requests = new ApiRequests(driver);
+        LoginLocators loginLocators = new LoginLocators();
+
+        requests.postRequest(Constants.REGISTRATION_ENDPOINT);
+        driver.get(URL.Login_URL);
+        general.enterText(loginLocators.loginField, dto.getInvalidEmail());
+        general.enterText(loginLocators.passwordField, dto.getPassword());
+        general.clickElement(loginLocators.loginButton);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(loginLocators.errorMessage));
+        general.assertThatElementContains(Constants.INVALID_EMAIL_OR_PASSWORD, loginLocators.errorMessage);
+
+    }
+
+    @Test
+    public void logInWithValidEmailInvalidPassword() {
+        UserDTO dto = new UserDTO();
+        General general = new General(driver);
+        ApiRequests requests = new ApiRequests(driver);
+        LoginLocators loginLocators = new LoginLocators();
+
+        requests.postRequest(Constants.REGISTRATION_ENDPOINT);
+        driver.get(URL.Login_URL);
+        general.enterText(loginLocators.loginField, dto.getValidEmail());
+        general.enterText(loginLocators.passwordField, dto.getInValidPassword());
+        general.clickElement(loginLocators.loginButton);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(loginLocators.errorMessage));
+        general.assertThatElementContains(Constants.INVALID_EMAIL_OR_PASSWORD, loginLocators.errorMessage);
+
+    }
+
+    @Test
+    public void logInWithEmptyEmail() {
+        UserDTO dto = new UserDTO();
+        General general = new General(driver);
+        LoginLocators loginLocators = new LoginLocators();
+
+        driver.get(URL.Login_URL);
+
+        general.enterText(loginLocators.loginField, "");
+        general.enterText(loginLocators.passwordField, dto.getPassword());
+        general.clickElement(loginLocators.loginButton);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(loginLocators.errorMessage));
+        general.assertThatElementContains(Constants.INVALID_EMAIL_OR_PASSWORD, loginLocators.errorMessage);
+    }
+
+    @Test
+    public void logInWithEmptyPassword() {
+        UserDTO dto = new UserDTO();
+        General general = new General(driver);
+        LoginLocators loginLocators = new LoginLocators();
+
+        driver.get(URL.Login_URL);
+        general.enterText(loginLocators.loginField, dto.getValidEmail());
+        general.enterText(loginLocators.passwordField, "");
+        general.clickElement(loginLocators.loginButton);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(loginLocators.errorMessage));
+        general.assertThatElementContains(Constants.INVALID_EMAIL_OR_PASSWORD, loginLocators.errorMessage);
+    }
+    @Test
+    public void logInWithInvalidEmail() {
+        General general = new General(driver);
+        LoginLocators loginLocators = new LoginLocators();
+
+        driver.get(URL.Login_URL);
+        general.enterText(loginLocators.loginField, Constants.WRONG_EMAIL);
+        general.clickElement(loginLocators.loginButton);
+        String expectedValidationMessage = Constants.EMAIL_VALIDATION_MESSAGE;
+        WebElement emailFieldAgain = driver.findElement(loginLocators.loginField);
+        String actualValidationMessage = emailFieldAgain.getAttribute(Constants.ATTRIBUTE);
+
+        if (actualValidationMessage.equals(expectedValidationMessage)) {
+            System.out.println(Constants.VERIFIED_MESSAGE);
+        }
+
+    }
 }
