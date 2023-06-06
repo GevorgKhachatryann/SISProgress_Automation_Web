@@ -18,4 +18,5 @@ public class CalendarLocators {
     public By modal =  By.className("Modal_parent__PqnsG");
     public By days = By.className("Cal_nameWithDays__9S0U7");
     public By body = By.tagName("body");
+    public By title = By.className("StatusModalContent_titl1__1SpYm");
 }

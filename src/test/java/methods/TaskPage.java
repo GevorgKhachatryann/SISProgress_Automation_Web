@@ -26,17 +26,6 @@ public class TaskPage {
     public TaskPage(WebDriver driver) {
         this.driver = driver;
     }
-    public int clickRandomCheckbox(WebDriver driver, By checkboxLocator) {
-        List<WebElement> checkboxes = driver.findElements(checkboxLocator);
-        int randomIndex = new Random().nextInt(checkboxes.size()) + 1;
-        WebElement element = driver.findElement(checkboxLocator);
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(checkboxLocator));
-        wait.until(ExpectedConditions.elementToBeClickable(checkboxLocator));
-        checkboxes.get(randomIndex - 1).click();
-
-        return randomIndex;
-    }
 
     public String getTaskName(WebDriver driver, int randomIndex) {
         String task = "div:nth-child(" + randomIndex + ") div.Cal_left__L23rE > p";

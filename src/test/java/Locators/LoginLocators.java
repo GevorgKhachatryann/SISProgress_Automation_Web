@@ -19,4 +19,6 @@ public class LoginLocators {
     public By logoutBtn = By.xpath("//*[@id=\"ModalLog\"]/div/div/div/button[2]");
     public By emailChangedMessage = By.cssSelector("#root > main > div > div > p");
     public By verifyPrimaryBtn = By.className("VerifyPrimare_btn__KNVqH");
+    public By cancelLogout = By.xpath("//*[@id=\"ModalLog\"]/div/div/div/button[1]");
+
 }
