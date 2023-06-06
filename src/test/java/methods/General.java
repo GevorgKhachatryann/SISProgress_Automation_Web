@@ -1,5 +1,6 @@
 package methods;
 
+import Config.BaseClass;
 import DTO.UserDTO;
 import Locators.CalendarLocators;
 import org.openqa.selenium.*;
@@ -16,9 +17,8 @@ import java.util.*;
 import static Config.BaseClass.wait;
 
 
-public class General {
+public class General extends BaseClass {
     private final WebDriver driver;
-    public static WebDriverWait wait;
 
     public General(WebDriver driver) {
         this.driver = driver;
@@ -63,7 +63,7 @@ public class General {
     public double filteredText = 0;
 
 
-    public void performTask(WebDriver driver, General general, TaskPage taskPage, WebDriverWait wait,
+    public void performTask(WebDriver driver, General general, TaskPage taskPage,
                             CalendarLocators calendarLocators) {
         do {
             wait.until(ExpectedConditions.elementToBeClickable(calendarLocators.AddTask));
@@ -115,7 +115,7 @@ public class General {
         System.out.println("Last Points: " + lastPoints);
     }
 
-    public void performFewTasks(WebDriver driver, General general, TaskPage taskPage, WebDriverWait wait,
+    public void performFewTasks(WebDriver driver, General general, TaskPage taskPage,
                                 CalendarLocators calendarLocators) {
         UserDTO dto = new UserDTO();
         do {

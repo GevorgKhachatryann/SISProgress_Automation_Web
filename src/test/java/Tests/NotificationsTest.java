@@ -32,7 +32,7 @@ public class NotificationsTest extends BaseClass {
         general.waitAndAssertUntilTextContains(homePageLocators.userName, dto.getFullName(), 10);
         general.clickElement(calendarLocators.calendarIcon);
 
-        general.performTask(driver, general, taskPage, wait, calendarLocators);
+        general.performTask(driver, general, taskPage, calendarLocators);
         general.clickElement(homePageLocators.homeIcon);
         driver.navigate().refresh();
         wait.until(ExpectedConditions.visibilityOfElementLocated(homePageLocators.bell));
@@ -58,7 +58,7 @@ public class NotificationsTest extends BaseClass {
         wait.until(ExpectedConditions.visibilityOfElementLocated(homePageLocators.userName));
         general.waitAndAssertUntilTextContains(homePageLocators.userName, dto.getFullName(), 10);
         general.clickElement(calendarLocators.calendarIcon);
-        general.performFewTasks(driver, general, taskPage, wait, calendarLocators);
+        general.performFewTasks(driver, general, taskPage, calendarLocators);
         general.clickElement(homePageLocators.homeIcon);
         System.out.println(dto.getPercent());
         System.out.println(driver.findElement(homePageLocators.percent).getText());
