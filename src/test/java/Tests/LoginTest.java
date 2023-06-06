@@ -120,4 +120,46 @@ public class LoginTest extends BaseClass {
         }
 
     }
+
+    @Test
+    public void checkLogoutFunctionality(){
+        UserDTO dto = new UserDTO();
+        General general = new General(driver);
+        ApiRequests requests = new ApiRequests(driver);
+        LoginLocators loginLocators = new LoginLocators();
+        HomePageLocators homePageLocators = new HomePageLocators();
+
+        requests.postRequest(Constants.REGISTRATION_ENDPOINT);
+        driver.get(URL.Login_URL);
+
+        general.enterText(loginLocators.loginField, dto.getValidEmail());
+        general.enterText(loginLocators.passwordField, dto.getPassword());
+        general.clickElement(loginLocators.loginButton);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(homePageLocators.userName));
+        general.waitAndAssertUntilTextContains(homePageLocators.userName, dto.getFullName(), 10);
+        general.clickElement(loginLocators.logoutIcon);
+        general.clickElement(loginLocators.logoutBtn);
+        general.urlContainsPath(driver.getCurrentUrl(),Constants.LOGIN);
+    }
+
+    @Test
+    public void verifyCancelBtnFunctionalityInLogoutProcess(){
+        UserDTO dto = new UserDTO();
+        General general = new General(driver);
+        ApiRequests requests = new ApiRequests(driver);
+        LoginLocators loginLocators = new LoginLocators();
+        HomePageLocators homePageLocators = new HomePageLocators();
+
+        requests.postRequest(Constants.REGISTRATION_ENDPOINT);
+        driver.get(URL.Login_URL);
+
+        general.enterText(loginLocators.loginField, dto.getValidEmail());
+        general.enterText(loginLocators.passwordField, dto.getPassword());
+        general.clickElement(loginLocators.loginButton);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(homePageLocators.userName));
+        general.waitAndAssertUntilTextContains(homePageLocators.userName, dto.getFullName(), 10);
+        general.clickElement(loginLocators.logoutIcon);
+        general.clickElement(loginLocators.cancelLogout);
+        general.urlDoesNotContainPath(driver.getCurrentUrl(),Constants.LOGIN);
+    }
 }

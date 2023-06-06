@@ -44,7 +44,7 @@ public class TasksTest extends BaseClass {
         By checkboxLocator = calendarLocators.checkbox;
         wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(checkboxLocator));
 
-        int randomIndex = taskPage.clickRandomCheckbox(driver, checkboxLocator);
+        int randomIndex = general.clickRandomCheckbox(driver, checkboxLocator);
         String taskName = taskPage.getTaskName(driver, randomIndex);
         String points = taskPage.getPoints(driver, randomIndex);
         String number = points.replaceAll("[^\\d.]+", "");
@@ -137,7 +137,6 @@ public class TasksTest extends BaseClass {
         String tomorrowDate = general.getFormattedTomorrowDate();
         general.assertThatElementContains(Constants.YOU_CAN_START_FROM + tomorrowDate, calendarLocators.taskFuture);
         general.clickElement(calendarLocators.deleteBtn);
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.invisibilityOfElementLocated(calendarLocators.firstTask));
         Assert.assertFalse(general.isElementDisplayed(calendarLocators.firstTask));
 
@@ -146,6 +145,7 @@ public class TasksTest extends BaseClass {
     @Test
     public void checkInProgressStatus() {
         UserDTO dto = new UserDTO();
+        Actions actions = new Actions(driver);
         General general = new General(driver);
         TaskPage taskPage = new TaskPage(driver);
         ApiRequests requests = new ApiRequests(driver);
@@ -164,7 +164,7 @@ public class TasksTest extends BaseClass {
         general.clickElement(calendarLocators.AddTask);
         By checkboxLocator = calendarLocators.checkbox;
         wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(checkboxLocator));
-        int randomIndex = taskPage.clickRandomCheckbox(driver, checkboxLocator);
+        int randomIndex = general.clickRandomCheckbox(driver, checkboxLocator);
         String taskName = taskPage.getTaskName(driver, randomIndex);
         String points = taskPage.getPoints(driver, randomIndex);
         String number = points.replaceAll("[^\\d.]+", "");
@@ -180,7 +180,6 @@ public class TasksTest extends BaseClass {
         taskPage.clickRandomSubTaskCheckbox(driver, calendarLocators.subTaskCheckbox);
         general.clickElement(calendarLocators.submit);
         WebElement body = driver.findElement(calendarLocators.body);
-        Actions actions = new Actions(driver);
         actions.moveToElement(body).click().perform();
         driver.navigate().refresh();
         wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(calendarLocators.TaskStatus));
@@ -193,6 +192,7 @@ public class TasksTest extends BaseClass {
     @Test
     public void checkCompletedStatus() {
         UserDTO dto = new UserDTO();
+        Actions actions = new Actions(driver);
         General general = new General(driver);
         TaskPage taskPage = new TaskPage(driver);
         ApiRequests requests = new ApiRequests(driver);
@@ -211,7 +211,7 @@ public class TasksTest extends BaseClass {
         general.clickElement(calendarLocators.AddTask);
         By checkboxLocator = calendarLocators.checkbox;
         wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(checkboxLocator));
-        int randomIndex = taskPage.clickRandomCheckbox(driver, checkboxLocator);
+        int randomIndex = general.clickRandomCheckbox(driver, checkboxLocator);
         String taskName = taskPage.getTaskName(driver, randomIndex);
         String points = taskPage.getPoints(driver, randomIndex);
         String number = points.replaceAll("[^\\d.]+", "");
@@ -226,7 +226,6 @@ public class TasksTest extends BaseClass {
 
         general.clickElement(calendarLocators.submit);
         WebElement body = driver.findElement(calendarLocators.body);
-        Actions actions = new Actions(driver);
         actions.moveToElement(body).click().perform();
         driver.navigate().refresh();
         wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(calendarLocators.TaskStatus));
@@ -260,6 +259,7 @@ public class TasksTest extends BaseClass {
     @Test
     public void addTaskFromDashboard() {
         UserDTO dto = new UserDTO();
+        Actions actions = new Actions(driver);
         General general = new General(driver);
         TaskPage taskPage = new TaskPage(driver);
         ApiRequests requests = new ApiRequests(driver);
@@ -281,14 +281,13 @@ public class TasksTest extends BaseClass {
         columnElement.click();
         By checkboxLocator = calendarLocators.checkbox;
         wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(checkboxLocator));
-        int randomIndex = taskPage.clickRandomCheckbox(driver, checkboxLocator);
+        int randomIndex = general.clickRandomCheckbox(driver, checkboxLocator);
         String taskName = taskPage.getTaskName(driver, randomIndex);
         general.clickElement(calendarLocators.AddBtn);
         wait.until(ExpectedConditions.visibilityOfElementLocated(calendarLocators.firstTask));
         general.clickElement(calendarLocators.firstTask);
         general.assertThatElementContains(taskName, calendarLocators.TasksName);
         WebElement body = driver.findElement(calendarLocators.body);
-        Actions actions = new Actions(driver);
         actions.moveToElement(body).click().perform();
         general.assertThatElementContains(Constants.PLANNED_STATUS, calendarLocators.TaskStatus);
     }
@@ -316,7 +315,7 @@ public class TasksTest extends BaseClass {
         general.clickElement(calendarLocators.AddTask);
         By checkboxLocator = calendarLocators.checkbox;
         wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(checkboxLocator));
-        int randomIndex = taskPage.clickRandomCheckbox(driver, checkboxLocator);
+        int randomIndex = general.clickRandomCheckbox(driver, checkboxLocator);
         String taskName = taskPage.getTaskName(driver, randomIndex);
         general.clickElement(calendarLocators.AddBtn);
         wait.until(ExpectedConditions.visibilityOfElementLocated(calendarLocators.TaskStatus));

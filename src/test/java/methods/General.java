@@ -13,6 +13,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+import static Config.BaseClass.wait;
+
 
 public class General {
     private final WebDriver driver;
@@ -73,7 +75,7 @@ public class General {
                 wait.until(ExpectedConditions.visibilityOfElementLocated(calendarLocators.checkbox));
                 wait.until(ExpectedConditions.elementToBeClickable(calendarLocators.checkbox));
 
-                randomIndex = taskPage.clickRandomCheckbox(driver, calendarLocators.checkbox);
+                randomIndex = general.clickRandomCheckbox(driver, calendarLocators.checkbox);
                 System.out.println("index: " + randomIndex);
             } while (previousIndexes.contains(randomIndex));
             previousIndexes.add(randomIndex);
@@ -126,7 +128,7 @@ public class General {
                 wait.until(ExpectedConditions.visibilityOfElementLocated(calendarLocators.checkbox));
                 wait.until(ExpectedConditions.elementToBeClickable(calendarLocators.checkbox));
 
-                randomIndex = taskPage.clickRandomCheckbox(driver, calendarLocators.checkbox);
+                randomIndex = general.clickRandomCheckbox(driver, calendarLocators.checkbox);
                 System.out.println("index: " + randomIndex);
             } while (previousIndexesFor20.contains(randomIndex));
             previousIndexesFor20.add(randomIndex);
@@ -249,7 +251,17 @@ public class General {
             Assert.assertTrue(driver.getPageSource().contains(expected.get(a)));
         }
     }
+    public int clickRandomCheckbox(WebDriver driver, By checkboxLocator) {
+        List<WebElement> checkboxes = driver.findElements(checkboxLocator);
+        int randomIndex = new Random().nextInt(checkboxes.size()) + 1;
+        WebElement element = driver.findElement(checkboxLocator);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(checkboxLocator));
+        wait.until(ExpectedConditions.elementToBeClickable(checkboxLocator));
+        checkboxes.get(randomIndex - 1).click();
 
+        return randomIndex;
+    }
     public void waitAndAssertThatEquals(String text, By locatorToCompare) {
         WebElement element = driver.findElement(locatorToCompare);
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
@@ -355,6 +367,9 @@ public class General {
 
     public boolean urlDoesNotContainPath(String url, String path) {
         return !url.contains(path);
+    }
+    public boolean urlContainsPath(String url, String path) {
+        return url.contains(path);
     }
 
     public String generateDeactivationReason() {

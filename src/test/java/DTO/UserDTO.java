@@ -131,17 +131,18 @@ public class UserDTO {
     public String getChangedPass(){
         return changedPass;
    }
-    @DataProvider(name = "userData")
-    public static Object[][] getUserData() {
-        UserDTO dto = new UserDTO();
-        return new Object[][] {
-                { dto.getValidEmail(), dto.getPassword() },
-                { dto.getInvalidEmail(), dto.getPassword() },
-                { dto.getValidEmail(), dto.getInValidPassword() },
-                { "", dto.getPassword() },
-                { dto.getValidEmail(), "" },
-                { Constants.WRONG_EMAIL, "" }
-
+    @DataProvider(name = "searchVariations")
+    public static Object[][] searchVariations() {
+        return new Object[][]{
+                {"Recommendation", 1},
+                {"Re", 3},
+                {"RECOMMENdation", 1},
+                {"rec", 1},
+                {"ReCoMm", 1},
+                {"RECOMM", 1},
+                {"recommendation", 1},
+                {"RECOMMENDATION", 1},
+                {"RE1", 0}
         };
     }
 
