@@ -57,8 +57,7 @@ public class General extends BaseClass {
     public double lastPoints = 0;
     public Set<Integer> previousIndexes = new HashSet<>();
     public int totalPointsFor20 = 0;
-    public double targetPointsFor20 = 0.01 * 300;  // 30% of 320
-    public double lastPointsFor20 = 0;
+    public double targetPointsFor20 = 0.01 * 300;
     public Set<Integer> previousIndexesFor20 = new HashSet<>();
     public double filteredText = 0;
 
@@ -375,5 +374,10 @@ public class General extends BaseClass {
     public String generateDeactivationReason() {
         int randomIndex = new Random().nextInt(ACCOUNT_DEACTIVATION_REASONS.size());
         return ACCOUNT_DEACTIVATION_REASONS.get(randomIndex);
+    }
+    public void verifyDropdownLength(int expectedLength) {
+        ExplorePage explorePage = new ExplorePage(driver);
+        int actualLength = explorePage.getDropdownLength();
+        Assert.assertEquals(actualLength, expectedLength);
     }
 }

@@ -89,7 +89,6 @@ public class DeactivateTest extends BaseClass {
     public void cancelDeactivation() throws IOException {
         UserDTO dto = new UserDTO();
         General general = new General(driver);
-        ApiRequests requests = new ApiRequests(driver);
         LoginLocators loginLocators = new LoginLocators();
         HomePageLocators homePageLocators = new HomePageLocators();
         SettingsLocators settingsLocators = new SettingsLocators();
