@@ -38,5 +38,6 @@ public class SettingsLocators {
     public By deactivatedMessage = By.className("DeactivateMessage_titlesr__u60Wj");
     public By deactivateSkipBtn = By.className("DeactivePop_skip__5xtNN");
     public By cancelBtn = By.className("DeactivePass_btnn__kJJjp");
+    public By verifyMessage = By.xpath("//*[contains(text(), 'verify your secondary email')]");
 }
 

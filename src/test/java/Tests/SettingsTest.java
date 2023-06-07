@@ -226,4 +226,36 @@ public class SettingsTest extends BaseClass {
         Assert.assertTrue(actualText.contains(Constants.ADD_SECONDARY_EMAIL));
 
     }
+    @Test
+    public void secondaryEmailVerificationErrorMessage() throws IOException {
+        UserDTO dto = new UserDTO();
+        General general = new General(driver);
+        ApiRequests requests = new ApiRequests(driver);
+        LoginLocators loginLocators = new LoginLocators();
+        SettingsLocators settingsLocators = new SettingsLocators();
+        HomePageLocators homePageLocators = new HomePageLocators();
+
+        requests.postRequest(Constants.REGISTRATION_ENDPOINT);
+        driver.get(URL.Login_URL);
+        general.enterText(loginLocators.loginField, dto.getValidEmail());
+        general.enterText(loginLocators.passwordField, dto.getPassword());
+        general.clickElement(loginLocators.loginButton);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(homePageLocators.userName));
+        general.waitAndAssertUntilTextContains(homePageLocators.userName, dto.getFullName(), 10);
+        general.clickElement(settingsLocators.settingsIcon);
+        general.clickElement(settingsLocators.menuSection);
+        general.assertThatValueEquals(dto.getValidEmail(), settingsLocators.mailInput);
+        requests.generateRandomEmailForTest();
+        general.clickElement(settingsLocators.addSecondary);
+        general.enterText(settingsLocators.secondaryInput, dto.getEmail());
+        general.clickElement(settingsLocators.secondaryUpdate);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(settingsLocators.sendSecondaryVerify));
+        general.clickElement(settingsLocators.sendSecondaryVerify);
+        driver.navigate().refresh();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(settingsLocators.menuSection));
+        general.clickElement(settingsLocators.menuSection);
+        general.scroll(5);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(settingsLocators.verifyMessage));
+        general.assertThatElementContains(Constants.VERIFY_YOUR_SECONDARY_EMAIL, settingsLocators.verifyMessage);
+    }
 }

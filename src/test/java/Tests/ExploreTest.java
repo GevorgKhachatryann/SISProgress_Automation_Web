@@ -10,7 +10,6 @@ import methods.ExplorePage;
 import methods.General;
 
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 
@@ -26,7 +25,6 @@ public class ExploreTest extends BaseClass {
         ExploreLocators exploreLocators = new ExploreLocators();
         CalendarLocators calendarLocators = new CalendarLocators();
         HomePageLocators homePageLocators = new HomePageLocators();
-
 
         requests.postRequest(Constants.REGISTRATION_ENDPOINT);
         driver.get(URL.Login_URL);
@@ -67,8 +65,7 @@ public class ExploreTest extends BaseClass {
         general.waitAndAssertUntilTextContains(homePageLocators.userName, dto.getFullName(), 10);
         general.clickElement(exploreLocators.exploreIcon);
         explorePage.performSearch(searchValue);
-        int actualLength = explorePage.getDropdownLength();
-        Assert.assertEquals(actualLength, expectedLength);
+        general.verifyDropdownLength(expectedLength);
 
     }
 
