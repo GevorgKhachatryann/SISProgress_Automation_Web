@@ -1,5 +1,6 @@
 package methods;
 
+import Config.BaseClass;
 import Config.Constants;
 import DTO.UserDTO;
 import Locators.CalendarLocators;
@@ -20,10 +21,9 @@ import java.io.IOException;
 import java.time.Duration;
 
 
-public class RegistrationPage {
+public class RegistrationPage extends BaseClass {
 
     private WebDriver driver;
-    public static WebDriverWait wait;
 
 
     private By countryDropdown = By.className("RegisterOne_arrowBottom__86Gfn");
