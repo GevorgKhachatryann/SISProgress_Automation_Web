@@ -113,7 +113,7 @@ public class RegistrationPage {
         general.enterText(registrationLocators.confirmRegPass, dto.getPassword());
         general.selectFromDropdown(registrationLocators.countryNumDropdown, dto.getCountryNumValue());
         general.enterText(registrationLocators.mobileNumField, dto.getMobileNumber());
-        registrationPage.enterDate("2000", "03", "20");
+//        registrationPage.enterDate("2000", "03", "20");
         registrationPage.selectCountry(dto.getCountry());
         registrationPage.selectGrade(dto.getGrade());
         wait.until(ExpectedConditions.visibilityOfElementLocated(registrationLocators.dreamUniDropdown));
@@ -149,7 +149,7 @@ public class RegistrationPage {
         general.enterText(registrationLocators.confirmRegPass, dto.getPassword());
         general.selectFromDropdown(registrationLocators.countryNumDropdown, dto.getCountryNumValue());
         general.enterText(registrationLocators.mobileNumField, dto.getMobileNumber());
-        registrationPage.enterDate("2000", "03", "20");
+//        registrationPage.enterDate("2000", "03", "20");
         registrationPage.selectCountry(dto.getCountry());
         registrationPage.selectGrade(dto.getTenGrade());
         general.selectFromFancyDropdown(registrationLocators.highSchoolDropdown, registrationLocators.schools, dto.getSchool());
