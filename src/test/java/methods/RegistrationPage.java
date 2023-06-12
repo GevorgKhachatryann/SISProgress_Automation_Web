@@ -56,23 +56,6 @@ public class RegistrationPage extends BaseClass {
         driver.findElement(gradeDropdown).click();
         driver.findElement(By.xpath ("//*[contains(@class, 'WhichClass_countryName__+VCbE') and contains(text(), \'"+grade+"\')]")).click();
     }
-    public void registrationForForget() throws IOException {
-        UserDTO dto = new UserDTO();
-        General general = new General(driver);
-        ApiRequests requests = new ApiRequests(driver);
-        LoginLocators loginLocators = new LoginLocators();
-        HomePageLocators homePageLocators = new HomePageLocators();
-        RegistrationPage registrationPage = new RegistrationPage(driver);
-        RegistrationLocators registrationLocators = new RegistrationLocators();
-        requests.generateRandomEmailForTest();
-        registrationPage.registration(dto.getEmail());
-        requests.retrieveVerificationEmail();
-        String verificationLink = requests.extractVerificationLink(dto.getRegistrationMail());
-        System.out.println(Constants.VERIFICATION_LINK + verificationLink);
-        driver.get(verificationLink);
-        general.scroll(2);
-        general.clickElement(registrationLocators.getStarted);
-    }
         public void registration() throws IOException {
         UserDTO dto = new UserDTO();
         General general = new General(driver);
@@ -113,7 +96,7 @@ public class RegistrationPage extends BaseClass {
         general.enterText(registrationLocators.confirmRegPass, dto.getPassword());
         general.selectFromDropdown(registrationLocators.countryNumDropdown, dto.getCountryNumValue());
         general.enterText(registrationLocators.mobileNumField, dto.getMobileNumber());
-//        registrationPage.enterDate("2000", "03", "20");
+        registrationPage.enterDate("2000", "03", "20");
         registrationPage.selectCountry(dto.getCountry());
         registrationPage.selectGrade(dto.getGrade());
         wait.until(ExpectedConditions.visibilityOfElementLocated(registrationLocators.dreamUniDropdown));
@@ -149,7 +132,7 @@ public class RegistrationPage extends BaseClass {
         general.enterText(registrationLocators.confirmRegPass, dto.getPassword());
         general.selectFromDropdown(registrationLocators.countryNumDropdown, dto.getCountryNumValue());
         general.enterText(registrationLocators.mobileNumField, dto.getMobileNumber());
-//        registrationPage.enterDate("2000", "03", "20");
+        registrationPage.enterDate("2000", "03", "20");
         registrationPage.selectCountry(dto.getCountry());
         registrationPage.selectGrade(dto.getTenGrade());
         general.selectFromFancyDropdown(registrationLocators.highSchoolDropdown, registrationLocators.schools, dto.getSchool());

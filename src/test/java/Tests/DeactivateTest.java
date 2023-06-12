@@ -3,8 +3,6 @@ package Tests;
 import Config.BaseClass;
 import Config.Constants;
 import DTO.UserDTO;
-import Locators.HomePageLocators;
-import Locators.LoginLocators;
 import Locators.SettingsLocators;
 import methods.ApiRequests;
 import methods.General;
