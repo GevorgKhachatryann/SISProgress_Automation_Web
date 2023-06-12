@@ -2,6 +2,7 @@ package methods;
 
 import Config.URL;
 import DTO.UserDTO;
+import Locators.CalendarLocators;
 import Locators.RegistrationLocators;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -11,6 +12,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -421,41 +424,6 @@ public class ApiRequests {
         return sb.toString();
     }
 
-    public void performRegistration(String email) throws IOException {
-        UserDTO dto = new UserDTO();
-        General general = new General(driver);
-        RegistrationLocators registrationLocators = new RegistrationLocators();
-        RegistrationPage registrationPage = new RegistrationPage(driver);
-        driver.get(URL.Registration_URL);
-
-        general.enterText(registrationLocators.usernameField, dto.getFullName());
-        general.enterText(registrationLocators.emailField, email);
-        System.out.println(email);
-        general.enterText(registrationLocators.passwordField, dto.getPassword());
-        System.out.println(dto.getPassword());
-
-        general.enterText(registrationLocators.confirmPasswordField, dto.getPassword());
-        general.selectFromDropdown(registrationLocators.countryNumDropdown, dto.getCountryNumValue());
-        general.enterText(registrationLocators.mobileNumField, dto.getMobileNumber());
-//        registrationPage.enterDate("2000", "03", "20");
-        registrationPage.selectCountry(dto.getCountry());
-        registrationPage.selectGrade(dto.getGrade());
-        wait.until(ExpectedConditions.visibilityOfElementLocated(registrationLocators.nextButton));
-        general.clickElement(registrationLocators.nextButton);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(registrationLocators.uniDropDown));
-        general.selectFromFancyDropdown(registrationLocators.uniDropDown, registrationLocators.uniClass, dto.getUniversity());
-        general.selectFromFancyDropdown(registrationLocators.academicDropDown, registrationLocators.academicClass, dto.getAcademics());
-        general.clickElement(registrationLocators.fall2024);
-        general.clickElement(registrationLocators.early);
-        general.clickElement(registrationLocators.yes);
-        general.clickElement(registrationLocators.yess);
-        general.clickElement(registrationLocators.nextButton2);
-        general.enterText(registrationLocators.admTextbox, dto.getAdmText());
-        general.clickElement(registrationLocators.privacyPolicy);
-        general.clickElement(registrationLocators.submit);
-        general.clickElement(registrationLocators.verifyButton);
-    }
-
     public static HttpURLConnection createConnection(String url, String requestMethod) throws IOException {
         HttpURLConnection connection = (HttpURLConnection) new java.net.URL(url).openConnection();
         connection.setRequestMethod(requestMethod);
@@ -515,4 +483,24 @@ public class ApiRequests {
             return null;
         }
     }
+    public void deleteAccount(String email, String password) {
+        try {
+            String text = "$2b$10$5yjnqNn/RxYamiu0ZhhZzuL9SztPRwSpq4tzpojToQl.WHRJvguf6";
+            String apiUrl = "https://sisprogress.online/user/deleteForTesting?email=" + email + "&password=" + password + "&text=" + text;
+
+            java.net.URL url = new java.net.URL(apiUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("DELETE");
+            int responseCode = connection.getResponseCode();
+
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                System.out.println("Account deleted successfully");
+            } else {
+                System.out.println("Failed to delete the account. Response code: " + responseCode);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

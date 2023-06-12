@@ -7,7 +7,7 @@ public class Constants {
     public static final String  PASSWORD_AND_CONFIRM_DOES_NOT_MATCH = "Password and Confirm Password does not match.";
     public static final String INVALID_EMAIL_OR_PASSWORD = "Invalid email or password";
     public static final String MODAL_IS_NOT_DISPLAYED = "Modal window is not displayed.";
-    public static final String PERSONAL_DATA_UPDATED = "Personal data is updated successfully";
+    public static final String PERSONAL_DATA_UPDATED = "Profile information updated successfully.";
     public static final String MODAL_DOES_NOT_CONTAIN_TEXT = "Modal window does not contain the expected text.";
     public static final String PRIMARY_EMAIL_UPDATED = "YEAH! Your primary email has been updated successfully. Please use your new email address to log in to your account.";
     public static final String SECONDARY_EMAIL_ADDED = "YEAH! The secondary email has been added.";
@@ -34,11 +34,12 @@ public class Constants {
     public static final String VERIFICATION_LINK = "Verification link: ";
     public static final String VERIFICATION_LINK_NOT_FOUND = "Verification link not found!";
     public static final String ACCOUNT_HAS_BEEN_SUCCESSFULLY_DELETED = "Your account has been successfully deleted. We're sorry to see you go.";
-
     public static final String FAREWELL_AND_A_SPECIAL_THANK_YOU = "SIS Progress: Farewell and a Special Thank You";
-    public static final String LOGIN = "/login";
+    public static final String GET_STARTED = "/getstarted";
     public static final String HOPE_TO_SEE_YOU_SOON = "SIS Progress: We Hope to See You Again Soon!";
     public static final String DEAR = "Dear ";
     public static final String CONGRATS_NOTIFICATION = "Congrats on Maxing Extracurricular Task Points in 'Dream' Stage!";
     public static final String VERIFY_YOUR_SECONDARY_EMAIL = "verify your secondary email";
+    public static final String EMAIL_ALREADY_IN_USE = "Email already in use";
+    public static final String INVALID_EMAIL_FORMAT = "Invalid email format";
 }

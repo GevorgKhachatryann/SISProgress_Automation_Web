@@ -139,7 +139,7 @@ public class LoginTest extends BaseClass {
         general.waitAndAssertUntilTextContains(homePageLocators.userName, dto.getFullName(), 10);
         general.clickElement(loginLocators.logoutIcon);
         general.clickElement(loginLocators.logoutBtn);
-        general.urlContainsPath(driver.getCurrentUrl(),Constants.LOGIN);
+        general.urlContainsPath(driver.getCurrentUrl(),Constants.GET_STARTED);
     }
 
     @Test
@@ -160,6 +160,6 @@ public class LoginTest extends BaseClass {
         general.waitAndAssertUntilTextContains(homePageLocators.userName, dto.getFullName(), 10);
         general.clickElement(loginLocators.logoutIcon);
         general.clickElement(loginLocators.cancelLogout);
-        general.urlDoesNotContainPath(driver.getCurrentUrl(),Constants.LOGIN);
+        general.urlDoesNotContainPath(driver.getCurrentUrl(),Constants.GET_STARTED);
     }
 }

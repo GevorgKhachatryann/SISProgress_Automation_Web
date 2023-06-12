@@ -24,7 +24,6 @@ public class SettingsTest extends BaseClass {
         SettingsLocators settingsLocators = new SettingsLocators();
         HomePageLocators homePageLocators = new HomePageLocators();
         RegistrationLocators registrationLocators = new RegistrationLocators();
-        RegistrationPage registrationPage = new RegistrationPage(driver);
 
         requests.postRequest(Constants.REGISTRATION_ENDPOINT);
 
@@ -110,7 +109,7 @@ public class SettingsTest extends BaseClass {
         wait.until(ExpectedConditions.visibilityOfElementLocated(loginLocators.emailChangedMessage));
         general.assertThatElementContains(Constants.PRIMARY_EMAIL_UPDATED, loginLocators.emailChangedMessage);
         general.scroll(2);
-        general.clickElement(loginLocators.verifyPrimaryBtn);
+//        general.clickElement(loginLocators.verifyPrimaryBtn);
         wait.until(ExpectedConditions.visibilityOfElementLocated(loginLocators.loginField));
         general.enterText(loginLocators.loginField, dto.getEmail());
         general.enterText(loginLocators.passwordField, dto.getPassword());
@@ -257,5 +256,33 @@ public class SettingsTest extends BaseClass {
         general.scroll(5);
         wait.until(ExpectedConditions.visibilityOfElementLocated(settingsLocators.verifyMessage));
         general.assertThatElementContains(Constants.VERIFY_YOUR_SECONDARY_EMAIL, settingsLocators.verifyMessage);
+    }
+
+    @Test
+    public void addSecondaryEmailWithExistingEmail() {
+        UserDTO dto = new UserDTO();
+        General general = new General(driver);
+        ApiRequests requests = new ApiRequests(driver);
+        LoginLocators loginLocators = new LoginLocators();
+        SettingsLocators settingsLocators = new SettingsLocators();
+        HomePageLocators homePageLocators = new HomePageLocators();
+
+        requests.postRequest(Constants.REGISTRATION_ENDPOINT);
+        driver.get(URL.Login_URL);
+        general.enterText(loginLocators.loginField, dto.getValidEmail());
+        general.enterText(loginLocators.passwordField, dto.getPassword());
+        general.clickElement(loginLocators.loginButton);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(homePageLocators.userName));
+        general.waitAndAssertUntilTextContains(homePageLocators.userName, dto.getFullName(), 10);
+        general.clickElement(settingsLocators.settingsIcon);
+        general.clickElement(settingsLocators.menuSection);
+        general.assertThatValueEquals(dto.getValidEmail(), settingsLocators.mailInput);
+        general.clickElement(settingsLocators.addSecondary);
+        general.enterText(settingsLocators.secondaryInput,  dto.getValidEmail());
+        general.clickElement(settingsLocators.secondaryUpdate);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(settingsLocators.sendSecondaryVerify));
+        general.clickElement(settingsLocators.sendSecondaryVerify);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(settingsLocators.emailInUseMessage));
+        general.assertThatElementContains(Constants.EMAIL_ALREADY_IN_USE,settingsLocators.emailInUseMessage);
     }
 }

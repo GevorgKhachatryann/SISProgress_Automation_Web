@@ -8,6 +8,7 @@ import Locators.*;
 import methods.*;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
@@ -27,7 +28,8 @@ public class ForgetPasswordTest extends BaseClass {
         RegistrationLocators registrationLocators = new RegistrationLocators();
 
         registrationPage.registration();
-        general.clickElement(loginLocators.Login);
+        general.clickElement(loginLocators.logoutIcon);
+        general.clickElement(loginLocators.logoutBtn);
         general.clickElement(loginLocators.forget);
         general.enterText(loginLocators.emailField, dto.getEmail());
         general.clickElement(loginLocators.sendEmail);
@@ -46,12 +48,15 @@ public class ForgetPasswordTest extends BaseClass {
         general.clickElement(loginLocators.loginButton);
         wait.until(ExpectedConditions.visibilityOfElementLocated(homePageLocators.userName));
         general.waitAndAssertUntilTextContains(homePageLocators.userName, dto.getFullName(), 10);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(settingsLocators.settingsIcon));
         general.clickElement(settingsLocators.settingsIcon);
         general.waitAndAssertThatEquals(dto.getFullName(), settingsLocators.name);
         general.waitAndAssertUntilTextContains(homePageLocators.userName, dto.getFullName(), 10);
         general.assertThatValueEquals(dto.getFullName(), settingsLocators.personalDetailsName);
         general.clickElement(settingsLocators.menuSection);
         general.assertThatValueEquals(dto.getEmail(), settingsLocators.mailInput);
+        requests.deleteAccount(dto.getEmail(),dto.getPassword());
+
     }
 
     @Test
@@ -69,6 +74,7 @@ public class ForgetPasswordTest extends BaseClass {
         if (actualValidationMessage.equals(expectedValidationMessage)) {
             System.out.println(Constants.VERIFIED_MESSAGE);
         }
+
     }
 
     @Test
@@ -81,7 +87,8 @@ public class ForgetPasswordTest extends BaseClass {
         RegistrationPage registrationPage = new RegistrationPage(driver);
 
         registrationPage.registration();
-        general.clickElement(loginLocators.Login);
+        general.clickElement(loginLocators.logoutIcon);
+        general.clickElement(loginLocators.logoutBtn);
         general.clickElement(loginLocators.forget);
         general.enterText(loginLocators.emailField, dto.getEmail());
         general.clickElement(loginLocators.sendEmail);
@@ -93,6 +100,8 @@ public class ForgetPasswordTest extends BaseClass {
         general.enterText(registrationLocators.confirm, dto.getPassword());
         general.clickElement(loginLocators.changeButton);
         general.assertThatElementContains(Constants.PASSWORD_AND_CONFIRM_DOES_NOT_MATCH, loginLocators.PassErrorMessage);
+        requests.deleteAccount(dto.getEmail(),dto.getPassword());
+
     }
 
 
