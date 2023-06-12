@@ -19,11 +19,13 @@ public class UserDTO {
     private String password = "Test1234*";
     private String countryNumValue = "AM";
     private String grade = "Up to 9th grade";
+    private String TenGrade = "10th grade or above";
     private String mobileNumber = "+374 999999999999";
     private String updatedMobileNumber = "+37496666666";
     private String country = "Armenia";
     private String university = "Duke University";
     private String academics = "Aerospace Engineering Certificate";
+    private String school = "Phillips Academy Andover";
     private String admText = "nurse";
     private String validEmail = "userweb@test.com";
     private String InvalidEmail = "userweb@test.cm";
@@ -81,6 +83,12 @@ public class UserDTO {
     }
     public String getGrade(){
         return  grade;
+    }
+    public String getTenGrade(){
+        return TenGrade;
+    }
+    public String getSchool(){
+        return school;
     }
     public String getUniversity(){
         return  university;

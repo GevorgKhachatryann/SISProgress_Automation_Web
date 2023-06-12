@@ -91,10 +91,14 @@ public class General extends BaseClass {
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[contains(text(),'Planned')]")));
             driver.findElement(By.xpath("//p[contains(text(),'Planned')]")).click();
             taskPage.clickAllSubTaskCheckboxes(driver, calendarLocators.subTaskCheckbox);
-            String sub = "//*[@id=\"statusModal___" + randomIndex + "\"]/div/div[2]/div/div[2]/button";
-            System.out.println(sub);
-            driver.findElement(By.xpath(sub)).click();
+            List<WebElement> buttons = driver.findElements(By.xpath("//div[@class='StatusModalContent_container__RqoTN']//button[contains(text(), 'Submit')]"));
 
+            for (WebElement button : buttons) {
+                if (button.isDisplayed()) {
+                    button.click();
+                    break;
+                }
+            }
             double taskPoints = Double.parseDouble(number);
             totalPoints += taskPoints;
             lastPoints = taskPoints;
@@ -380,4 +384,5 @@ public class General extends BaseClass {
         int actualLength = explorePage.getDropdownLength();
         Assert.assertEquals(actualLength, expectedLength);
     }
+
 }
