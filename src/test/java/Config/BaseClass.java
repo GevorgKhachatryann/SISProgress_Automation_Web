@@ -22,12 +22,12 @@ public class BaseClass {
         driver.manage().window().maximize();
     }
 
-    @AfterMethod
-    public static void afterClass() {
-        driver.quit();
-        String tempFolder = System.getProperty("java.io.tmpdir");
-        deleteDirectories(tempFolder, "scoped_dir");
-    }
+//    @AfterMethod
+//    public static void afterClass() {
+//        driver.quit();
+//        String tempFolder = System.getProperty("java.io.tmpdir");
+//        deleteDirectories(tempFolder, "scoped_dir");
+//    }
 
 
     private static void deleteDirectories(String directoryPath, String prefix) {

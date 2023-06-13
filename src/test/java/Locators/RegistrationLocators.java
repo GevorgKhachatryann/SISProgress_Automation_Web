@@ -50,5 +50,7 @@ public class RegistrationLocators {
     public By check = By.cssSelector("[type=\"checkbox\"]");
     public By mailError = By.className("Reg_errorText__xBxO6");
     public By header = By.tagName("header");
+    public By passNotMatch = By.className("Reg_errorText__xBxO6");
+    public By emailExist = By.cssSelector("#root > main > section > div > div > div > div > form > p");
 
 }
