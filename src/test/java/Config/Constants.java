@@ -42,4 +42,11 @@ public class Constants {
     public static final String VERIFY_YOUR_SECONDARY_EMAIL = "verify your secondary email";
     public static final String EMAIL_ALREADY_IN_USE = "Email already in use";
     public static final String INVALID_EMAIL_FORMAT = "Invalid email format";
+    public static final String PASSWORD_LENGTH_MUST_BE_8 = "Please lengthen this text to 8 characters or more (you are currently using 3 characters).";
+    public static final String EMAIL_IS_ALREADY_EXIST = "Email is already exist";
+    public static final String year = "2000";
+    public static final String month = "03";
+    public static final String day = "20";
+
+
 }

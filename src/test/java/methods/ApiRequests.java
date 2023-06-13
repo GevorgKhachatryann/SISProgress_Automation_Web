@@ -374,7 +374,7 @@ public class ApiRequests {
     }
 
 
-    public String generateRandomEmailForTest() throws IOException {
+    public String generateRandomEmailForTest()  {
         try {
             UserDTO dto = new UserDTO();
             String endpointUrl = "https://api.mail.tm/accounts";
