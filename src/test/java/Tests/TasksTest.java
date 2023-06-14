@@ -337,7 +337,71 @@ public class TasksTest extends BaseClass {
         wait.until(ExpectedConditions.visibilityOfElementLocated(myTasksLocators.taskName));
         general.assertThatElementContains(taskName,myTasksLocators.taskName);
         general.assertThatElementContains(Constants.COMPLETED_STATUS,myTasksLocators.status);
-
     }
+    @Test
+    public void checkFeedbackFunctionality(){
+        UserDTO dto = new UserDTO();
+        General general = new General(driver);
+        TaskPage taskPage = new TaskPage(driver);
+        ApiRequests requests = new ApiRequests(driver);
+        LoginLocators loginLocators = new LoginLocators();
+        HomePageLocators homePageLocators = new HomePageLocators();
+        CalendarLocators calendarLocators = new CalendarLocators();
 
+        requests.postRequest(Constants.REGISTRATION_ENDPOINT);
+        driver.get(URL.Login_URL);
+        general.enterText(loginLocators.loginField, dto.getValidEmail());
+        general.enterText(loginLocators.passwordField, dto.getPassword());
+        general.clickElement(loginLocators.loginButton);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(homePageLocators.userName));
+        general.waitAndAssertUntilTextContains(homePageLocators.userName, dto.getFullName(), 10);
+        general.clickElement(calendarLocators.calendarIcon);
+        general.clickElement(calendarLocators.AddTask);
+        By checkboxLocator = calendarLocators.checkbox;
+        wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(checkboxLocator));
+        int randomIndex = general.clickRandomCheckbox(driver, checkboxLocator);
+        String taskName = taskPage.getTaskName(driver, randomIndex);
+        general.clickElement(calendarLocators.AddBtn);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(calendarLocators.firstTask));
+        general.clickElement(calendarLocators.firstTask);
+        general.assertThatElementContains(taskName, calendarLocators.TasksName);
+        general.clickElement(calendarLocators.leaveFeedback);
+        general.enterText(calendarLocators.textField,dto.getFeedback());
+        general.clickElement(calendarLocators.modalSubmit);
+        general.clickElement(calendarLocators.leaveFeedback);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(calendarLocators.history));
+        general.clickElement(calendarLocators.history);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(calendarLocators.historyText));
+        general.assertThatElementContains(dto.getFeedback(),calendarLocators.historyText);
+    }
+    @Test
+    public void feedbackSubmitButtonDisabledByDefault(){
+        UserDTO dto = new UserDTO();
+        General general = new General(driver);
+        TaskPage taskPage = new TaskPage(driver);
+        ApiRequests requests = new ApiRequests(driver);
+        LoginLocators loginLocators = new LoginLocators();
+        HomePageLocators homePageLocators = new HomePageLocators();
+        CalendarLocators calendarLocators = new CalendarLocators();
+
+        requests.postRequest(Constants.REGISTRATION_ENDPOINT);
+        driver.get(URL.Login_URL);
+        general.enterText(loginLocators.loginField, dto.getValidEmail());
+        general.enterText(loginLocators.passwordField, dto.getPassword());
+        general.clickElement(loginLocators.loginButton);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(homePageLocators.userName));
+        general.waitAndAssertUntilTextContains(homePageLocators.userName, dto.getFullName(), 10);
+        general.clickElement(calendarLocators.calendarIcon);
+        general.clickElement(calendarLocators.AddTask);
+        By checkboxLocator = calendarLocators.checkbox;
+        wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(checkboxLocator));
+        int randomIndex = general.clickRandomCheckbox(driver, checkboxLocator);
+        String taskName = taskPage.getTaskName(driver, randomIndex);
+        general.clickElement(calendarLocators.AddBtn);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(calendarLocators.firstTask));
+        general.clickElement(calendarLocators.firstTask);
+        general.assertThatElementContains(taskName, calendarLocators.TasksName);
+        general.clickElement(calendarLocators.leaveFeedback);
+        general.isDisabled(driver,calendarLocators.modalSubmit);
+    }
 }

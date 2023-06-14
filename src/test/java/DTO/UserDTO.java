@@ -34,6 +34,7 @@ public class UserDTO {
     private String validUserName = "Web User Test";
 
     public static String changedPass = "Test12345*";
+    public String feedback = "Overall, the task provided was relatively easy and straightforward. The instructions were clear and concise, making it easy to understand the expected outcome.";
 
 
     public String getFullName() {
@@ -42,6 +43,10 @@ public class UserDTO {
     public String getUsername() {
         return username;
     }
+    public String getFeedback() {
+        return feedback;
+    }
+
 
     public String getUpdatedName(){
         return updatedName;

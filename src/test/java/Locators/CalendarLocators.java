@@ -19,4 +19,9 @@ public class CalendarLocators {
     public By days = By.className("Cal_nameWithDays__9S0U7");
     public By body = By.tagName("body");
     public By title = By.className("StatusModalContent_titl1__1SpYm");
+    public By leaveFeedback = By.xpath("//button[contains(text(),'Leave your feedback')]");
+    public By textField = By.className("ModalFit_area__OX9Ad");
+    public By modalSubmit = By.xpath("//*/div/div/form/button");
+    public By history = By.cssSelector("[class=\"ModalFit_history__TJdTW\"] > img");
+    public By historyText = By.className("ModalFit_texts__ZHQ45");
 }
