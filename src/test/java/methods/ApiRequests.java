@@ -381,12 +381,9 @@ public class ApiRequests {
 
             HttpURLConnection connection = createConnection(endpointUrl, "POST");
             connection.setRequestProperty("Content-Type", "application/ld+json");
-
             String randomEmail = generateRandomEmail();
-
-            String emailWithDomain = randomEmail + "@internetkeno.com";
+            String emailWithDomain = randomEmail + "@exelica.com";
             String pass = "string";
-
             JSONObject requestBodyJson = new JSONObject();
             requestBodyJson.put("address", emailWithDomain);
             requestBodyJson.put("password", pass);
