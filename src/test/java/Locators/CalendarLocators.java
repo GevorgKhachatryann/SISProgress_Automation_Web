@@ -6,7 +6,7 @@ public class CalendarLocators {
     public By calendarIcon = By.xpath("//*[@id=\"root\"]/div/div/div/div[2]/div[2]/a/div/img");
     public By AddTask = By.className("Month_add__IkHct");
     public By checkbox = By.cssSelector(".LoginForm_unChecked__KapKf");
-    public By subTaskCheckbox = By.cssSelector(".Modal_parent__PqnsG [class=\"LoginForm_unChecked__KapKf\"]");
+    public By subTaskCheckbox = By.xpath("//*[contains(@class, 'StatusModalContent_par__DXzTf')]//*[number(@id) > 0 and number(@id) <= 417]//*[contains(@class, 'LoginForm_unChecked__KapKf')]");
     public By AddBtn = By.cssSelector("#myModal > div > button");
     public By firstTask = By.className("Cube_parent__saCh0");
     public By TasksName = By.className("StatusModalContent_titl2__sMIIq");

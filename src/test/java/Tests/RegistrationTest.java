@@ -43,7 +43,7 @@ public class RegistrationTest extends BaseClass {
         registrationPage.registrationSecondPartFor9Grade();
         wait.until(ExpectedConditions.visibilityOfElementLocated(homePageLocators.userName));
         general.waitAndAssertUntilTextContains(homePageLocators.userName, dto.getFullName(), 10);
-        requests.deleteAccount(dto.getEmail(), dto.getPassword());
+//        requests.deleteAccount(dto.getEmail(), dto.getPassword());
 
     }
 

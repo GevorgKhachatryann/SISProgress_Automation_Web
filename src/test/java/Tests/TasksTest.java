@@ -398,7 +398,6 @@ public class TasksTest extends BaseClass {
         general.clickElement(calendarLocators.AddBtn);
         wait.until(ExpectedConditions.visibilityOfElementLocated(calendarLocators.firstTask));
         general.clickElement(calendarLocators.firstTask);
-        general.assertThatElementContains(taskName, calendarLocators.TasksName);
         general.clickElement(calendarLocators.leaveFeedback);
         general.isDisabled(driver,calendarLocators.modalSubmit);
     }

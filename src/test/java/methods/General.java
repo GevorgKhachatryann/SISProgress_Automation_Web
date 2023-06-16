@@ -90,6 +90,7 @@ public class General extends BaseClass {
 
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[contains(text(),'Planned')]")));
             driver.findElement(By.xpath("//p[contains(text(),'Planned')]")).click();
+            wait.until(ExpectedConditions.visibilityOfElementLocated(calendarLocators.subTaskCheckbox));
             taskPage.clickAllSubTaskCheckboxes(driver, calendarLocators.subTaskCheckbox);
             List<WebElement> buttons = driver.findElements(By.xpath("//div[@class='StatusModalContent_container__RqoTN']//button[contains(text(), 'Submit')]"));
 
