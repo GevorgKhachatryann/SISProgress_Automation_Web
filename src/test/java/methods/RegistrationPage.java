@@ -8,17 +8,12 @@ import Locators.HomePageLocators;
 import Locators.LoginLocators;
 import Locators.RegistrationLocators;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
 
 import java.io.IOException;
-import java.time.Duration;
 
 
 public class RegistrationPage extends BaseClass {
@@ -38,7 +33,11 @@ public class RegistrationPage extends BaseClass {
     }
 
     public void enterDate(String year, String month, String day ){
-        wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        try{
+            Thread.sleep(10000);
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }
         wait.until(ExpectedConditions.visibilityOfElementLocated(dateField));
         driver.findElement(dateField).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(dateArrow));
