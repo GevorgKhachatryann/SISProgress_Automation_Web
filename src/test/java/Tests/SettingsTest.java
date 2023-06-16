@@ -109,7 +109,7 @@ public class SettingsTest extends BaseClass {
         wait.until(ExpectedConditions.visibilityOfElementLocated(loginLocators.emailChangedMessage));
         general.assertThatElementContains(Constants.PRIMARY_EMAIL_UPDATED, loginLocators.emailChangedMessage);
         general.scroll(2);
-//        general.clickElement(loginLocators.verifyPrimaryBtn);
+        general.clickElement(loginLocators.verifyPrimaryBtn);
         wait.until(ExpectedConditions.visibilityOfElementLocated(loginLocators.loginField));
         general.enterText(loginLocators.loginField, dto.getEmail());
         general.enterText(loginLocators.passwordField, dto.getPassword());
