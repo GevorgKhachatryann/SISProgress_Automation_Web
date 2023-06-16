@@ -24,4 +24,7 @@ public class CalendarLocators {
     public By modalSubmit = By.xpath("//*/div/div/form/button");
     public By history = By.cssSelector("[class=\"ModalFit_history__TJdTW\"] > img");
     public By historyText = By.className("ModalFit_texts__ZHQ45");
+    public By taskSearch = By.className("Cal_inps__zmW+E");
+    public By taskElement = By.className("Cal_mapper__6qOq3");
+    public By tasks = By.className("Cal_par__16EQ7");
 }

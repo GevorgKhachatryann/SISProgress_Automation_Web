@@ -47,6 +47,6 @@ public class Constants {
     public static final String year = "2000";
     public static final String month = "03";
     public static final String day = "20";
-
+    public static final String MESSAGE_HAS_BEEN_SENT = "Yeah! Your message has been sent successfully.";
 
 }

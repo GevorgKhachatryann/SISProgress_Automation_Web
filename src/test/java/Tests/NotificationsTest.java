@@ -6,7 +6,6 @@ import Config.URL;
 import DTO.UserDTO;
 import Locators.*;
 import methods.*;
-import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.annotations.Test;
 

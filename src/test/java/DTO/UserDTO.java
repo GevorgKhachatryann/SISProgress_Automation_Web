@@ -35,7 +35,7 @@ public class UserDTO {
 
     public static String changedPass = "Test12345*";
     public String feedback = "Overall, the task provided was relatively easy and straightforward. The instructions were clear and concise, making it easy to understand the expected outcome.";
-
+    public String question = "I'm preparing for the SAT and would like to know if your site offers any study resources or practice materials specifically tailored to the SAT?";
 
     public String getFullName() {
         return fullName;
@@ -47,6 +47,9 @@ public class UserDTO {
         return feedback;
     }
 
+    public String getQuestion() {
+        return question;
+    }
 
     public String getUpdatedName(){
         return updatedName;
@@ -158,5 +161,15 @@ public class UserDTO {
                 {"RE1", 0}
         };
     }
-
+    @DataProvider(name = "TaskSearch")
+    public static Object[][] searchVariation() {
+        return new Object[][]{
+                {"YOUTH", 3},
+                {"youth", 3},
+                {"YOUTH123", 0},
+                {"y0uth", 0},
+                {"YOUTH!", 0},
+                {"Youth", 3},
+        };
+    }
 }

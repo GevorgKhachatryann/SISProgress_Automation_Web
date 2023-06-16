@@ -9,7 +9,6 @@ import methods.ApiRequests;
 import methods.General;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.testng.Assert;
 import org.testng.annotations.*;
 
 public class LoginTest extends BaseClass {

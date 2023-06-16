@@ -3,15 +3,12 @@ package Tests;
 import Config.BaseClass;
 import Config.Constants;
 import DTO.UserDTO;
-import Locators.HomePageLocators;
-import Locators.LoginLocators;
 import Locators.SettingsLocators;
 import methods.ApiRequests;
 import methods.General;
 import methods.RegistrationPage;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 import java.io.IOException;

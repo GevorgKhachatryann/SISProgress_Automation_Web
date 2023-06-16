@@ -384,5 +384,10 @@ public class General extends BaseClass {
         int actualLength = explorePage.getDropdownLength();
         Assert.assertEquals(actualLength, expectedLength);
     }
+    public void verifyTasksLength(int expectedLength) {
+        CalendarPage calendarPage = new CalendarPage(driver);
+        int actualLength = calendarPage.getDropdownLength();
+        Assert.assertEquals(actualLength, expectedLength);
+    }
 
 }

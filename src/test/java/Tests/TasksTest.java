@@ -5,9 +5,7 @@ import Config.Constants;
 import Config.URL;
 import DTO.UserDTO;
 import Locators.*;
-import methods.ApiRequests;
-import methods.General;
-import methods.TaskPage;
+import methods.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -404,4 +402,29 @@ public class TasksTest extends BaseClass {
         general.clickElement(calendarLocators.leaveFeedback);
         general.isDisabled(driver,calendarLocators.modalSubmit);
     }
+
+    @Test(dataProvider = "TaskSearch",  dataProviderClass = UserDTO.class)
+    public void searchBox(String searchValue, int expectedLength) {
+        UserDTO dto = new UserDTO();
+        General general = new General(driver);
+        ApiRequests requests = new ApiRequests(driver);
+        CalendarPage calendarPage = new CalendarPage(driver);
+        LoginLocators loginLocators = new LoginLocators();
+        CalendarLocators calendarLocators = new CalendarLocators();
+        HomePageLocators homePageLocators = new HomePageLocators();
+
+        requests.postRequest(Constants.REGISTRATION_ENDPOINT);
+        driver.get(URL.Login_URL);
+        general.enterText(loginLocators.loginField, dto.getValidEmail());
+        general.enterText(loginLocators.passwordField, dto.getPassword());
+        general.clickElement(loginLocators.loginButton);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(homePageLocators.userName));
+        general.waitAndAssertUntilTextContains(homePageLocators.userName, dto.getFullName(), 10);
+        general.clickElement(calendarLocators.calendarIcon);
+        general.clickElement(calendarLocators.AddTask);
+        calendarPage.performTaskSearch(searchValue);
+        general.verifyTasksLength(expectedLength);
+
+    }
+
 }
