@@ -48,5 +48,10 @@ public class Constants {
     public static final String month = "03";
     public static final String day = "20";
     public static final String MESSAGE_HAS_BEEN_SENT = "Yeah! Your message has been sent successfully.";
+    public static final String TEN = "10";
+    public static final String APPLICATION_FORM_SENT = "Yeah! Your application form successfully sent";
+    public static final String TESVAN_PNG = "tesvan.png";
+    public static final String TEST_MATERIAL = "TestMaterial.pdf";
+    public static final String FILES_ARE_TOO_LARGE = "The files are too large.";
 
 }

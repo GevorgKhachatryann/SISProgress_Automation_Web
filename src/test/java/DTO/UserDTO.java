@@ -34,6 +34,7 @@ public class UserDTO {
     private String validUserName = "Web User Test";
 
     public static String changedPass = "Test12345*";
+    public String testing = "testing";
     public String feedback = "Overall, the task provided was relatively easy and straightforward. The instructions were clear and concise, making it easy to understand the expected outcome.";
     public String question = "I'm preparing for the SAT and would like to know if your site offers any study resources or practice materials specifically tailored to the SAT?";
 
@@ -46,7 +47,9 @@ public class UserDTO {
     public String getFeedback() {
         return feedback;
     }
-
+    public String getText(){
+        return testing;
+    }
     public String getQuestion() {
         return question;
     }
