@@ -390,5 +390,9 @@ public class General extends BaseClass {
         int actualLength = calendarPage.getDropdownLength();
         Assert.assertEquals(actualLength, expectedLength);
     }
+    public void upload(String fileName, By whereTo) {
+        String filePath = "C:\\Users\\Gevorg\\IdeaProjects\\SISProgress_Automation_Web\\src\\test\\java\\TestingMaterials\\";
+        driver.findElement(whereTo).sendKeys(filePath +fileName);
+    }
 
 }
