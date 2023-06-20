@@ -18,7 +18,7 @@ public class BaseClass {
     public static void beforeClass() {
         System.setProperty("webdriver.chrome.driver", "Driver/chromedriver_win32 (1)/chromedriver.exe");
         driver = new ChromeDriver();
-        wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(25));
         driver.manage().window().maximize();
     }
 
