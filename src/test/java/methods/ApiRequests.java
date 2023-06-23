@@ -114,7 +114,6 @@ public class ApiRequests {
                     String messageResponseBody = EntityUtils.toString(messageResponse.getEntity());
                     System.out.println(messageResponseBody);
 
-
                     JSONObject messageJsonObject;
                     try {
                         messageJsonObject = new JSONObject(messageResponseBody);

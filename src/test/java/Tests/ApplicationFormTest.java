@@ -9,10 +9,9 @@ import Locators.ApplicationFormLocators;
 import methods.ApiRequests;
 import methods.General;
 import methods.RegistrationPage;
-import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 
-public class ApplicationForm extends BaseClass {
+public class ApplicationFormTest extends BaseClass {
     @Test
     public void submitStudentApplicationForm(){
         UserDTO dto = new UserDTO();
